@@ -1,8 +1,7 @@
-import { notification } from 'antd';
+/* eslint-disable */
 import { get } from 'lodash';
-import Moment from 'moment';
 import { LIMIT } from '../constants';
-import { onUpload, getUploadedList, getTranscript } from '../services';
+import { getRecodingDetail, getUploadedList, getTranscript } from '../services';
 
 export default {
   namespace: 'uploadManagement',
@@ -14,6 +13,7 @@ export default {
         limit: LIMIT,
       },
     },
+    recordingDetail: {},
     transcript: {
       data: [],
       pagination: {
@@ -23,13 +23,12 @@ export default {
     },
   },
   effects: {
-    *onUpload({ params }, { call, put }) {
-      yield call(onUpload, params);
-
-      notification.success({ message: 'Upload successfully!' });
+    *getRecodingDetail({ params }, { call, put }) {
+      const recordingDetail = yield call(getRecodingDetail, params);
 
       yield put({
-        type: 'saveUpload',
+        type: 'saveRecording',
+        recordingDetail,
       });
     },
     *getTranscript({ params }, { call, put }) {
@@ -41,16 +40,17 @@ export default {
       const limit = get(response, 'limit', 0);
 
       const pagination = {
-        current: parseInt(skip / limit) + 1,
+        /* eslint-disable no-eval */
+        current: parseInt(skip / limit + 1),
         pageSize: limit,
         total,
-      }
+      };
 
       yield put({
         type: 'saveTranscript',
         data,
         pagination,
-        loadMore
+        loadMore,
       });
     },
     *getUploadedList({ params }, { call, put }) {
@@ -61,23 +61,24 @@ export default {
       const limit = get(response, 'limit', 0);
 
       const pagination = {
-        current: parseInt(skip / limit) + 1,
+        /* eslint-disable no-eval */
+        current: parseInt(skip / limit + 1),
         pageSize: limit,
         total,
-      }
+      };
 
       yield put({
         type: 'saveUploadedList',
         data,
-        pagination
+        pagination,
       });
     },
   },
   reducers: {
-    saveUpload(state, action) {
+    saveRecording(state, action) {
       return {
         ...state,
-        auditLogs: action.payload,
+        recordingDetail: action.recordingDetail,
       };
     },
     saveUploadedList(state, action) {

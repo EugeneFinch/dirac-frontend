@@ -6,18 +6,17 @@ import { get } from 'lodash';
 import { LIMIT } from '../constants';
 import { mapToTranscript } from '@/utils/utils';
 
-export default ({ getTranscript, data, pagination, loading }) => {
-  const page = get(pagination, 'current', 1)
-  const limit = get(pagination, 'pageSize', LIMIT)
+export default ({ getTranscript, data, pagination, loading, id: recording_id }) => {
+  const page = get(pagination, 'current', 1);
+  const limit = get(pagination, 'pageSize', LIMIT);
 
   useEffect(() => {
-    getTranscript({ page, limit });
-  }, []);
+    getTranscript({ page, limit, recording_id });
+  }, [recording_id]);
 
   const onLoadMore = () => {
-    console.log('aksdhjfhbkjsda')
-    getTranscript({ page: page + 1, limit, loadMore: true });
-  }
+    getTranscript({ page: page + 1, limit, loadMore: true, recording_id });
+  };
 
   const total = get(pagination, 'total', 0);
   const hasMore = !loading && total > page * limit;
@@ -43,7 +42,7 @@ export default ({ getTranscript, data, pagination, loading }) => {
           itemLayout="horizontal"
           dataSource={mapToTranscript(data)}
           loading={loading}
-          renderItem={item => (
+          renderItem={(item) => (
             <li>
               <Comment
                 actions={item.actions}
@@ -58,4 +57,4 @@ export default ({ getTranscript, data, pagination, loading }) => {
       </InfiniteScroll>
     </Card>
   );
-}
+};
