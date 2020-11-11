@@ -102,7 +102,7 @@ export default {
 
       let data = newData;
       if (loadMore) {
-        data = [...data, ...oldData];
+        data = [...oldData, ...data];
       }
 
       return {
