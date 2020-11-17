@@ -62,7 +62,7 @@ export default ({
             const diffTime = processTime - Number(item.start_time);
             const isActive = diffTime < 5 && diffTime > 0;
             if (isActive && cardRef.current) {
-              cardRef.current.scrollTo({ top: i * 80 });
+              cardRef.current.scrollTo({ top: (i + 1) * 82 });
             }
             return (
               <li key={i} className={isActive ? styles.itemActive : styles.item}>
