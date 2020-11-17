@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { connect } from 'umi';
 import { get } from 'lodash';
@@ -15,23 +15,32 @@ const UploadManagement = ({
   recordingDetail,
   getRecodingDetail,
   loadingRecording,
+  getSpeakerInfo,
+  speakers,
+  loadingSpeaker,
 }) => {
   const id = get(match, 'params.id');
+  const [processTime, setProcessTime] = useState(0);
 
   return (
     <PageContainer title="Transcript" breadcrumb={false}>
       <Transcript
         {...transcript}
+        getSpeakerInfo={getSpeakerInfo}
+        speakers={speakers}
+        loadingSpeaker={loadingSpeaker}
         id={id}
         location={location}
         loading={loadingTranscript}
         getTranscript={getTranscript}
+        processTime={processTime}
       />
       <AudioComponent
         id={id}
         loading={loadingRecording}
         recordingDetail={recordingDetail}
         getRecodingDetail={getRecodingDetail}
+        onProcess={setProcessTime}
       />
     </PageContainer>
   );
@@ -40,11 +49,14 @@ const UploadManagement = ({
 const mapSateToProps = ({ loading, uploadManagement }) => {
   const transcript = get(uploadManagement, 'transcript');
   const recordingDetail = get(uploadManagement, 'recordingDetail');
+  const speakers = get(uploadManagement, 'speakers');
   return {
     loadingTranscript: loading.effects['uploadManagement/getTranscript'],
     loadingRecording: loading.effects['uploadManagement/getRecodingDetail'],
+    loadingSpeaker: loading.effects['uploadManagement/getSpeakerInfo'],
     transcript,
     recordingDetail,
+    speakers,
   };
 };
 
@@ -57,6 +69,11 @@ const mapDispatchToProps = (dispatch) => ({
   getRecodingDetail: (params) =>
     dispatch({
       type: 'uploadManagement/getRecodingDetail',
+      params,
+    }),
+  getSpeakerInfo: (params) =>
+    dispatch({
+      type: 'uploadManagement/getSpeakerInfo',
       params,
     }),
 });

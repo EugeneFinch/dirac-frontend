@@ -1,7 +1,13 @@
 /* eslint-disable */
-import { get } from 'lodash';
+import { findIndex, get, set } from 'lodash';
 import { LIMIT } from '../constants';
-import { getRecodingDetail, getUploadedList, getTranscript } from '../services';
+import {
+  getRecodingDetail,
+  getUploadedList,
+  getTranscript,
+  getSpeakerName,
+  putSpeakerName,
+} from '../services';
 
 export default {
   namespace: 'uploadManagement',
@@ -21,6 +27,7 @@ export default {
         limit: LIMIT,
       },
     },
+    speakers: [],
   },
   effects: {
     *getRecodingDetail({ params }, { call, put }) {
@@ -29,6 +36,32 @@ export default {
       yield put({
         type: 'saveRecording',
         recordingDetail,
+      });
+    },
+    *getSpeakerInfo({ params }, { call, put, select }) {
+      const newSpeaker = yield call(getSpeakerName, params);
+      const speakers = yield select((state) => state.uploadManagement.speakers);
+
+      speakers.push(newSpeaker);
+
+      yield put({
+        type: 'saveSpeaker',
+        speakers,
+      });
+    },
+    *putSpeakerName({ params }, { call, put, select }) {
+      const { cb, ...body } = params;
+      const id = get(params, 'id');
+      const newSpeaker = yield call(putSpeakerName, body);
+      if (cb) cb();
+      let speakers = yield select((state) => state.uploadManagement.speakers);
+
+      const index = findIndex(speakers, (item) => item.id === id);
+      speakers[index] = newSpeaker;
+
+      yield put({
+        type: 'saveSpeaker',
+        speakers,
       });
     },
     *getTranscript({ params }, { call, put }) {
@@ -81,6 +114,12 @@ export default {
         recordingDetail: action.recordingDetail,
       };
     },
+    saveSpeaker(state, action) {
+      return {
+        ...state,
+        speakers: action.speakers,
+      };
+    },
     saveUploadedList(state, action) {
       const data = get(action, 'data', []);
       const pagination = get(action, 'pagination', { page: 1, limit: LIMIT });
@@ -102,7 +141,7 @@ export default {
 
       let data = newData;
       if (loadMore) {
-        data = [...data, ...oldData];
+        data = [...oldData, ...data];
       }
 
       return {

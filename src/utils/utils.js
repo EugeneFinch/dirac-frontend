@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import { Tooltip } from 'antd';
-import { get, map } from 'lodash';
+import { Avatar, Skeleton, Tooltip } from 'antd';
+import { find, get, map } from 'lodash';
 import { parse } from 'querystring';
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
 
@@ -26,19 +26,28 @@ export const isAntDesignProOrDev = () => {
 };
 export const getPageQuery = () => parse(window.location.href.split('?')[1]);
 
-export const mapToTranscript = array =>
-  map(array, item => ({
-    // actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-    author: get(item, 'speaker_id', ''),
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    content: (
-      <p>
-        {get(item, 'content', '')}
-      </p>
-    ),
-    datetime: (
-      <Tooltip title={moment(get(item, 'created_at', '')).format('DD-MM-YYYY HH:mm:ss')}>
-        <span>{moment(get(item, 'created_at', '')).format('DD-MM-YYYY HH:mm:ss')}</span>
-      </Tooltip>
-    ),
-  }))
+export const mapToTranscript = (array, speakers) =>
+  map(array, (item) => {
+    const speaker = find(speakers, (obj) => obj.id === item.speaker_id);
+
+    const avatar = get(speaker, 'name', '') ? (
+      <Avatar style={{ backgroundColor: '#f56a00' }}>
+        {get(speaker, 'name', '').charAt(0).toUpperCase()}
+      </Avatar>
+    ) : (
+      <Skeleton.Avatar active size={32} shape="circle" />
+    );
+
+    return {
+      speaker_id: item.speaker_id,
+      start_time: item.start_time,
+      author: get(speaker, 'name', ''),
+      avatar,
+      content: <p>{get(item, 'content', '')}</p>,
+      datetime: (
+        <Tooltip title={moment(get(item, 'created_at', '')).format('DD-MM-YYYY HH:mm:ss')}>
+          <span>{moment(get(item, 'created_at', '')).format('DD-MM-YYYY HH:mm:ss')}</span>
+        </Tooltip>
+      ),
+    };
+  });
