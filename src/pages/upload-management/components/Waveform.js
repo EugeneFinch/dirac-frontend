@@ -18,15 +18,13 @@ const formWaveSurferOptions = (ref) => ({
   partialRender: true,
 });
 
-export default function Waveform({ url }) {
+export default function Waveform({ url, onProcess }) {
   if (!url) return null;
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
   const [playing, setPlay] = useState(false);
   const [volume, setVolume] = useState(0.8);
 
-  // create new WaveSurfer instance
-  // On component mount and when url changes
   useEffect(() => {
     setPlay(false);
 
@@ -35,7 +33,7 @@ export default function Waveform({ url }) {
 
     wavesurfer.current.load(url);
 
-    wavesurfer.current.on('ready', function () {
+    wavesurfer.current.on('ready', function (e) {
       // https://wavesurfer-js.org/docs/methods.html
       // wavesurfer.current.play();
       // setPlay(true);
@@ -47,6 +45,14 @@ export default function Waveform({ url }) {
       }
     });
 
+    wavesurfer.current.on('audioprocess', function (e) {
+      onProcess(e);
+    });
+    wavesurfer.current.on('seek', function (e) {
+      if (wavesurfer.current.isPlaying()) {
+        wavesurfer.current.play();
+      }
+    });
     // Removes events, elements and disconnects Web Audio nodes.
     // when component unmount
     return () => wavesurfer.current.destroy();

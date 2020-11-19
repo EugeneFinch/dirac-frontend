@@ -31,6 +31,21 @@ export async function getRecodingDetail({ id }) {
   });
 }
 
+export async function getSpeakerName({ id }) {
+  return request(`/speaker/${id}`, {
+    method: 'GET',
+    prefix: 'http://ec2-13-250-23-149.ap-southeast-1.compute.amazonaws.com',
+  });
+}
+
+export async function putSpeakerName({ id, ...data }) {
+  return request(`/speaker/${id}`, {
+    method: 'PUT',
+    prefix: 'http://ec2-13-250-23-149.ap-southeast-1.compute.amazonaws.com',
+    data,
+  });
+}
+
 export async function getTranscript(params) {
   const page = get(params, 'page', 1);
   const limit = get(params, 'limit', LIMIT);
