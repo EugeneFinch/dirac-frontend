@@ -4,6 +4,7 @@
  */
 import { extend } from 'umi-request';
 import { notification } from 'antd';
+
 const codeMessage = {
   200: 'The server successfully returned the requested data. ',
   201: 'Create or modify data successfully. ',
@@ -50,7 +51,7 @@ const errorHandler = (error) => {
 
 const request = extend({
   errorHandler,
-  // prefix: 'https://github.com',
   credentials: 'include',
+  prefix: 'http://api.diracnlp.com',
 });
 export default request;
