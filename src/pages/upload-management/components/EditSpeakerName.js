@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { connect } from 'umi';
 import { Col, Input, Row, Spin } from 'antd';
 import { CheckCircleTwoTone, CloseCircleTwoTone, EditOutlined } from '@ant-design/icons';
+import { find, get } from 'lodash';
 
-const EditSpeakerName = ({ name, id, putSpeakerName, loading }) => {
+const EditSpeakerName = ({ speakers, id, putSpeakerName, loading }) => {
   const [edit, setEdit] = useState(false);
-  const [input, setInput] = useState(name);
+  const speaker = find(speakers, (obj) => obj.id === id);
+  const [input, setInput] = useState(get(speaker, 'name', ''));
+  const name = get(speaker, 'name', '');
 
   const submit = () => {
     putSpeakerName({ id, name: input, cb: () => setEdit(false) });
@@ -47,12 +49,4 @@ const EditSpeakerName = ({ name, id, putSpeakerName, loading }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  putSpeakerName: (params) =>
-    dispatch({
-      type: 'uploadManagement/putSpeakerName',
-      params,
-    }),
-});
-
-export default connect(null, mapDispatchToProps)(EditSpeakerName);
+export default EditSpeakerName;

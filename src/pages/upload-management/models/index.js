@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { findIndex, get, set } from 'lodash';
+import { findIndex, forEach, get, isEmpty, set } from 'lodash';
 import { LIMIT } from '../constants';
 import {
   getRecodingDetail,
@@ -27,7 +27,7 @@ export default {
         limit: LIMIT,
       },
     },
-    speakers: [],
+    speakers: null,
   },
   effects: {
     *getRecodingDetail({ params }, { call, put }) {
@@ -38,11 +38,31 @@ export default {
         recordingDetail,
       });
     },
-    *getSpeakerInfo({ params }, { call, put, select }) {
-      const newSpeaker = yield call(getSpeakerName, params);
-      const speakers = yield select((state) => state.uploadManagement.speakers);
+    *getSpeakerInfo({ params }, { all, call, put, select }) {
+      const ids = get(params, 'ids', []);
 
-      speakers.push(newSpeaker);
+      let speakers = yield select((state) => state.uploadManagement.speakers);
+
+      if (isEmpty(ids)) {
+        yield put({
+          type: 'saveSpeaker',
+          speakers,
+        });
+        return;
+      }
+
+      const newSpeakers = yield all(ids.map((id) => call(getSpeakerName, { id })));
+
+      if (isEmpty(speakers)) {
+        speakers = newSpeakers;
+      } else {
+        forEach(newSpeakers, (item) => {
+          const existSpeaker = find(speakers, (obj) => obj.id === item.id);
+          if (!existSpeaker) {
+            speakers.push(item);
+          }
+        });
+      }
 
       yield put({
         type: 'saveSpeaker',
@@ -51,18 +71,26 @@ export default {
     },
     *putSpeakerName({ params }, { call, put, select }) {
       const { cb, ...body } = params;
-      const id = get(params, 'id');
+      const id = get(body, 'id');
+      const name = get(body, 'name');
+
       const newSpeaker = yield call(putSpeakerName, body);
-      if (cb) cb();
-      let speakers = yield select((state) => state.uploadManagement.speakers);
 
-      const index = findIndex(speakers, (item) => item.id === id);
-      speakers[index] = newSpeaker;
+      if (newSpeaker) {
+        if (cb) cb();
+        let speakers = yield select((state) => state.uploadManagement.speakers);
 
-      yield put({
-        type: 'saveSpeaker',
-        speakers,
-      });
+        const index = findIndex(speakers, (item) => item.id === id);
+        speakers[index] = {
+          id,
+          name,
+        };
+
+        yield put({
+          type: 'saveSpeaker',
+          speakers,
+        });
+      }
     },
     *getTranscript({ params }, { call, put }) {
       const { loadMore, ...restParams } = params;
@@ -70,7 +98,7 @@ export default {
       const data = get(response, 'data', []);
       const skip = get(response, 'skip', 0);
       const total = get(response, 'total', 0);
-      const limit = get(response, 'limit', 0);
+      const limit = get(response, 'limit', LIMIT);
 
       const pagination = {
         /* eslint-disable no-eval */
@@ -91,7 +119,7 @@ export default {
       const data = get(response, 'data', []);
       const skip = get(response, 'skip', 0);
       const total = get(response, 'total', 0);
-      const limit = get(response, 'limit', 0);
+      const limit = get(response, 'limit', LIMIT);
 
       const pagination = {
         /* eslint-disable no-eval */

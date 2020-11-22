@@ -18,6 +18,7 @@ const UploadManagement = ({
   getSpeakerInfo,
   speakers,
   loadingSpeaker,
+  putSpeakerName,
 }) => {
   const id = get(match, 'params.id');
   const [processTime, setProcessTime] = useState(0);
@@ -34,12 +35,14 @@ const UploadManagement = ({
         loading={loadingTranscript}
         getTranscript={getTranscript}
         processTime={processTime}
+        putSpeakerName={putSpeakerName}
       />
       <AudioComponent
         id={id}
         loading={loadingRecording}
         recordingDetail={recordingDetail}
         getRecodingDetail={getRecodingDetail}
+        processTime={processTime}
         onProcess={setProcessTime}
       />
     </PageContainer>
@@ -53,7 +56,7 @@ const mapSateToProps = ({ loading, uploadManagement }) => {
   return {
     loadingTranscript: loading.effects['uploadManagement/getTranscript'],
     loadingRecording: loading.effects['uploadManagement/getRecodingDetail'],
-    loadingSpeaker: loading.effects['uploadManagement/getSpeakerInfo'],
+    loadingSpeaker: loading.effects['uploadManagement/putSpeakerName'],
     transcript,
     recordingDetail,
     speakers,
@@ -74,6 +77,11 @@ const mapDispatchToProps = (dispatch) => ({
   getSpeakerInfo: (params) =>
     dispatch({
       type: 'uploadManagement/getSpeakerInfo',
+      params,
+    }),
+  putSpeakerName: (params) =>
+    dispatch({
+      type: 'uploadManagement/putSpeakerName',
       params,
     }),
 });
