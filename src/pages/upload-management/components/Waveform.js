@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useEffect, useRef, useState } from 'react';
-import { PlayCircleTwoTone, PauseCircleTwoTone } from '@ant-design/icons';
+import { PlayCircleTwoTone, PauseCircleOutlined } from '@ant-design/icons';
 import WaveSurfer from 'wavesurfer.js';
 import { Spin } from 'antd';
 
@@ -86,17 +86,17 @@ export default function Waveform({ url, onProcess, processTime }) {
   return (
     <Spin spinning={loading}>
       <div style={{ width: '100%', padding: '0 15px' }}>
-        <div style={{ width: 80, display: 'inline-block', verticalAlign: 25 }}>
+        <div style={{ width: 80, display: 'inline-block', verticalAlign: 40 }}>
           {!playing ? (
             <PlayCircleTwoTone
-              style={{ fontSize: 80 }}
-              twoToneColor="#eb2f96"
+              style={{ fontSize: 60 }}
+              twoToneColor="orangered"
               onClick={handlePlayPause}
             />
           ) : (
-            <PauseCircleTwoTone
-              style={{ fontSize: 80 }}
-              twoToneColor="#52c41a"
+            <PauseCircleOutlined
+              style={{ fontSize: 60 }}
+              twoToneColor="grey"
               onClick={handlePlayPause}
             />
           )}
@@ -104,9 +104,10 @@ export default function Waveform({ url, onProcess, processTime }) {
         <div style={{ width: 'calc(100% - 80px)', display: 'inline-block', paddingLeft: 10 }}>
           <div id="waveform" ref={waveformRef} />
         </div>
-        <div style={{ textAlign: 'right' }} className="controls">
+        <div style={{ textAlign: 'right', paddingBottom: 10 }} className="controls">
           <label htmlFor="volume">Volume: </label>
           <input
+            style={{ verticalAlign: 'middle' }}
             type="range"
             id="volume"
             name="volume"

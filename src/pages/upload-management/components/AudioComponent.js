@@ -12,7 +12,12 @@ export default ({ processTime, recordingDetail, getRecodingDetail, loading, id, 
   }, [id]);
 
   return (
-    <Card style={{ marginTop: 15 }} loading={loading} bordered={false} bodyStyle={{ padding: 5 }}>
+    <Card
+      style={{ marginTop: 15 }}
+      loading={loading}
+      bordered={false}
+      bodyStyle={{ padding: '5px 10px 0 10px', background: '#ccc', borderRadius: 8 }}
+    >
       <Waveform processTime={processTime} url={url} onProcess={onProcess} />
     </Card>
   );
