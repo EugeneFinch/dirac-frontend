@@ -16,6 +16,10 @@ export default [
     authority: ['admin', 'user'],
     routes: [
       {
+        path: '/',
+        component: './Welcome',
+      },
+      {
         path: '/upload-management',
         name: 'upload.management',
         icon: 'table',

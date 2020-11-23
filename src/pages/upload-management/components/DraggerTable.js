@@ -48,9 +48,6 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
         return (
           <Row gutter={15} justify="start" align="middle">
             <Col>
-              <Button>Edit</Button>
-            </Col>
-            <Col>
               <Button onClick={onViewDetail} type="primary">
                 View Detail
               </Button>

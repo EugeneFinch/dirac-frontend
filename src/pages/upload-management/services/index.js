@@ -17,6 +17,7 @@ export async function getUploadedList(params) {
     method: 'GET',
     params: {
       $skip: (page - 1) * limit,
+      '$sort[id]': -1,
     },
   });
 }

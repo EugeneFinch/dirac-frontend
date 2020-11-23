@@ -6,12 +6,13 @@
 import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Link, useIntl, connect, history } from 'umi';
-import { GithubOutlined } from '@ant-design/icons';
+import { CopyrightOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
 import Authorized from '@/utils/Authorized';
-import RightContent from '@/components/GlobalHeader/RightContent';
+// import RightContent from '@/components/GlobalHeader/RightContent';
 import { getMatchMenu } from '@umijs/route-utils';
 import logo from '../assets/logo.svg';
+
 const noMatch = (
   <Result
     status={403}
@@ -39,24 +40,16 @@ const menuDataRender = (menuList) =>
 
 const defaultFooterDom = (
   <DefaultFooter
-    copyright={`${new Date().getFullYear()}`}
+    copyright={false}
     links={[
       {
         key: 'Dirac',
-        title: 'Dirac',
-        href: 'https://google.com',
-        blankTarget: true,
-      },
-      // {
-      //   key: 'github',
-      //   title: <GithubOutlined />,
-      //   href: 'https://github.com/ant-design/ant-design-pro',
-      //   blankTarget: true,
-      // },
-      {
-        key: 'Dirac',
-        title: 'Dirac',
-        href: 'https://google.com',
+        title: (
+          <>
+            Copyright {new Date().getFullYear()} <CopyrightOutlined /> Dirac | Privacy
+          </>
+        ),
+        href: 'http://diracnlp.com/privacy.html',
         blankTarget: true,
       },
     ]}
@@ -74,11 +67,11 @@ const BasicLayout = (props) => {
   } = props;
   const menuDataRef = useRef([]);
   useEffect(() => {
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
-    }
+    // if (dispatch) {
+    //   dispatch({
+    //     type: 'user/fetchCurrent',
+    //   });
+    // }
   }, []);
   /**
    * init variables
@@ -135,7 +128,7 @@ const BasicLayout = (props) => {
       }}
       footerRender={() => defaultFooterDom}
       menuDataRender={menuDataRender}
-      rightContentRender={() => <RightContent />}
+      // rightContentRender={() => <RightContent />}
       postMenuData={(menuData) => {
         menuDataRef.current = menuData || [];
         return menuData || [];
