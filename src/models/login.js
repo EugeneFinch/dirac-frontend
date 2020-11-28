@@ -2,8 +2,9 @@ import { stringify } from 'querystring';
 import { history } from 'umi';
 import { fakeAccountLogin } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
-import { getPageQuery } from '@/utils/utils';
+import { getPageQuery, removeToken } from '@/utils/utils';
 import { message } from 'antd';
+
 const Model = {
   namespace: 'login',
   state: {
@@ -44,7 +45,7 @@ const Model = {
 
     logout() {
       const { redirect } = getPageQuery(); // Note: There may be security issues, please note
-
+      removeToken();
       if (window.location.pathname !== '/user/login' && !redirect) {
         history.replace({
           pathname: '/user/login',

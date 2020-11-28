@@ -1,4 +1,6 @@
 import { queryCurrent, query as queryUsers } from '@/services/user';
+import { getToken } from '@/utils/utils';
+
 const UserModel = {
   namespace: 'user',
   state: {
@@ -14,10 +16,11 @@ const UserModel = {
     },
 
     *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
+      const access_token = getToken();
+      const response = yield call(queryCurrent, { accessToken: access_token, strategy: 'jwt' });
       yield put({
         type: 'saveCurrentUser',
-        payload: response,
+        payload: response.user,
       });
     },
   },

@@ -4,12 +4,12 @@
  * https://github.com/ant-design/ant-design-pro-layout
  */
 import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Link, useIntl, connect, history } from 'umi';
 import { CopyrightOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
 import Authorized from '@/utils/Authorized';
-// import RightContent from '@/components/GlobalHeader/RightContent';
+import RightContent from '@/components/GlobalHeader/RightContent';
 import { getMatchMenu } from '@umijs/route-utils';
 import logo from '../assets/logo.svg';
 
@@ -66,13 +66,7 @@ const BasicLayout = (props) => {
     },
   } = props;
   const menuDataRef = useRef([]);
-  useEffect(() => {
-    // if (dispatch) {
-    //   dispatch({
-    //     type: 'user/fetchCurrent',
-    //   });
-    // }
-  }, []);
+
   /**
    * init variables
    */
@@ -128,7 +122,7 @@ const BasicLayout = (props) => {
       }}
       footerRender={() => defaultFooterDom}
       menuDataRender={menuDataRender}
-      // rightContentRender={() => <RightContent />}
+      rightContentRender={() => <RightContent />}
       postMenuData={(menuData) => {
         menuDataRef.current = menuData || [];
         return menuData || [];

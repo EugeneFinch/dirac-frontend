@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Tooltip } from 'antd';
 import { get, map } from 'lodash';
 import { parse } from 'querystring';
+import Cookies from 'js-cookie';
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
 
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
@@ -39,3 +40,29 @@ export const mapToTranscript = (array) =>
       ),
     };
   });
+
+export function safelyParseJSON(json) {
+  let parsed;
+
+  if (json) {
+    try {
+      parsed = JSON.parse(json);
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  return parsed;
+}
+
+export function getToken() {
+  if (Cookies.get('access_token')) {
+    return Cookies.get('access_token');
+  }
+
+  return null;
+}
+
+export function removeToken() {
+  Cookies.remove('access_token');
+}

@@ -4,6 +4,7 @@
  */
 import { extend } from 'umi-request';
 import { notification } from 'antd';
+import { getToken } from './utils';
 
 const codeMessage = {
   200: 'The server successfully returned the requested data. ',
@@ -49,9 +50,18 @@ const errorHandler = (error) => {
  * 配置request请求时的默认参数
  */
 
+const token = getToken();
+
 const request = extend({
   errorHandler,
   credentials: 'include',
   prefix: 'http://api.diracnlp.com',
+  ...(token
+    ? {
+        headers: {
+          Authorization: token,
+        },
+      }
+    : {}),
 });
 export default request;

@@ -1,7 +1,7 @@
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Menu, Spin } from 'antd';
 import React from 'react';
-import { history, connect } from 'umi';
+import { connect } from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 
@@ -17,11 +17,7 @@ class AvatarDropdown extends React.Component {
           type: 'login/logout',
         });
       }
-
-      return;
     }
-
-    history.push(`/account/${key}`);
   };
 
   render() {
@@ -50,15 +46,21 @@ class AvatarDropdown extends React.Component {
 
         <Menu.Item key="logout">
           <LogoutOutlined />
-          退出登录
+          Log out
         </Menu.Item>
       </Menu>
     );
-    return currentUser && currentUser.name ? (
+    return currentUser && currentUser.email ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
-          <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-          <span className={`${styles.name} anticon`}>{currentUser.name}</span>
+          <Avatar
+            icon={<UserOutlined />}
+            size="small"
+            className={styles.avatar}
+            src={currentUser.avatar}
+            alt="avatar"
+          />
+          <span className={`${styles.name} anticon`}>{currentUser.email}</span>
         </span>
       </HeaderDropdown>
     ) : (
