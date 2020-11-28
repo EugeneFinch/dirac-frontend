@@ -1,3 +1,5 @@
+import { GoogleCircleFilled } from '@ant-design/icons';
+import { Button } from 'antd';
 import React, { useEffect } from 'react';
 import ProForm from '@ant-design/pro-form';
 import { history } from 'umi';
@@ -9,7 +11,7 @@ const Login = () => {
     if (getToken()) {
       history.push('/');
     }
-  }, [getToken()]);
+  }, []);
 
   const handleSubmit = () => {
     window.location.href = 'http://localhost:3030/oauth/google';
@@ -22,16 +24,11 @@ const Login = () => {
           autoLogin: true,
         }}
         submitter={{
-          render: (_, dom) => dom.pop(),
-          submitButtonProps: {
-            size: 'large',
-            style: {
-              width: '100%',
-            },
-          },
-        }}
-        onFinish={async (values) => {
-          handleSubmit(values);
+          render: () => (
+            <Button onClick={handleSubmit} style={{ width: '100%' }} size="large">
+              <GoogleCircleFilled /> Login By Google
+            </Button>
+          ),
         }}
       />
     </div>
