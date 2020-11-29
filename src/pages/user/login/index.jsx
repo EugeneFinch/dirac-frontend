@@ -14,7 +14,7 @@ const Login = () => {
   }, []);
 
   const handleSubmit = () => {
-    window.location.href = 'https://api.diracnlp.com/oauth/google';
+    window.location.href = 'http://api.diracnlp.com/oauth/google';
   };
 
   return (

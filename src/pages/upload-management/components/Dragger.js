@@ -8,7 +8,7 @@ export default () => {
   const props = {
     name: 'file',
     accept: 'audio/*',
-    action: 'https://api.diracnlp.com/upload',
+    action: 'http://api.diracnlp.com/upload',
     // showUploadList: false,
     onChange(info) {
       if (info.file.status !== 'uploading') {

@@ -55,7 +55,7 @@ const token = getToken();
 const request = extend({
   errorHandler,
   credentials: 'include',
-  prefix: 'https://api.diracnlp.com',
+  prefix: 'http://api.diracnlp.com',
   ...(token
     ? {
         headers: {
