@@ -16,9 +16,12 @@ const UserModel = {
       });
     },
 
-    *fetchCurrent(_, { call, put }) {
+    *fetchCurrent({ access_token: token }, { call, put }) {
       const access_token = getToken();
-      const response = yield call(queryCurrent, { accessToken: access_token, strategy: 'jwt' });
+      const response = yield call(queryCurrent, {
+        accessToken: token || access_token,
+        strategy: 'jwt',
+      });
       const user = get(response, 'user');
 
       if (!user) {

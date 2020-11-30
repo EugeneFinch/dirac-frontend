@@ -5,7 +5,6 @@ import { setToken } from '@/utils/utils';
 import { get } from 'lodash';
 
 const LoginSuccess = ({ location }) => {
-  console.log(location);
   const access_token = get(location, 'access_token', '');
 
   if (access_token) {
