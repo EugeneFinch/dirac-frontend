@@ -8,6 +8,11 @@ export default [
         path: '/user/login',
         component: './user/login',
       },
+      {
+        name: 'login',
+        path: '/user/login/success',
+        component: './user/login-success',
+      },
     ],
   },
   {

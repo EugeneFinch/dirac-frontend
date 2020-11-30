@@ -66,3 +66,7 @@ export function getToken() {
 export function removeToken() {
   Cookies.remove('access_token');
 }
+
+export function setToken(access_token) {
+  Cookies.set('access_token', access_token);
+}
