@@ -16,7 +16,7 @@ class SecurityLayout extends React.Component {
     });
     const { dispatch, location } = this.props;
 
-    const access_token = get(location, 'access_token', '');
+    const access_token = get(location, 'query.access_token', '');
     if (access_token) {
       setToken(access_token);
       // history.replace('/');

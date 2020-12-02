@@ -1,15 +1,17 @@
 import { Row, Spin } from 'antd';
 import React from 'react';
-import { history, Redirect } from 'umi';
+import { Redirect } from 'umi';
 import { setToken } from '@/utils/utils';
 import { get } from 'lodash';
 
 const LoginSuccess = ({ location }) => {
-  const access_token = get(location, 'access_token', '');
+  const access_token = get(location, 'query.access_token', '');
 
   if (access_token) {
     setToken(access_token);
-    history.replace('/');
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 1000);
   } else {
     return <Redirect to="/user/login" />;
   }

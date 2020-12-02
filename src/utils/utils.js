@@ -3,7 +3,6 @@ import moment from 'moment';
 import { Tooltip } from 'antd';
 import { get, map } from 'lodash';
 import { parse } from 'querystring';
-import Cookies from 'js-cookie';
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
 
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
@@ -56,17 +55,17 @@ export function safelyParseJSON(json) {
 }
 
 export function getToken() {
-  if (Cookies.get('access_token')) {
-    return Cookies.get('access_token');
+  if (localStorage.getItem('access_token')) {
+    return localStorage.getItem('access_token');
   }
 
   return null;
 }
 
 export function removeToken() {
-  Cookies.remove('access_token');
+  localStorage.removeItem('access_token');
 }
 
 export function setToken(access_token) {
-  Cookies.set('access_token', access_token);
+  localStorage.setItem('access_token', access_token);
 }
