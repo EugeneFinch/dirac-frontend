@@ -1,13 +1,19 @@
 import React from 'react';
 import { message, Upload } from 'antd';
 import upload from '@/assets/upload.svg';
+import { getToken } from '@/utils/utils';
 
 const { Dragger } = Upload;
+
+const token = getToken();
 
 export default () => {
   const props = {
     name: 'file',
     accept: 'audio/*',
+    headers: {
+      Authorization: token,
+    },
     action: 'https://api.diracnlp.com/upload',
     // showUploadList: false,
     onChange(info) {
