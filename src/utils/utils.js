@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import { Avatar, Skeleton, Tooltip } from 'antd';
-import { find, get, map } from 'lodash';
+import { Tooltip } from 'antd';
+import { get, map } from 'lodash';
 import { parse } from 'querystring';
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
 
@@ -26,23 +26,11 @@ export const isAntDesignProOrDev = () => {
 };
 export const getPageQuery = () => parse(window.location.href.split('?')[1]);
 
-export const mapToTranscript = (array, speakers) =>
+export const mapToTranscript = (array) =>
   map(array, (item) => {
-    const speaker = find(speakers, (obj) => obj.id === item.speaker_id);
-
-    const avatar = get(speaker, 'name', '') ? (
-      <Avatar style={{ backgroundColor: '#f56a00' }}>
-        {get(speaker, 'name', '').charAt(0).toUpperCase()}
-      </Avatar>
-    ) : (
-      <Skeleton.Avatar active size={32} shape="circle" />
-    );
-
     return {
       speaker_id: item.speaker_id,
       start_time: item.start_time,
-      author: get(speaker, 'name', ''),
-      avatar,
       content: <p>{get(item, 'content', '')}</p>,
       datetime: (
         <Tooltip title={moment(get(item, 'created_at', '')).format('DD-MM-YYYY HH:mm:ss')}>
@@ -51,3 +39,33 @@ export const mapToTranscript = (array, speakers) =>
       ),
     };
   });
+
+export function safelyParseJSON(json) {
+  let parsed;
+
+  if (json) {
+    try {
+      parsed = JSON.parse(json);
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  return parsed;
+}
+
+export function getToken() {
+  if (localStorage.getItem('access_token')) {
+    return localStorage.getItem('access_token');
+  }
+
+  return null;
+}
+
+export function removeToken() {
+  localStorage.removeItem('access_token');
+}
+
+export function setToken(access_token) {
+  localStorage.setItem('access_token', access_token);
+}

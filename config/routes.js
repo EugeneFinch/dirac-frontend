@@ -8,6 +8,11 @@ export default [
         path: '/user/login',
         component: './user/login',
       },
+      {
+        name: 'login',
+        path: '/user/login/success',
+        component: './user/login-success',
+      },
     ],
   },
   {
@@ -17,16 +22,9 @@ export default [
       {
         path: '/',
         component: '../layouts/BasicLayout',
-        authority: ['admin', 'user'],
         routes: [
           {
             path: '/',
-            redirect: '/welcome',
-          },
-          {
-            path: '/welcome',
-            name: 'welcome',
-            icon: 'smile',
             component: './Welcome',
           },
           {

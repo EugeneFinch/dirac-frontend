@@ -1,4 +1,7 @@
 import { queryCurrent, query as queryUsers } from '@/services/user';
+import { getToken, removeToken } from '@/utils/utils';
+import { get } from 'lodash';
+
 const UserModel = {
   namespace: 'user',
   state: {
@@ -13,11 +16,20 @@ const UserModel = {
       });
     },
 
-    *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
+    *fetchCurrent({ access_token: token }, { call, put }) {
+      const access_token = getToken();
+      const response = yield call(queryCurrent, {
+        accessToken: token || access_token,
+        strategy: 'jwt',
+      });
+      const user = get(response, 'user');
+
+      if (!user) {
+        removeToken();
+      }
       yield put({
         type: 'saveCurrentUser',
-        payload: response,
+        payload: user,
       });
     },
   },

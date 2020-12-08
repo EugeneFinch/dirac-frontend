@@ -4,7 +4,7 @@ import { get } from 'lodash';
 
 import Waveform from './Waveform';
 
-export default ({ recordingDetail, getRecodingDetail, loading, id, onProcess }) => {
+export default ({ processTime, recordingDetail, getRecodingDetail, loading, id, onProcess }) => {
   const url = get(recordingDetail, 'url', '');
 
   useEffect(() => {
@@ -12,8 +12,13 @@ export default ({ recordingDetail, getRecodingDetail, loading, id, onProcess }) 
   }, [id]);
 
   return (
-    <Card style={{ marginTop: 15 }} loading={loading} bordered={false} bodyStyle={{ padding: 5 }}>
-      <Waveform url={url} onProcess={onProcess} />
+    <Card
+      style={{ marginTop: 15 }}
+      loading={loading}
+      bordered={false}
+      bodyStyle={{ padding: '5px 10px 0 10px', background: '#ccc', borderRadius: 8 }}
+    >
+      <Waveform processTime={processTime} url={url} onProcess={onProcess} />
     </Card>
   );
 };

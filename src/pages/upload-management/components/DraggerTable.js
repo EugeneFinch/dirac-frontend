@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { history } from 'umi';
-import { Button, Col, Row, Table, Tag, } from 'antd';
+import { Button, Col, Row, Table, Tag } from 'antd';
 import { get } from 'lodash';
 import moment from 'moment';
 
-import { LIMIT } from '../constants';
+import { LIMIT, UPLOAD_STATUS } from '../constants';
 
 export default ({ data, pagination = {}, loading, onGetUploadedList, location }) => {
   const page = get(location, 'query.page');
@@ -16,7 +16,7 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
       return;
     }
     onGetUploadedList({ page, limit });
-  }, [page, limit])
+  }, [page, limit]);
 
   const columns = [
     {
@@ -28,33 +28,35 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
       title: 'Created at',
       key: 'created_at',
       dataIndex: 'created_at',
-      render: created_at => moment(created_at).format('DD-MM-YYYY HH:mm:ss'),
+      render: (created_at) => moment(created_at).format('DD-MM-YYYY HH:mm:ss'),
     },
     {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      render: status => <Tag color='magenta'>{status}</Tag>,
+      render: (status) =>
+        UPLOAD_STATUS[status] && (
+          <Tag color={UPLOAD_STATUS[status].color}>{UPLOAD_STATUS[status].text}</Tag>
+        ),
     },
     {
       title: 'Action',
       render: ({ id }) => {
         const onViewDetail = () => {
-          history.push('/upload-management/' + id);
-        }
+          history.push(`/upload-management/${id}`);
+        };
         return (
-          <Row gutter={15} justify='start' align='middle'>
+          <Row gutter={15} justify="start" align="middle">
             <Col>
-              <Button>Edit</Button>
-            </Col>
-            <Col>
-              <Button onClick={onViewDetail} type='primary'>View Detail</Button>
+              <Button onClick={onViewDetail} type="primary">
+                View Detail
+              </Button>
             </Col>
           </Row>
-        )
-      }
+        );
+      },
     },
-  ]
+  ];
 
   const handleTableChange = ({ current, pageSize }) => {
     history.push(`/upload-management?page=${current}&limit=${pageSize}`);
@@ -64,11 +66,11 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
     <Table
       style={{ marginTop: 15 }}
       columns={columns}
-      rowKey={record => record.id}
+      rowKey={(record) => record.id}
       dataSource={data}
       pagination={pagination}
       loading={loading}
       onChange={handleTableChange}
     />
-  )
-}
+  );
+};
