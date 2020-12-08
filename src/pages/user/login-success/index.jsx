@@ -9,9 +9,7 @@ const LoginSuccess = ({ location }) => {
 
   if (access_token) {
     setToken(access_token);
-    setTimeout(() => {
-      window.location.href = '/';
-    }, 1000);
+    window.location.href = '/';
   } else {
     return <Redirect to="/user/login" />;
   }

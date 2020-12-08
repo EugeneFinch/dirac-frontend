@@ -7,7 +7,7 @@ const proSettings = {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'Dirac',
+  title: '',
   pwa: false,
   iconfontUrl: '',
 };
