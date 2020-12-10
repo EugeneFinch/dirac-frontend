@@ -35,9 +35,14 @@ export default [
           },
           {
             path: '/upload-management/:id',
-            // name: 'upload.management',
             icon: 'table',
             component: './upload-management/Detail',
+          },
+          {
+            path: '/company',
+            name: 'company',
+            icon: 'table',
+            component: './company',
           },
           {
             component: './404',
