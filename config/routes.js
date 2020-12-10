@@ -30,7 +30,7 @@ export default [
           {
             path: '/upload-management',
             name: 'upload.management',
-            icon: 'table',
+            icon: 'file-text',
             component: './upload-management',
           },
           {
@@ -41,7 +41,7 @@ export default [
           {
             path: '/company',
             name: 'company',
-            icon: 'table',
+            icon: 'user',
             component: './company',
           },
           {
