@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { findIndex, forEach, get, isEmpty, set } from 'lodash';
 import { LIMIT } from '../constants';
-import { getCompanyUser, updateIsAdmin } from './company.services';
+import { getCompanyUser, updateIsAdmin, removeCompanyUser } from './company.services';
 
 export default {
   namespace: 'company',
@@ -25,6 +25,12 @@ export default {
     },
     *updateIsAdmin({ params }, { call, put }) {
       yield call(updateIsAdmin, params);
+    },
+    *removeCompanyUser({ params }, { call, put }) {
+      yield call(removeCompanyUser, params);
+      yield put({
+        type: 'getCompanyUser',
+      });
     },
   },
   reducers: {

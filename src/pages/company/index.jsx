@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Table, Select } from 'antd';
+import { Table, Select, Button } from 'antd';
 import { get } from 'lodash';
 import { connect } from 'umi';
 
-const getColumns = (isAdmin, onChangeRole) => {
+const getColumns = (isAdmin, onChangeRole, removeUser) => {
   return [
     {
       title: 'Email',
@@ -26,10 +26,29 @@ const getColumns = (isAdmin, onChangeRole) => {
         );
       },
     },
+    {
+      title: 'Action',
+      render: (_, { id }) => {
+        if (isAdmin) {
+          return (
+            <Button danger onClick={() => removeUser(id)}>
+              Remove
+            </Button>
+          );
+        }
+        return null;
+      },
+    },
   ];
 };
 
-const UploadManagement = ({ companyUsers, getCompanyUser, user, updateIsAdmin }) => {
+const UploadManagement = ({
+  companyUsers,
+  getCompanyUser,
+  user,
+  updateIsAdmin,
+  removeCompanyUser,
+}) => {
   useEffect(() => {
     getCompanyUser();
   }, []);
@@ -37,7 +56,8 @@ const UploadManagement = ({ companyUsers, getCompanyUser, user, updateIsAdmin })
   const onChangeRole = (id, val) => {
     updateIsAdmin({ id, is_admin: val });
   };
-  const columns = getColumns(user['company_user.is_admin'] === 1, onChangeRole);
+
+  const columns = getColumns(user['company_user.is_admin'] === 1, onChangeRole, removeCompanyUser);
 
   return (
     <PageContainer>
@@ -45,8 +65,8 @@ const UploadManagement = ({ companyUsers, getCompanyUser, user, updateIsAdmin })
         pagination={companyUsers.pagination}
         dataSource={companyUsers.data}
         columns={columns}
+        rowKey={(v) => v.id}
       />
-      ;
     </PageContainer>
   );
 };
@@ -70,6 +90,13 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch({
       type: 'company/updateIsAdmin',
       params,
+    }),
+  removeCompanyUser: (id) =>
+    dispatch({
+      type: 'company/removeCompanyUser',
+      params: {
+        id,
+      },
     }),
 });
 

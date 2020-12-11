@@ -21,3 +21,8 @@ export async function updateIsAdmin(params) {
     },
   });
 }
+export async function removeCompanyUser(params) {
+  return request(`/company-user/${params.id}`, {
+    method: 'DELETE',
+  });
+}
