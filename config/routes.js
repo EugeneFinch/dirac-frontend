@@ -42,7 +42,7 @@ export default [
             path: '/company',
             name: 'Company',
             icon: 'user',
-            component: './Company',
+            component: './company',
           },
           {
             component: './404',

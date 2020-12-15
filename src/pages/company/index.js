@@ -3,6 +3,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { Table, Select, Button } from 'antd';
 import { get } from 'lodash';
 import { connect } from 'umi';
+import AddUserModal from './AddUserModal';
 
 const getColumns = (isAdmin, onChangeRole, removeUser) => {
   return [
@@ -42,13 +43,7 @@ const getColumns = (isAdmin, onChangeRole, removeUser) => {
   ];
 };
 
-const UploadManagement = ({
-  companyUsers,
-  getCompanyUser,
-  user,
-  updateIsAdmin,
-  removeCompanyUser,
-}) => {
+const Company = ({ companyUsers, getCompanyUser, user, updateIsAdmin, removeCompanyUser }) => {
   useEffect(() => {
     getCompanyUser();
   }, []);
@@ -56,11 +51,13 @@ const UploadManagement = ({
   const onChangeRole = (id, val) => {
     updateIsAdmin({ id, is_admin: val });
   };
+  const isAdmin = user['company_user.is_admin'] === 1;
 
-  const columns = getColumns(user['company_user.is_admin'] === 1, onChangeRole, removeCompanyUser);
+  const columns = getColumns(isAdmin, onChangeRole, removeCompanyUser);
 
   return (
     <PageContainer>
+      {isAdmin && <AddUserModal />}
       <Table
         pagination={companyUsers.pagination}
         dataSource={companyUsers.data}
@@ -100,4 +97,4 @@ const mapDispatchToProps = (dispatch) => ({
     }),
 });
 
-export default connect(mapSateToProps, mapDispatchToProps)(UploadManagement);
+export default connect(mapSateToProps, mapDispatchToProps)(Company);

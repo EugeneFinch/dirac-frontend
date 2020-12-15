@@ -26,3 +26,9 @@ export async function removeCompanyUser(params) {
     method: 'DELETE',
   });
 }
+export async function addCompanyUser(data) {
+  return request(`/company-user`, {
+    method: 'POST',
+    data,
+  });
+}
