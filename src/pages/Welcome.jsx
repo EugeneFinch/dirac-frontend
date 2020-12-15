@@ -4,7 +4,7 @@ import { Card, Typography } from 'antd';
 import { history } from 'umi';
 
 export default () => {
-  history.push('/upload-management');
+  history.push('/recording');
 
   return (
     <PageContainer>

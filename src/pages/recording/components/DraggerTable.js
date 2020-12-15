@@ -12,7 +12,7 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
 
   useEffect(() => {
     if (!page || !limit) {
-      history.push(`/upload-management?page=1&limit=${LIMIT}`);
+      history.push(`/recording?page=1&limit=${LIMIT}`);
       return;
     }
     onGetUploadedList({ page, limit });
@@ -43,7 +43,7 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
       title: 'Action',
       render: ({ id }) => {
         const onViewDetail = () => {
-          history.push(`/upload-management/${id}`);
+          history.push(`/recording/${id}`);
         };
         return (
           <Row gutter={15} justify="start" align="middle">
@@ -59,7 +59,7 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
   ];
 
   const handleTableChange = ({ current, pageSize }) => {
-    history.push(`/upload-management?page=${current}&limit=${pageSize}`);
+    history.push(`/recording?page=${current}&limit=${pageSize}`);
   };
 
   return (
