@@ -27,14 +27,14 @@ const codeMessage = {
  * 异常处理程序
  */
 
-const errorHandler = (error) => {
+const errorHandler = async (error) => {
   const { response } = error;
+  const data = await response.clone().json();
 
   if (response && response.status) {
-    const errorText = response.statusText || codeMessage[response.status];
-    const { status, url } = response;
+    const errorText = data.message || response.statusText || codeMessage[response.status];
     notification.error({
-      message: `Request error ${status}: ${url}`,
+      message: `Request error`,
       description: errorText,
     });
   } else if (!response) {
