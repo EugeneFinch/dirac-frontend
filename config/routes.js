@@ -25,6 +25,12 @@ export default [
         routes: [
           {
             path: '/',
+            redirect: '/welcome',
+          },
+          {
+            path: '/welcome',
+            name: 'welcome',
+            icon: 'smile',
             component: './Welcome',
           },
           {
