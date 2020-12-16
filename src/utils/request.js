@@ -27,14 +27,14 @@ const codeMessage = {
  * 异常处理程序
  */
 
-const errorHandler = (error) => {
+const errorHandler = async (error) => {
   const { response } = error;
+  const data = await response.clone().json();
 
   if (response && response.status) {
-    const errorText = codeMessage[response.status] || response.statusText;
-    const { status, url } = response;
+    const errorText = data.message || response.statusText || codeMessage[response.status];
     notification.error({
-      message: `Request error ${status}: ${url}`,
+      message: `Request error`,
       description: errorText,
     });
   } else if (!response) {
@@ -56,6 +56,7 @@ const request = extend({
   errorHandler,
   credentials: 'include',
   prefix: 'https://api.diracnlp.com',
+  // prefix: 'http://localhost:3030',
   ...(token
     ? {
         headers: {

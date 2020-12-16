@@ -3,8 +3,8 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { connect } from 'umi';
 import { get } from 'lodash';
 
-import Transcript from '@/pages/upload-management/components/Transcript';
-import AudioComponent from '@/pages/upload-management/components/AudioComponent';
+import Transcript from '@/pages/recording/components/Transcript';
+import AudioComponent from '@/pages/recording/components/AudioComponent';
 
 const UploadManagement = ({
   loadingTranscript,

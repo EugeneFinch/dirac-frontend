@@ -28,16 +28,21 @@ export default [
             component: './Welcome',
           },
           {
-            path: '/upload-management',
-            name: 'upload.management',
-            icon: 'table',
-            component: './upload-management',
+            path: '/recording',
+            name: 'Recording',
+            icon: 'file-text',
+            component: './recording',
           },
           {
-            path: '/upload-management/:id',
-            // name: 'upload.management',
+            path: '/recording/:id',
             icon: 'table',
-            component: './upload-management/Detail',
+            component: './recording/Detail',
+          },
+          {
+            path: '/company',
+            name: 'Company',
+            icon: 'user',
+            component: './company',
           },
           {
             component: './404',

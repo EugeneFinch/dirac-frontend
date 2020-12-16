@@ -4,8 +4,8 @@ import { Spin } from 'antd';
 import { get } from 'lodash';
 import { connect } from 'umi';
 
-import Dragger from '@/pages/upload-management/components/Dragger';
-import DraggerTable from '@/pages/upload-management/components/DraggerTable';
+import Dragger from '@/pages/recording/components/Dragger';
+import DraggerTable from '@/pages/recording/components/DraggerTable';
 
 const UploadManagement = ({ loading, onUpload, onGetUploadedList, uploadedList, location }) => {
   return (
