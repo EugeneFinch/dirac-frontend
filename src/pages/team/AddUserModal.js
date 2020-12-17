@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Input, Checkbox, Row, Col } from 'antd';
 import { connect } from 'umi';
 import { UserAddOutlined } from '@ant-design/icons';
-import { addCompanyUser } from './models/company.services';
+import { addTeamUser } from './models/team.services';
 
 const layout = {
   labelCol: { span: 4 },
@@ -12,17 +12,17 @@ const tailLayout = {
   wrapperCol: { offset: 4, span: 20 },
 };
 
-function AddUserModal({ getCompanyUser }) {
+function AddUserModal({ getTeamUser }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    addCompanyUser(values).then((res) => {
+    addTeamUser(values).then((res) => {
       if (res.status && res.status >= 400) {
         return;
       }
       setIsModalVisible(false);
-      getCompanyUser();
+      getTeamUser();
     });
   };
 
@@ -78,9 +78,9 @@ function AddUserModal({ getCompanyUser }) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getCompanyUser: (params) =>
+  getTeamUser: (params) =>
     dispatch({
-      type: 'company/getCompanyUser',
+      type: 'team/getTeamUser',
       params,
     }),
 });

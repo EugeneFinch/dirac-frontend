@@ -2,10 +2,10 @@ import request from '@/utils/request';
 import { get } from 'lodash';
 import { LIMIT } from '../constants';
 
-export async function getCompanyUser(params) {
+export async function getTeamUser(params) {
   const page = get(params, 'page', 1);
 
-  return request('/company-user', {
+  return request('/team-user', {
     method: 'GET',
     params: {
       $skip: (page - 1) * LIMIT,
@@ -14,20 +14,20 @@ export async function getCompanyUser(params) {
   });
 }
 export async function updateIsAdmin(params) {
-  return request(`/company-user/${params.id}`, {
+  return request(`/team-user/${params.id}`, {
     method: 'PATCH',
     data: {
       is_admin: params.is_admin,
     },
   });
 }
-export async function removeCompanyUser(params) {
-  return request(`/company-user/${params.id}`, {
+export async function removeTeamUser(params) {
+  return request(`/team-user/${params.id}`, {
     method: 'DELETE',
   });
 }
-export async function addCompanyUser(data) {
-  return request(`/company-user`, {
+export async function addTeamUser(data) {
+  return request(`/team-user`, {
     method: 'POST',
     data,
   });

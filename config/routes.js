@@ -39,10 +39,10 @@ export default [
             component: './recording/Detail',
           },
           {
-            path: '/company',
-            name: 'Company',
+            path: '/team',
+            name: 'Team',
             icon: 'user',
-            component: './company',
+            component: './team',
           },
           {
             component: './404',
