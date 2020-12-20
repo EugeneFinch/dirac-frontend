@@ -1,5 +1,8 @@
-import request from '@/utils/request';
+import moment from 'moment';
 import { get } from 'lodash';
+
+import request from '@/utils/request';
+
 import { LIMIT } from '../constants';
 
 export async function getCalendarEvent(params) {
@@ -10,6 +13,7 @@ export async function getCalendarEvent(params) {
     method: 'GET',
     params: {
       $skip: (page - 1) * limit,
+      'updated_at[$gte]': moment().format('YYYY-MM-DD'),
     },
   });
 }

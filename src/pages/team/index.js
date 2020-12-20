@@ -43,24 +43,24 @@ const getColumns = (isAdmin, onChangeRole, removeUser) => {
   ];
 };
 
-const Company = ({ companyUsers, getCompanyUser, user, updateIsAdmin, removeCompanyUser }) => {
+const Team = ({ teamUsers, getTeamUser, user, updateIsAdmin, removeTeamUser }) => {
   useEffect(() => {
-    getCompanyUser();
+    getTeamUser();
   }, []);
 
   const onChangeRole = (id, val) => {
     updateIsAdmin({ id, is_admin: val });
   };
-  const isAdmin = user['company_user.is_admin'] === 1;
+  const isAdmin = user['team_user.is_admin'] === 1;
 
-  const columns = getColumns(isAdmin, onChangeRole, removeCompanyUser);
+  const columns = getColumns(isAdmin, onChangeRole, removeTeamUser);
 
   return (
     <PageContainer>
       {isAdmin && <AddUserModal />}
       <Table
-        pagination={companyUsers.pagination}
-        dataSource={companyUsers.data}
+        pagination={teamUsers.pagination}
+        dataSource={teamUsers.data}
         columns={columns}
         rowKey={(v) => v.id}
       />
@@ -68,33 +68,33 @@ const Company = ({ companyUsers, getCompanyUser, user, updateIsAdmin, removeComp
   );
 };
 
-const mapSateToProps = ({ loading, company, user }) => {
-  const companyUsers = get(company, 'companyUsers');
+const mapSateToProps = ({ loading, team, user }) => {
+  const teamUsers = get(team, 'teamUsers');
   return {
-    loading: loading.effects['company/getCompanyUser'],
-    companyUsers,
+    loading: loading.effects['team/getTeamUser'],
+    teamUsers,
     user: user.currentUser,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getCompanyUser: (params) =>
+  getTeamUser: (params) =>
     dispatch({
-      type: 'company/getCompanyUser',
+      type: 'team/getTeamUser',
       params,
     }),
   updateIsAdmin: (params) =>
     dispatch({
-      type: 'company/updateIsAdmin',
+      type: 'team/updateIsAdmin',
       params,
     }),
-  removeCompanyUser: (id) =>
+  removeTeamUser: (id) =>
     dispatch({
-      type: 'company/removeCompanyUser',
+      type: 'team/removeTeamUser',
       params: {
         id,
       },
     }),
 });
 
-export default connect(mapSateToProps, mapDispatchToProps)(Company);
+export default connect(mapSateToProps, mapDispatchToProps)(Team);

@@ -3,7 +3,7 @@ import moment from 'moment';
 import { connect } from 'umi';
 import { get } from 'lodash';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Card, Col, Row, Switch, Typography, List } from 'antd';
+import { Card, Col, Row, Typography, List } from 'antd';
 import { CalendarOutlined, ClockCircleOutlined, HistoryOutlined } from '@ant-design/icons';
 import { LIMIT } from './constants';
 
@@ -11,10 +11,15 @@ const Welcome = ({ getCalendarEvent, calendarEvents, loading }) => {
   const dataSource = get(calendarEvents, 'data', []);
   const page = get(calendarEvents, 'pagination.current', 1);
   const limit = get(calendarEvents, 'pagination.pageSize', LIMIT);
+  const total = get(calendarEvents, 'pagination.total', 0);
 
   useEffect(() => {
     getCalendarEvent({ page, limit });
   }, [page]);
+
+  const onChangePage = (nextPage) => {
+    getCalendarEvent({ page: nextPage, limit });
+  };
 
   const Item = ({ item }) => (
     <List.Item>
@@ -30,23 +35,19 @@ const Welcome = ({ getCalendarEvent, calendarEvents, loading }) => {
               <Typography.Text strong type="secondary">
                 <CalendarOutlined />
               </Typography.Text>{' '}
-              <Typography.Text>
-                {moment.tz(item.start, 'Asia/Bangkok').format('DD-MM-YYYY HH:mm:ss')}
-              </Typography.Text>
+              <Typography.Text>{moment(item.start).format('dddd, MMM DD')}</Typography.Text>
             </Col>
             <Col>
               <Typography.Text strong type="secondary">
                 <ClockCircleOutlined />
               </Typography.Text>{' '}
-              <Typography.Text>
-                {moment.tz(item.start, 'Asia/Bangkok').format('HH:mm:ss')}
-              </Typography.Text>
+              <Typography.Text>{moment(item.start).format('HH:mm')}</Typography.Text>
             </Col>
           </Row>
         </Col>
-        <Col>
+        {/* <Col>
           <Switch />
-        </Col>
+        </Col> */}
       </Row>
     </List.Item>
   );
@@ -65,7 +66,7 @@ const Welcome = ({ getCalendarEvent, calendarEvents, loading }) => {
         </Row>
         <Row justify="space-between" align="middle">
           <Col>
-            <div>
+            <div style={{ marginLeft: 20 }}>
               <Typography.Title level={4} strong>
                 <HistoryOutlined /> Upcoming Meetings
               </Typography.Title>
@@ -78,6 +79,7 @@ const Welcome = ({ getCalendarEvent, calendarEvents, loading }) => {
           bordered={false}
           dataSource={dataSource}
           renderItem={(item) => <Item item={item} />}
+          pagination={{ pageSize: limit, current: page, total, onChange: onChangePage }}
         />
       </Card>
     </PageContainer>
