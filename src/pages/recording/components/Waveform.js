@@ -19,7 +19,7 @@ const formWaveSurferOptions = (ref) => ({
   partialRender: true,
 });
 
-export default function Waveform({ url, onProcess, processTime }) {
+export default function Waveform({ url, onProcess, setRecordDuration, seekTime }) {
   const [loading, setLoading] = useState(false);
 
   if (!url) return null;
@@ -28,7 +28,9 @@ export default function Waveform({ url, onProcess, processTime }) {
   const [playing, setPlay] = useState(false);
   const [volume, setVolume] = useState(0.8);
 
-  console.log(processTime);
+  useEffect(() => {
+    wavesurfer?.current?.seekTo(seekTime);
+  }, [seekTime]);
 
   useEffect(() => {
     setPlay(false);
@@ -40,28 +42,25 @@ export default function Waveform({ url, onProcess, processTime }) {
     wavesurfer.current.load(url);
 
     wavesurfer.current.on('ready', function (e) {
-      // https://wavesurfer-js.org/docs/methods.html
-      // wavesurfer.current.play();
-      // setPlay(true);
-
-      // make sure object stillavailable when file loaded
       if (wavesurfer.current) {
         setLoading(false);
         wavesurfer.current.setVolume(volume);
         setVolume(volume);
+        setRecordDuration(wavesurfer.current.getDuration());
       }
     });
 
     wavesurfer.current.on('audioprocess', function (e) {
-      onProcess(e);
+      onProcess(e / wavesurfer.current.getDuration());
     });
+
     wavesurfer.current.on('seek', function (e) {
       if (wavesurfer.current.isPlaying()) {
         wavesurfer.current.pause();
         setPlay(false);
       }
       setPlay(false);
-      onProcess(e * wavesurfer.current.getDuration());
+      onProcess(e);
     });
     // Removes events, elements and disconnects Web Audio nodes.
     // when component unmount
@@ -120,9 +119,6 @@ export default function Waveform({ url, onProcess, processTime }) {
             defaultValue={volume}
           />
         </div>
-        {/* <div>
-          {processTime}
-        </div> */}
       </div>
     </Spin>
   );

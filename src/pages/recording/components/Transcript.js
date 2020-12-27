@@ -20,6 +20,8 @@ export default ({
   processTime,
   putSpeakerName,
   loadingSpeaker,
+  onClickParagraph,
+  recordDuration,
 }) => {
   const cardRef = useRef(null);
 
@@ -46,18 +48,12 @@ export default ({
     getTranscript({ page: page + 1, limit, loadMore: true, recording_id });
   };
 
-  //   useEffect(() => {
-
-  //     onLoadMore();
-  //   }
-  // }, [processTime, data]);
-
   const total = get(pagination, 'total', 0);
   const hasMore = !loading && total > page * limit;
 
   const maxSecond = max(map(data, (item) => Number(item.start_time)));
 
-  if (Number(maxSecond) < processTime && hasMore) {
+  if (Number(maxSecond) < processTime * recordDuration && hasMore) {
     onLoadMore();
   }
 
@@ -76,14 +72,18 @@ export default ({
           dataSource={mapToTranscript(data)}
           loading={loading}
           renderItem={(item, i) => {
-            const diffTime = processTime - parseFloat(item.start_time);
-            const isActive = diffTime < 2 && diffTime > 0;
+            const diffTime = processTime * recordDuration - parseFloat(item.start_time);
+            const isActive = diffTime < 1.5 && diffTime > -0.6;
             if (isActive && cardRef.current) {
               // 82 is height of row
               cardRef.current.scrollTo({ top: i * 82 - 123 });
             }
             return (
-              <li key={i} className={isActive ? styles.itemActive : styles.item}>
+              <li
+                onClick={() => onClickParagraph(item)}
+                key={i}
+                className={isActive ? styles.itemActive : styles.item}
+              >
                 <Comment
                   author={
                     <EditSpeakerName

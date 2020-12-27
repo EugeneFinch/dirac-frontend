@@ -13,7 +13,8 @@ export async function getCalendarEvent(params) {
     method: 'GET',
     params: {
       $skip: (page - 1) * limit,
-      'updated_at[$gte]': moment().format('YYYY-MM-DD'),
+      'start[$gte]': moment().format('YYYY-MM-DD'),
+      '$sort[start]': 1,
     },
   });
 }

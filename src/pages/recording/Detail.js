@@ -22,6 +22,15 @@ const UploadManagement = ({
 }) => {
   const id = get(match, 'params.id');
   const [processTime, setProcessTime] = useState(0);
+  const [seekTime, setSeekTime] = useState(0);
+  const [recordDuration, setRecordDuration] = useState(0);
+
+  const onClickParagraph = (item) => {
+    if (recordDuration) {
+      const startTime = Number(get(item, 'start_time'), 0);
+      setSeekTime(startTime / recordDuration);
+    }
+  };
 
   return (
     <PageContainer title="Transcript" breadcrumb={false}>
@@ -36,14 +45,17 @@ const UploadManagement = ({
         getTranscript={getTranscript}
         processTime={processTime}
         putSpeakerName={putSpeakerName}
+        onClickParagraph={onClickParagraph}
+        recordDuration={recordDuration}
       />
       <AudioComponent
         id={id}
+        seekTime={seekTime}
         loading={loadingRecording}
         recordingDetail={recordingDetail}
         getRecodingDetail={getRecodingDetail}
-        processTime={processTime}
         onProcess={setProcessTime}
+        setRecordDuration={setRecordDuration}
       />
     </PageContainer>
   );

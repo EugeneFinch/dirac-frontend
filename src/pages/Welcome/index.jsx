@@ -45,9 +45,6 @@ const Welcome = ({ getCalendarEvent, calendarEvents, loading }) => {
             </Col>
           </Row>
         </Col>
-        {/* <Col>
-          <Switch />
-        </Col> */}
       </Row>
     </List.Item>
   );

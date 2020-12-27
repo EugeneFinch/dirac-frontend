@@ -4,7 +4,15 @@ import { get } from 'lodash';
 
 import Waveform from './Waveform';
 
-export default ({ processTime, recordingDetail, getRecodingDetail, loading, id, onProcess }) => {
+export default ({
+  recordingDetail,
+  getRecodingDetail,
+  loading,
+  id,
+  onProcess,
+  setRecordDuration,
+  seekTime,
+}) => {
   const url = get(recordingDetail, 'url', '');
 
   useEffect(() => {
@@ -18,7 +26,12 @@ export default ({ processTime, recordingDetail, getRecodingDetail, loading, id, 
       bordered={false}
       bodyStyle={{ padding: '5px 10px 0 10px', background: '#ccc', borderRadius: 8 }}
     >
-      <Waveform processTime={processTime} url={url} onProcess={onProcess} />
+      <Waveform
+        url={url}
+        onProcess={onProcess}
+        setRecordDuration={setRecordDuration}
+        seekTime={seekTime}
+      />
     </Card>
   );
 };
