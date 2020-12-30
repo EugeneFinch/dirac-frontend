@@ -52,7 +52,7 @@ function AddUserModal({ getTeamUser }) {
         </Button>
       </Col>
 
-      <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="Add User" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <Form
           {...layout}
           form={form}
