@@ -35,8 +35,12 @@ const Transcript = ({
   }, [recording_id]);
 
   useEffect(() => {
+    if(!searchKeyWordResult){
+      return;
+    }
+    console.log('object', searchKeyWordResult)
     onClickParagraph(searchKeyWordResult);
-  }, [searchKeyWordResult,onClickParagraph]);
+  }, [searchKeyWordResult]);
 
   useEffect(() => {
     const uniqData = uniqBy(data, 'speaker_id');
@@ -113,7 +117,7 @@ const Transcript = ({
 };
 
 const mapStateToProps = ({uploadManagement}) => ({
-  searchKeyWordResult: get(uploadManagement,'searchKeyWordResult.data.0',{})
+  searchKeyWordResult: get(uploadManagement,'searchKeyWordResult.data.0',null)
 });
 
 export default connect(mapStateToProps)(Transcript);

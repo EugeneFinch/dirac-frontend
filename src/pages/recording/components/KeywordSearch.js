@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { Select, Card, Tag } from 'antd';
+import { Select, Card, Tag,Button, Radio  } from 'antd';
 import uniq from 'lodash/uniq';
 import { connect } from 'umi';
 import { get } from 'lodash';
@@ -32,10 +32,19 @@ function KeywordSearch({searchKeyWord}) {
   useEffect(() => {
     searchKeyWord({
       predefined_keyword:value.join(','),
-      limit:1
+      limit:1,
+      page:1
     })
     
   }, [searchKeyWord, value])
+
+  function onActionChange(v) {
+    searchKeyWord({
+      action:v,
+      predefined_keyword:value.join(','),
+      limit:1
+    })
+  }
 
   return (
     <Card title="Meeting Recap" style={{ width: 300, marginBottom: 15 }}>
@@ -53,6 +62,15 @@ function KeywordSearch({searchKeyWord}) {
             {v.label}
           </Tag>
         ))}
+      </div>
+
+      <div>
+      <Button  onClick={()=> onActionChange('prev')}>
+      Prev
+        </Button>
+        <Button onClick={()=> onActionChange('next')}>
+        Next
+        </Button>
       </div>
     </Card>
   );

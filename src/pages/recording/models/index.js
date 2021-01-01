@@ -139,12 +139,26 @@ export default {
       });
     },
     *searchKeyWord({ params }, { call,select,put }){
+      const {action,...restParams} = params;
+      const keyword = get(restParams, 'predefined_keyword');
+      if(!keyword){
+        return
+      }
+      
       const recordingId = yield select(({uploadManagement})=> get(uploadManagement,'recordingDetail.id'));
       if(!recordingId){
         return;
       }
+      const currentPage = yield select(({uploadManagement})=> get(uploadManagement,'searchKeyWordResult.pagination.current',1));
+      const totalPage = yield select(({uploadManagement})=> get(uploadManagement,'searchKeyWordResult.pagination.total',1));
+      if(action && action ==='prev') {
+        restParams.page = currentPage> 1 ? currentPage - 1 : 1
+      }
+      else if(action && action ==='next') {
+        restParams.page = currentPage < totalPage ? currentPage + 1 : 1
+      }
 
-      const response = yield call(getTranscript, {...params,recording_id:recordingId});
+      const response = yield call(getTranscript, {...restParams,recording_id:recordingId});
       const data = get(response, 'data', []);
       const skip = get(response, 'skip', 0);
       const total = get(response, 'total', 0);
