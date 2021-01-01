@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Select, Card, Tag } from 'antd';
 import uniq from 'lodash/uniq';
+import { connect } from 'umi';
+import { get } from 'lodash';
 
 const { Option } = Select;
 
 const OPTIONS = [
   {
-    label: 'Next Steps',
-    key: 'next_steps',
+    label: 'Next Step',
+    key: 'next_step',
     color: '#2db7f5',
   },
   {
@@ -17,7 +19,7 @@ const OPTIONS = [
   },
 ];
 
-export default function KeywordSearch() {
+function KeywordSearch({searchKeyWord}) {
   const [value, setValue] = useState([]);
   function handleChange(v) {
     setValue(v);
@@ -26,6 +28,14 @@ export default function KeywordSearch() {
   function onClickTag(v) {
     handleChange(uniq([...value, v]));
   }
+
+  useEffect(() => {
+    searchKeyWord({
+      predefined_keyword:value.join(','),
+      limit:1
+    })
+    
+  }, [searchKeyWord, value])
 
   return (
     <Card title="Meeting Recap" style={{ width: 300, marginBottom: 15 }}>
@@ -47,3 +57,13 @@ export default function KeywordSearch() {
     </Card>
   );
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  searchKeyWord: (params) =>
+    dispatch({
+      type: 'uploadManagement/searchKeyWord',
+      params,
+    }),
+});
+
+export default connect(null, mapDispatchToProps)(KeywordSearch);

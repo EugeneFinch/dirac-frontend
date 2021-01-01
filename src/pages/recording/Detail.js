@@ -3,6 +3,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { connect } from 'umi';
 import { get } from 'lodash';
 
+import KeywordSearch from '@/pages/recording/components/KeywordSearch';
 import Transcript from '@/pages/recording/components/Transcript';
 import AudioComponent from '@/pages/recording/components/AudioComponent';
 
@@ -34,6 +35,7 @@ const UploadManagement = ({
 
   return (
     <PageContainer title="Transcript" breadcrumb={false}>
+      <KeywordSearch />
       <Transcript
         {...transcript}
         getSpeakerInfo={getSpeakerInfo}

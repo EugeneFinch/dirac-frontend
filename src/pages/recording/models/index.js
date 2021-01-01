@@ -28,6 +28,10 @@ export default {
       },
     },
     speakers: null,
+    searchKeyWordResult:{
+      data:[],
+      pagination: {},
+    },
   },
   effects: {
     *getRecodingDetail({ params }, { call, put }) {
@@ -134,6 +138,30 @@ export default {
         pagination,
       });
     },
+    *searchKeyWord({ params }, { call,select,put }){
+      const recordingId = yield select(({uploadManagement})=> get(uploadManagement,'recordingDetail.id'));
+      if(!recordingId){
+        return;
+      }
+
+      const response = yield call(getTranscript, {...params,recording_id:recordingId});
+      const data = get(response, 'data', []);
+      const skip = get(response, 'skip', 0);
+      const total = get(response, 'total', 0);
+      const limit = get(response, 'limit', LIMIT);
+
+      const pagination = {
+        /* eslint-disable no-eval */
+        current: parseInt(skip / limit + 1),
+        pageSize: limit,
+        total,
+      };
+      yield put({
+        type: 'saveSearchKeywordResult',
+        data,
+        pagination,
+      });
+    }
   },
   reducers: {
     saveRecording(state, action) {
@@ -177,6 +205,15 @@ export default {
         transcript: {
           data,
           pagination,
+        },
+      };
+    },
+    saveSearchKeywordResult(state, action) {
+      return {
+        ...state,
+        searchKeyWordResult:{
+          data: get(action, 'data', []),
+          pagination: get(action, 'pagination', []),
         },
       };
     },

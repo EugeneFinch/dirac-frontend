@@ -50,7 +50,9 @@ export async function getTranscript(params) {
     method: 'GET',
     params: {
       $skip: (page - 1) * limit,
+      $limit:limit,
       recording_id,
+      predefined_keyword : get(params, 'predefined_keyword','')
     },
   });
 }
