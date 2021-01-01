@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useEffect, useRef, useState } from 'react';
 import { PlayCircleTwoTone, PauseCircleOutlined } from '@ant-design/icons';
 import WaveSurfer from 'wavesurfer.js';
@@ -56,10 +55,10 @@ export default function Waveform({ url, onProcess, setRecordDuration, seekTime }
 
     wavesurfer.current.on('seek', function (e) {
       if (wavesurfer.current.isPlaying()) {
-        wavesurfer.current.pause();
+        wavesurfer.current.play();
+      }else{
         setPlay(false);
       }
-      setPlay(false);
       onProcess(e);
     });
     // Removes events, elements and disconnects Web Audio nodes.
@@ -83,43 +82,43 @@ export default function Waveform({ url, onProcess, setRecordDuration, seekTime }
   };
 
   return (
-    <Spin spinning={loading}>
-      <div style={{ width: '100%', padding: '0 15px' }}>
-        <div style={{ width: 80, display: 'inline-block', verticalAlign: 40 }}>
-          {!playing ? (
-            <PlayCircleTwoTone
-              style={{ fontSize: 60 }}
-              twoToneColor="orangered"
-              onClick={handlePlayPause}
+  <Spin spinning={loading}>
+    <div style={{ width: "100%", padding: '0 15px' }}>
+    <div style={{ width: 80, display: 'inline-block', verticalAlign: 40 }}>
+      {!playing ? (
+        <PlayCircleTwoTone
+          style={{ fontSize: 60 }}
+          twoToneColor="orangered"
+          onClick={handlePlayPause}
+        />
+      ) : (
+      <PauseCircleOutlined
+        style={{ fontSize: 60 }}
+        twoToneColor="grey"
+        onClick={handlePlayPause}
+              />
+            )}
+          </div>
+          <div style={{ width: 'calc(100% - 80px)', display: 'inline-block', paddingLeft: 10 }}>
+            <div id="waveform" ref={waveformRef} />
+          </div>
+          <div style={{ textAlign: 'right', paddingBottom: 10 }} className="controls">
+            <label htmlFor="volume">Volume: </label>
+            <input
+              style={{ verticalAlign: 'middle' }}
+              type="range"
+              id="volume"
+              name="volume"
+              // waveSurfer recognize value of `0` same as `1`
+              //  so we need to set some zero-ish value for silence
+              min="0.01"
+              max="1"
+              step=".025"
+              onChange={onVolumeChange}
+              defaultValue={volume}
             />
-          ) : (
-            <PauseCircleOutlined
-              style={{ fontSize: 60 }}
-              twoToneColor="grey"
-              onClick={handlePlayPause}
-            />
-          )}
+          </div>
         </div>
-        <div style={{ width: 'calc(100% - 80px)', display: 'inline-block', paddingLeft: 10 }}>
-          <div id="waveform" ref={waveformRef} />
-        </div>
-        <div style={{ textAlign: 'right', paddingBottom: 10 }} className="controls">
-          <label htmlFor="volume">Volume: </label>
-          <input
-            style={{ verticalAlign: 'middle' }}
-            type="range"
-            id="volume"
-            name="volume"
-            // waveSurfer recognize value of `0` same as `1`
-            //  so we need to set some zero-ish value for silence
-            min="0.01"
-            max="1"
-            step=".025"
-            onChange={onVolumeChange}
-            defaultValue={volume}
-          />
-        </div>
-      </div>
     </Spin>
   );
 }
