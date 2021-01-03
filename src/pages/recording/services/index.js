@@ -27,6 +27,12 @@ export async function getRecodingDetail({ id }) {
     method: 'GET',
   });
 }
+export async function getRefSearchKeyWord(params) {
+  return request(`/transcript-keyword`, {
+    method: 'GET',
+    params
+  });
+}
 
 export async function getSpeakerName({ id }) {
   return request(`/speaker/${id}`, {
@@ -50,7 +56,9 @@ export async function getTranscript(params) {
     method: 'GET',
     params: {
       $skip: (page - 1) * limit,
+      $limit:limit,
       recording_id,
+      predefined_keyword : get(params, 'predefined_keyword','')
     },
   });
 }

@@ -8,8 +8,9 @@ import AvatarSpeaker from './AvatarSpeaker';
 import { LIMIT } from '../constants';
 import { mapToTranscript } from '@/utils/utils';
 import styles from '../styles.less';
+import { connect } from 'umi';
 
-export default ({
+const Transcript = ({
   getTranscript,
   getSpeakerInfo,
   speakers,
@@ -21,6 +22,7 @@ export default ({
   putSpeakerName,
   loadingSpeaker,
   onClickParagraph,
+  searchKeyWordResult,
   recordDuration,
 }) => {
   const cardRef = useRef(null);
@@ -31,6 +33,14 @@ export default ({
   useEffect(() => {
     getTranscript({ page, limit, recording_id });
   }, [recording_id]);
+
+  useEffect(() => {
+    if(!searchKeyWordResult){
+      return;
+    }
+    console.log('object', searchKeyWordResult)
+    onClickParagraph(searchKeyWordResult);
+  }, [searchKeyWordResult]);
 
   useEffect(() => {
     const uniqData = uniqBy(data, 'speaker_id');
@@ -105,3 +115,9 @@ export default ({
     </div>
   );
 };
+
+const mapStateToProps = ({uploadManagement}) => ({
+  searchKeyWordResult: get(uploadManagement,'searchKeyWordResult.data.0',null)
+});
+
+export default connect(mapStateToProps)(Transcript);
