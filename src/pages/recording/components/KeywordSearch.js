@@ -6,20 +6,8 @@ import { get } from 'lodash';
 
 const { Option } = Select;
 
-const OPTIONS = [
-  {
-    label: 'Next Step',
-    key: 'next_step',
-    color: '#2db7f5',
-  },
-  {
-    label: 'Budget',
-    key: 'budget',
-    color: '#87d068',
-  },
-];
+function KeywordSearch({recordingDetail,refSearchKeyWord,searchKeyWord,getRefSearchKeyWord}) {
 
-function KeywordSearch({searchKeyWord}) {
   const [value, setValue] = useState([]);
   function handleChange(v) {
     setValue(v);
@@ -28,6 +16,14 @@ function KeywordSearch({searchKeyWord}) {
   function onClickTag(v) {
     handleChange(uniq([...value, v]));
   }
+
+  useEffect(() => {
+    if(!recordingDetail.id){
+      return;
+    }
+
+    getRefSearchKeyWord({recording_id:recordingDetail.id})
+  },[getRefSearchKeyWord,recordingDetail.id])
 
   useEffect(() => {
     searchKeyWord({
@@ -48,33 +44,39 @@ function KeywordSearch({searchKeyWord}) {
 
   return (
     <Card title="Meeting Recap" style={{ width: 300, marginBottom: 15 }}>
-      <div style={{ marginBottom: 15 }}>
+      <div style={{ marginBottom: 10 }}>
         <Select value={value} mode="multiple" onChange={handleChange} style={{ width: 200 }}>
-          {OPTIONS.map((v) => (
-            <Option key={v.key}>{v.label}</Option>
+          {refSearchKeyWord.map((v) => (
+            <Option key={v.code}>{v.name} - {v.total}</Option>
           ))}
         </Select>
       </div>
 
       <div>
-        {OPTIONS.map((v) => (
-          <Tag onClick={() => onClickTag(v.key)} key={v.key} color={v.color}>
-            {v.label}
+        {refSearchKeyWord.map((v) => (
+          <Tag style={{
+            cursor: 'pointer',
+            marginBottom:15
+          }} onClick={() => onClickTag(v.code)} key={v.code} color={v.color}>
+            {v.name} - {v.total}
           </Tag>
         ))}
       </div>
 
-      <div>
       <Button  onClick={()=> onActionChange('prev')}>
       Prev
         </Button>
         <Button onClick={()=> onActionChange('next')}>
         Next
         </Button>
-      </div>
     </Card>
   );
 }
+
+const mapStateToProps = (state) => ({
+  refSearchKeyWord : get(state,'uploadManagement.refSearchKeyWord'),
+  recordingDetail : get(state,'uploadManagement.recordingDetail')
+})
 
 const mapDispatchToProps = (dispatch) => ({
   searchKeyWord: (params) =>
@@ -82,6 +84,11 @@ const mapDispatchToProps = (dispatch) => ({
       type: 'uploadManagement/searchKeyWord',
       params,
     }),
+  getRefSearchKeyWord: (params) =>
+    dispatch({
+      type: 'uploadManagement/getRefSearchKeyWord',
+      params,
+    }),
 });
 
-export default connect(null, mapDispatchToProps)(KeywordSearch);
+export default connect(mapStateToProps, mapDispatchToProps)(KeywordSearch);

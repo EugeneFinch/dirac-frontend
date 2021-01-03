@@ -27,6 +27,12 @@ export async function getRecodingDetail({ id }) {
     method: 'GET',
   });
 }
+export async function getRefSearchKeyWord(params) {
+  return request(`/transcript-keyword`, {
+    method: 'GET',
+    params
+  });
+}
 
 export async function getSpeakerName({ id }) {
   return request(`/speaker/${id}`, {

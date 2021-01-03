@@ -7,6 +7,7 @@ import {
   getTranscript,
   getSpeakerName,
   putSpeakerName,
+  getRefSearchKeyWord,
 } from '../services';
 
 export default {
@@ -32,6 +33,7 @@ export default {
       data:[],
       pagination: {},
     },
+    refSearchKeyWord :[]
   },
   effects: {
     *getRecodingDetail({ params }, { call, put }) {
@@ -40,6 +42,14 @@ export default {
       yield put({
         type: 'saveRecording',
         recordingDetail,
+      });
+    },
+    *getRefSearchKeyWord({params}, { call, put,select }) {
+      console.log('params', params)
+      const result = yield call(getRefSearchKeyWord,params);
+      yield put({
+        type: 'saveRefSearchKeyWord',
+        result,
       });
     },
     *getSpeakerInfo({ params }, { all, call, put, select }) {
@@ -229,6 +239,12 @@ export default {
           data: get(action, 'data', []),
           pagination: get(action, 'pagination', []),
         },
+      };
+    },
+    saveRefSearchKeyWord(state, action) {
+      return {
+        ...state,
+        refSearchKeyWord:get(action,'result',[])
       };
     },
   },
