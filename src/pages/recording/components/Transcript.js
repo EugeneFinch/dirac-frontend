@@ -38,7 +38,7 @@ const Transcript = ({
     if(!searchKeyWordResult){
       return;
     }
-    console.log('object', searchKeyWordResult)
+
     onClickParagraph(searchKeyWordResult);
   }, [searchKeyWordResult]);
 
@@ -79,7 +79,7 @@ const Transcript = ({
         <List
           className="comment-list"
           itemLayout="horizontal"
-          dataSource={mapToTranscript(data)}
+          dataSource={mapToTranscript(data,searchKeyWordResult )}
           loading={loading}
           renderItem={(item, i) => {
             const diffTime = processTime * recordDuration - parseFloat(item.start_time);

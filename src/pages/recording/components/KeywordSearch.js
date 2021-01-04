@@ -54,10 +54,15 @@ function KeywordSearch({recordingDetail,refSearchKeyWord,searchKeyWord,getRefSea
 
       <div>
         {refSearchKeyWord.map((v) => (
-          <Tag style={{
-            cursor: 'pointer',
-            marginBottom:15
-          }} onClick={() => onClickTag(v.code)} key={v.code} color={v.color}>
+          <Tag 
+            style={{
+              cursor: 'pointer',
+              marginBottom:15,
+            }} 
+            onClick={() => onClickTag(v.code)} 
+            key={v.code} 
+            className={v.code}
+          >
             {v.name} - {v.total}
           </Tag>
         ))}
