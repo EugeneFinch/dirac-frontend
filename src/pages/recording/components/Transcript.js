@@ -35,7 +35,7 @@ const Transcript = ({
   }, [recording_id]);
 
   useEffect(() => {
-    if(!searchKeyWordResult){
+    if (!searchKeyWordResult) {
       return;
     }
 
@@ -62,8 +62,9 @@ const Transcript = ({
   const hasMore = !loading && total > page * limit;
 
   const maxSecond = max(map(data, (item) => Number(item.start_time)));
+  const activeTime = processTime * recordDuration;
 
-  if (Number(maxSecond) < processTime * recordDuration && hasMore) {
+  if (Number(maxSecond) < activeTime && hasMore) {
     onLoadMore();
   }
 
@@ -79,17 +80,19 @@ const Transcript = ({
         <List
           className="comment-list"
           itemLayout="horizontal"
-          dataSource={mapToTranscript(data,searchKeyWordResult )}
+          dataSource={mapToTranscript(data, searchKeyWordResult)}
           loading={loading}
           renderItem={(item, i) => {
-            const diffTime = processTime * recordDuration - parseFloat(item.start_time);
-            const isActive = diffTime < 1.5 && diffTime > -0.6;
-            if (isActive && cardRef.current) {
-              // 82 is height of row
-              cardRef.current.scrollTo({ top: i * 82 - 123 });
+            const isActive =
+              activeTime < parseFloat(item.end_time) && activeTime > parseFloat(item.start_time);
+            const ele = document.getElementById(`content-${i}`);
+            const distance = Math.abs(parseFloat(activeTime) - parseFloat(item.start_time)) < 0.5;
+            if (distance && isActive && cardRef.current) {
+              cardRef?.current?.scrollTo({ top: ele?.offsetTop });
             }
             return (
               <li
+                id={`content-${i}`}
                 onClick={() => onClickParagraph(item)}
                 key={i}
                 className={isActive ? styles.itemActive : styles.item}
@@ -116,8 +119,8 @@ const Transcript = ({
   );
 };
 
-const mapStateToProps = ({uploadManagement}) => ({
-  searchKeyWordResult: get(uploadManagement,'searchKeyWordResult.data.0',null)
+const mapStateToProps = ({ uploadManagement }) => ({
+  searchKeyWordResult: get(uploadManagement, 'searchKeyWordResult.data.0', null),
 });
 
 export default connect(mapStateToProps)(Transcript);

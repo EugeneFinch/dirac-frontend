@@ -3,7 +3,7 @@
  * You can view component api by:
  * https://github.com/ant-design/ant-design-pro-layout
  */
-import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
+import ProLayout from '@ant-design/pro-layout';
 import React, { useMemo, useRef } from 'react';
 import { Link, useIntl, connect, history } from 'umi';
 import { CopyrightOutlined } from '@ant-design/icons';
@@ -38,22 +38,18 @@ const menuDataRender = (menuList) =>
     return Authorized.check(item.authority, localItem, null);
   });
 
-const defaultFooterDom = (
-  <DefaultFooter
-    copyright={false}
-    links={[
-      {
-        key: 'Dirac',
-        title: (
-          <>
-            Copyright {new Date().getFullYear()} <CopyrightOutlined /> Dirac | Privacy
-          </>
-        ),
-        href: 'http://diracnlp.com/privacy.html',
-        blankTarget: true,
-      },
-    ]}
-  />
+const defaultFooterDom = () => (
+  <div className="ant-pro-global-footer">
+    Copyright {new Date().getFullYear()} <CopyrightOutlined /> Dirac{' '}
+    <a
+      rel="noreferrer"
+      style={{ color: 'rgba(0, 0, 0, 0.85)' }}
+      href="https://diracnlp.com/privacy"
+      target="_blank"
+    >
+      Privacy
+    </a>
+  </div>
 );
 
 const BasicLayout = (props) => {
@@ -120,7 +116,7 @@ const BasicLayout = (props) => {
           <span>{route.breadcrumbName}</span>
         );
       }}
-      footerRender={() => defaultFooterDom}
+      footerRender={defaultFooterDom}
       menuDataRender={menuDataRender}
       rightContentRender={() => <RightContent />}
       postMenuData={(menuData) => {

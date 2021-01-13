@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Tooltip } from 'antd';
-import { get, map,set } from 'lodash';
+import { get, map, set } from 'lodash';
 import { parse } from 'querystring';
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
 
@@ -26,17 +26,18 @@ export const isAntDesignProOrDev = () => {
 };
 export const getPageQuery = () => parse(window.location.href.split('?')[1]);
 
-export const mapToTranscript = (array,highlightItem) =>
+export const mapToTranscript = (array, highlightItem) =>
   map(array, (item) => {
-    const isHighlighKeyword = item.start_time === get(highlightItem,'start_time');
-    if(isHighlighKeyword){
-      set(item,'content',highlightItem.content)
+    const isHighlighKeyword = item.start_time === get(highlightItem, 'start_time');
+    if (isHighlighKeyword) {
+      set(item, 'content', highlightItem.content);
     }
 
     return {
       speaker_id: item.speaker_id,
+      end_time: item.end_time,
       start_time: item.start_time,
-      content: <p dangerouslySetInnerHTML={{__html:get(item, 'content', '')}}/>,
+      content: <p dangerouslySetInnerHTML={{ __html: get(item, 'content', '') }} />,
       datetime: (
         <Tooltip title={moment(get(item, 'created_at', '')).format('DD-MM-YYYY HH:mm:ss')}>
           <span>{moment(get(item, 'created_at', '')).format('DD-MM-YYYY HH:mm:ss')}</span>
