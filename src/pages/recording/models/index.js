@@ -29,11 +29,11 @@ export default {
       },
     },
     speakers: null,
-    searchKeyWordResult:{
-      data:[],
+    searchKeyWordResult: {
+      data: [],
       pagination: {},
     },
-    refSearchKeyWord :[]
+    refSearchKeyWord: [],
   },
   effects: {
     *getRecodingDetail({ params }, { call, put }) {
@@ -44,9 +44,9 @@ export default {
         recordingDetail,
       });
     },
-    *getRefSearchKeyWord({params}, { call, put,select }) {
-      console.log('params', params)
-      const result = yield call(getRefSearchKeyWord,params);
+    *getRefSearchKeyWord({ params }, { call, put, select }) {
+      console.log('params', params);
+      const result = yield call(getRefSearchKeyWord, params);
       yield put({
         type: 'saveRefSearchKeyWord',
         result,
@@ -87,6 +87,7 @@ export default {
       const { cb, ...body } = params;
       const id = get(body, 'id');
       const name = get(body, 'name');
+      const team_member = get(body, 'team_member');
 
       const newSpeaker = yield call(putSpeakerName, body);
 
@@ -98,6 +99,7 @@ export default {
         speakers[index] = {
           id,
           name,
+          team_member,
         };
 
         yield put({
@@ -148,27 +150,32 @@ export default {
         pagination,
       });
     },
-    *searchKeyWord({ params }, { call,select,put }){
-      const {action,...restParams} = params;
+    *searchKeyWord({ params }, { call, select, put }) {
+      const { action, ...restParams } = params;
       const keyword = get(restParams, 'predefined_keyword');
-      if(!keyword){
-        return
-      }
-      
-      const recordingId = yield select(({uploadManagement})=> get(uploadManagement,'recordingDetail.id'));
-      if(!recordingId){
+      if (!keyword) {
         return;
       }
-      const currentPage = yield select(({uploadManagement})=> get(uploadManagement,'searchKeyWordResult.pagination.current',1));
-      const totalPage = yield select(({uploadManagement})=> get(uploadManagement,'searchKeyWordResult.pagination.total',1));
-      if(action && action ==='prev') {
-        restParams.page = currentPage> 1 ? currentPage - 1 : 1
+
+      const recordingId = yield select(({ uploadManagement }) =>
+        get(uploadManagement, 'recordingDetail.id'),
+      );
+      if (!recordingId) {
+        return;
       }
-      else if(action && action ==='next') {
-        restParams.page = currentPage < totalPage ? currentPage + 1 : 1
+      const currentPage = yield select(({ uploadManagement }) =>
+        get(uploadManagement, 'searchKeyWordResult.pagination.current', 1),
+      );
+      const totalPage = yield select(({ uploadManagement }) =>
+        get(uploadManagement, 'searchKeyWordResult.pagination.total', 1),
+      );
+      if (action && action === 'prev') {
+        restParams.page = currentPage > 1 ? currentPage - 1 : 1;
+      } else if (action && action === 'next') {
+        restParams.page = currentPage < totalPage ? currentPage + 1 : 1;
       }
 
-      const response = yield call(getTranscript, {...restParams,recording_id:recordingId});
+      const response = yield call(getTranscript, { ...restParams, recording_id: recordingId });
       const data = get(response, 'data', []);
       const skip = get(response, 'skip', 0);
       const total = get(response, 'total', 0);
@@ -185,7 +192,7 @@ export default {
         data,
         pagination,
       });
-    }
+    },
   },
   reducers: {
     saveRecording(state, action) {
@@ -235,7 +242,7 @@ export default {
     saveSearchKeywordResult(state, action) {
       return {
         ...state,
-        searchKeyWordResult:{
+        searchKeyWordResult: {
           data: get(action, 'data', []),
           pagination: get(action, 'pagination', []),
         },
@@ -244,7 +251,7 @@ export default {
     saveRefSearchKeyWord(state, action) {
       return {
         ...state,
-        refSearchKeyWord:get(action,'result',[])
+        refSearchKeyWord: get(action, 'result', []),
       };
     },
   },

@@ -61,7 +61,7 @@ const Transcript = ({
   const total = get(pagination, 'total', 0);
   const hasMore = !loading && total > page * limit;
 
-  const maxSecond = max(map(data, (item) => Number(item.start_time)));
+  const maxSecond = max(map(data, (item) => Number(item?.start_time)));
   const activeTime = processTime * recordDuration;
 
   if (Number(maxSecond) < activeTime && hasMore) {
@@ -84,7 +84,7 @@ const Transcript = ({
           loading={loading}
           renderItem={(item, i) => {
             const isActive =
-              activeTime < parseFloat(item.end_time) && activeTime > parseFloat(item.start_time);
+              activeTime < parseFloat(item?.end_time) && activeTime > parseFloat(item?.start_time);
             const ele = document.getElementById(`content-${i}`);
             const distance = Math.abs(parseFloat(activeTime) - parseFloat(item.start_time)) < 0.5;
             if (distance && isActive && cardRef.current) {
@@ -103,12 +103,12 @@ const Transcript = ({
                       loading={loadingSpeaker}
                       speakers={speakers}
                       putSpeakerName={putSpeakerName}
-                      id={item.speaker_id}
+                      id={item?.speaker_id}
                     />
                   }
-                  avatar={<AvatarSpeaker speakers={speakers} id={item.speaker_id} />}
-                  content={item.content}
-                  datetime={item.datetime}
+                  avatar={<AvatarSpeaker speakers={speakers} id={item?.speaker_id} />}
+                  content={item?.content}
+                  datetime={`${item?.start_time}s`}
                 />
               </li>
             );

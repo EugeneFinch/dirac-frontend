@@ -40,7 +40,7 @@ const menuDataRender = (menuList) =>
 
 const defaultFooterDom = () => (
   <div className="ant-pro-global-footer">
-    Copyright {new Date().getFullYear()} <CopyrightOutlined /> Dirac{' '}
+    Copyright {new Date().getFullYear()} <CopyrightOutlined /> Dirac |{' '}
     <a
       rel="noreferrer"
       style={{ color: 'rgba(0, 0, 0, 0.85)' }}
