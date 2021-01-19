@@ -34,7 +34,7 @@ const UploadManagement = ({
   };
 
   return (
-    <PageContainer title="Transcript" breadcrumb={false}>
+    <PageContainer breadcrumb={false}>
       <KeywordSearch />
       <Transcript
         {...transcript}

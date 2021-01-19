@@ -17,7 +17,11 @@
 }
 
 .transcriptContainer {
-  max-height      : 500px;
+  @media screen and (max-device-width: 1600px) 
+  {
+    max-height      : 300px;
+  }
+  max-height      : 400px;
   overflow-y      : auto;
   background-color: #fff;
   border-radius   : 8px;
