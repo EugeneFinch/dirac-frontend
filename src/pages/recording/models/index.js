@@ -217,6 +217,13 @@ export default {
           data,
           pagination,
         },
+        transcript: {
+          data: [],
+          pagination: {
+            current: 1,
+            limit: LIMIT,
+          },
+        },
       };
     },
     saveTranscript(state, action) {

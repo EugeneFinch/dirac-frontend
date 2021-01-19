@@ -1,10 +1,11 @@
-import { GoogleCircleFilled } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Button, Col, Row } from 'antd';
 import React, { useEffect } from 'react';
 import ProForm from '@ant-design/pro-form';
 import { history } from 'umi';
-import styles from './index.less';
+import googleIcon from '@/assets/google.png';
 import { getToken } from '@/utils/utils';
+
+import styles from './index.less';
 
 const Login = () => {
   useEffect(() => {
@@ -25,8 +26,13 @@ const Login = () => {
         }}
         submitter={{
           render: () => (
-            <Button onClick={handleSubmit} style={{ width: '100%' }} size="large">
-              <GoogleCircleFilled /> Login By Google
+            <Button type="primary" onClick={handleSubmit} className={styles.googleButton}>
+              <Row justify="start" align="middle">
+                <Col className={styles.iconContainer}>
+                  <img alt="google" src={googleIcon} />
+                </Col>
+                <Col className={styles.center}>Sign in with Google</Col>
+              </Row>
             </Button>
           ),
         }}
