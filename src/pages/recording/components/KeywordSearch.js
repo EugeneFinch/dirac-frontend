@@ -45,7 +45,7 @@ function KeywordSearch({recordingDetail,refSearchKeyWord,searchKeyWord,getRefSea
   return (
     <Card title="Meeting Recap" style={{ width: 300, marginBottom: 15 }}>
       <div style={{ marginBottom: 10 }}>
-        <Select value={value} mode="multiple" onChange={handleChange} style={{ width: 200 }}>
+        <Select value={value} mode="multiple" onChange={handleChange} style={{ width: 200 }} >
           {refSearchKeyWord.map((v) => (
             <Option key={v.code}>{v.name} - {v.total}</Option>
           ))}
