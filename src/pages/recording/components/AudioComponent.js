@@ -21,7 +21,6 @@ export default ({
 
   return (
     <Card
-      style={{ marginTop: 15 }}
       loading={loading}
       bordered={false}
       bodyStyle={{ padding: '5px 10px 0 10px', background: '#ccc', borderRadius: 8 }}
