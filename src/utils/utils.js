@@ -26,12 +26,14 @@ export const isAntDesignProOrDev = () => {
 };
 export const getPageQuery = () => parse(window.location.href.split('?')[1]);
 
-export const mapToTranscript = (array, highlightItem) =>
+export const mapToTranscript = (array, highlightItem, recordingCreatedAt) =>
   map(array, (item) => {
     const isHighlighKeyword = item.start_time === get(highlightItem, 'start_time');
     if (isHighlighKeyword) {
       set(item, 'content', highlightItem.content);
     }
+
+    const time = moment(recordingCreatedAt).add(item.start_time, 's').format('DD-MM-YYYY HH:mm:ss');
 
     return {
       speaker_id: item.speaker_id,
@@ -39,8 +41,8 @@ export const mapToTranscript = (array, highlightItem) =>
       start_time: item.start_time,
       content: <p dangerouslySetInnerHTML={{ __html: get(item, 'content', '') }} />,
       datetime: (
-        <Tooltip title={moment(get(item, 'created_at', '')).format('DD-MM-YYYY HH:mm:ss')}>
-          <span>{moment(get(item, 'created_at', '')).format('DD-MM-YYYY HH:mm:ss')}</span>
+        <Tooltip title={time}>
+          <span>{time}</span>
         </Tooltip>
       ),
     };

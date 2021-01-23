@@ -8,6 +8,8 @@ import {
   getSpeakerName,
   putSpeakerName,
   getRefSearchKeyWord,
+  getCoaching,
+  refreshCoaching,
 } from '../services';
 
 export default {
@@ -34,6 +36,7 @@ export default {
       pagination: {},
     },
     refSearchKeyWord: [],
+    transcriptCoaching: {},
   },
   effects: {
     *getRecodingDetail({ params }, { call, put }) {
@@ -193,6 +196,22 @@ export default {
         pagination,
       });
     },
+    *getCoaching({ params }, { call, put }) {
+      const transcriptCoaching = yield call(getCoaching, params);
+
+      yield put({
+        type: 'saveTranscriptCoaching',
+        transcriptCoaching,
+      });
+    },
+    *refreshCoaching({ params }, { call, put }) {
+      const transcriptCoaching = yield call(refreshCoaching, params);
+
+      yield put({
+        type: 'saveTranscriptCoaching',
+        transcriptCoaching,
+      });
+    },
   },
   reducers: {
     saveRecording(state, action) {
@@ -259,6 +278,13 @@ export default {
       return {
         ...state,
         refSearchKeyWord: get(action, 'result', []),
+      };
+    },
+    saveTranscriptCoaching(state, action) {
+      return {
+        ...state,
+        transcriptCoaching:
+          get(action, 'transcriptCoaching.data[0]') || get(action, 'transcriptCoaching', {}),
       };
     },
   },

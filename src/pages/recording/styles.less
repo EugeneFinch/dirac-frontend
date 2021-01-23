@@ -17,28 +17,42 @@
 }
 
 .transcriptContainer {
-  @media screen and (max-device-width: 1600px) 
-  {
-    max-height      : 300px;
+  @media screen and (max-device-width: 1600px) {
+    max-height: 606px;
   }
-  max-height      : 400px;
+
+  max-height      : 606px;
   overflow-y      : auto;
   background-color: #fff;
   border-radius   : 8px;
 }
 
-:global{
-  .ant-tag .next_step,.next_step{
-    background-color:#2db7f5;
-    color: #fff;
-    border-color: transparent;
-    padding: 2px;
+:global {
+
+  .ant-tag .next_step,
+  .next_step {
+    background-color: #2db7f5;
+    color           : #fff;
+    border-color    : transparent;
+    padding         : 2px;
   }
 
-  .ant-tag .budget,.budget{
+  .ant-tag .budget,
+  .budget {
     background-color: #87d068;
-    color: #fff;
-    border-color: transparent;
-    padding: 2px;
+    color           : #fff;
+    border-color    : transparent;
+    padding         : 2px;
+  }
+}
+
+.coaching {
+  .itemTitle {
+    padding: 8px 0;
+  }
+
+  .itemText {
+    padding    : 8px 0;
+    margin-left: 16px;
   }
 }

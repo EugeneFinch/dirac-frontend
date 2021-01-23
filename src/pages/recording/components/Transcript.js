@@ -24,6 +24,7 @@ const Transcript = ({
   onClickParagraph,
   searchKeyWordResult,
   recordDuration,
+  recordingCreatedAt,
 }) => {
   const cardRef = useRef(null);
 
@@ -80,7 +81,7 @@ const Transcript = ({
         <List
           className="comment-list"
           itemLayout="horizontal"
-          dataSource={mapToTranscript(data, searchKeyWordResult)}
+          dataSource={mapToTranscript(data, searchKeyWordResult, recordingCreatedAt)}
           loading={loading}
           renderItem={(item, i) => {
             const isActive =
@@ -108,7 +109,7 @@ const Transcript = ({
                   }
                   avatar={<AvatarSpeaker speakers={speakers} id={item?.speaker_id} />}
                   content={item?.content}
-                  datetime={`${item?.start_time}s`}
+                  datetime={item.datetime}
                 />
               </li>
             );
@@ -121,6 +122,7 @@ const Transcript = ({
 
 const mapStateToProps = ({ uploadManagement }) => ({
   searchKeyWordResult: get(uploadManagement, 'searchKeyWordResult.data.0', null),
+  recordingCreatedAt: get(uploadManagement, 'recordingDetail.created_at', null),
 });
 
 export default connect(mapStateToProps)(Transcript);

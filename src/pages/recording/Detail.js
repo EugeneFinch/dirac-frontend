@@ -6,6 +6,8 @@ import { get } from 'lodash';
 import KeywordSearch from '@/pages/recording/components/KeywordSearch';
 import Transcript from '@/pages/recording/components/Transcript';
 import AudioComponent from '@/pages/recording/components/AudioComponent';
+import Coaching from '@/pages/recording/components/Coaching';
+import { Col, Row } from 'antd';
 
 const UploadManagement = ({
   loadingTranscript,
@@ -35,30 +37,41 @@ const UploadManagement = ({
 
   return (
     <PageContainer breadcrumb={false}>
-      <KeywordSearch />
-      <Transcript
-        {...transcript}
-        getSpeakerInfo={getSpeakerInfo}
-        speakers={speakers}
-        loadingSpeaker={loadingSpeaker}
-        id={id}
-        location={location}
-        loading={loadingTranscript}
-        getTranscript={getTranscript}
-        processTime={processTime}
-        putSpeakerName={putSpeakerName}
-        onClickParagraph={onClickParagraph}
-        recordDuration={recordDuration}
-      />
-      <AudioComponent
-        id={id}
-        seekTime={seekTime}
-        loading={loadingRecording}
-        recordingDetail={recordingDetail}
-        getRecodingDetail={getRecodingDetail}
-        onProcess={setProcessTime}
-        setRecordDuration={setRecordDuration}
-      />
+      <Row gutter={[16, 16]}>
+        <Col xs={24}>
+          <KeywordSearch />
+        </Col>
+        <Col xs={24} sm={24} md={14} lg={16} xl={17}>
+          <Transcript
+            {...transcript}
+            getSpeakerInfo={getSpeakerInfo}
+            speakers={speakers}
+            loadingSpeaker={loadingSpeaker}
+            id={id}
+            location={location}
+            loading={loadingTranscript}
+            getTranscript={getTranscript}
+            processTime={processTime}
+            putSpeakerName={putSpeakerName}
+            onClickParagraph={onClickParagraph}
+            recordDuration={recordDuration}
+          />
+        </Col>
+        <Col xs={24} sm={24} md={10} lg={8} xl={7}>
+          <Coaching id={id} />
+        </Col>
+        <Col xs={24}>
+          <AudioComponent
+            id={id}
+            seekTime={seekTime}
+            loading={loadingRecording}
+            recordingDetail={recordingDetail}
+            getRecodingDetail={getRecodingDetail}
+            onProcess={setProcessTime}
+            setRecordDuration={setRecordDuration}
+          />
+        </Col>
+      </Row>
     </PageContainer>
   );
 };

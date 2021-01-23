@@ -30,7 +30,7 @@ export async function getRecodingDetail({ id }) {
 export async function getRefSearchKeyWord(params) {
   return request(`/transcript-keyword`, {
     method: 'GET',
-    params
+    params,
   });
 }
 
@@ -56,9 +56,21 @@ export async function getTranscript(params) {
     method: 'GET',
     params: {
       $skip: (page - 1) * limit,
-      $limit:limit,
+      $limit: limit,
       recording_id,
-      predefined_keyword : get(params, 'predefined_keyword','')
+      predefined_keyword: get(params, 'predefined_keyword', ''),
     },
+  });
+}
+
+export async function getCoaching({ id }) {
+  return request(`/transcript-coaching?recording_id=${id}`, {
+    method: 'GET',
+  });
+}
+
+export async function refreshCoaching({ id }) {
+  return request(`/transcript-coaching/${id}`, {
+    method: 'GET',
   });
 }
