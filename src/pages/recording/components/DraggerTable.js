@@ -25,6 +25,11 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
       dataIndex: 'filename',
     },
     {
+      title: 'Email',
+      key: 'user.email',
+      dataIndex: 'user.email',
+    },
+    {
       title: 'Created at',
       key: 'created_at',
       dataIndex: 'created_at',
