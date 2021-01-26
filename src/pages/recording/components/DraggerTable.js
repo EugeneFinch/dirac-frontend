@@ -25,6 +25,12 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
       dataIndex: 'filename',
     },
     {
+      title: 'Name',
+      key: 'user.email',
+      dataIndex: 'user.email',
+      render: (v) => v.split('@')[0],
+    },
+    {
       title: 'Created at',
       key: 'created_at',
       dataIndex: 'created_at',
