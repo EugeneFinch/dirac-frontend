@@ -94,22 +94,28 @@ const Transcript = ({
             return (
               <li
                 id={`content-${i}`}
-                onClick={() => onClickParagraph(item)}
                 key={i}
                 className={isActive ? styles.itemActive : styles.item}
               >
                 <Comment
                   author={
                     <EditSpeakerName
+                      onClick={() => onClickParagraph(item)}
                       loading={loadingSpeaker}
                       speakers={speakers}
                       putSpeakerName={putSpeakerName}
                       id={item?.speaker_id}
                     />
                   }
-                  avatar={<AvatarSpeaker speakers={speakers} id={item?.speaker_id} />}
-                  content={item?.content}
-                  datetime={item.datetime}
+                  avatar={
+                    <AvatarSpeaker
+                      onClick={() => onClickParagraph(item)}
+                      speakers={speakers}
+                      id={item?.speaker_id}
+                    />
+                  }
+                  content={<div onClick={() => onClickParagraph(item)}>{item?.content}</div>}
+                  datetime={<div onClick={() => onClickParagraph(item)}>{item?.datetime}</div>}
                 />
               </li>
             );

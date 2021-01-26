@@ -41,8 +41,9 @@ function Coaching({ id, getCoaching, refreshCoaching, transcriptCoaching, loadin
             />
           </Col>
         </Row>
-        {!!transcriptCoaching?.team_talk_time ||
-          (!!transcriptCoaching?.longest_monologue && <ItemTitle>Interactivity</ItemTitle>)}
+        {(!!transcriptCoaching?.team_talk_time || !!transcriptCoaching?.longest_monologue) && (
+          <ItemTitle>Interactivity</ItemTitle>
+        )}
         {!!transcriptCoaching?.team_talk_time && (
           <ItemText>
             <Col>Team Talk time</Col>
