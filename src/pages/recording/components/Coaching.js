@@ -41,47 +41,74 @@ function Coaching({ id, getCoaching, refreshCoaching, transcriptCoaching, loadin
             />
           </Col>
         </Row>
-        <ItemTitle>Interactivity</ItemTitle>
-        <ItemText>
-          <Col>Team Talk time</Col>
-          <Col>{transcriptCoaching?.team_talk_time}</Col>
-        </ItemText>
-        <ItemText>
-          <Col>Longest monologue</Col>
-          <Col>{transcriptCoaching?.longest_monologue}</Col>
-        </ItemText>
+        {!!transcriptCoaching?.team_talk_time ||
+          (!!transcriptCoaching?.longest_monologue && <ItemTitle>Interactivity</ItemTitle>)}
+        {!!transcriptCoaching?.team_talk_time && (
+          <ItemText>
+            <Col>Team Talk time</Col>
+            <Col>{transcriptCoaching?.team_talk_time}%</Col>
+          </ItemText>
+        )}
+        {!!transcriptCoaching?.longest_monologue && (
+          <ItemText>
+            <Col>Longest monologue</Col>
+            <Col>{transcriptCoaching?.longest_monologue}</Col>
+          </ItemText>
+        )}
 
-        <ItemTitle>Confidence</ItemTitle>
-        <ItemText>
-          <Col>Filter words per minute</Col>
-          <Col>{transcriptCoaching?.filler_word_per_min}</Col>
-        </ItemText>
+        {!!transcriptCoaching?.filler_word_per_min && (
+          <>
+            <ItemTitle>Confidence</ItemTitle>
+            <ItemText>
+              <Col>Filter words per minute</Col>
+              <Col>{transcriptCoaching?.filler_word_per_min}</Col>
+            </ItemText>
+          </>
+        )}
 
-        <ItemTitle>Patience</ItemTitle>
-        <ItemText>
-          <Col>Response time</Col>
-          <Col>{transcriptCoaching?.resp_time}</Col>
-        </ItemText>
+        {!!transcriptCoaching?.resp_time && (
+          <>
+            <ItemTitle>Patience</ItemTitle>
+            <ItemText>
+              <Col>Response time</Col>
+              <Col>{transcriptCoaching?.resp_time}</Col>
+            </ItemText>
+          </>
+        )}
 
-        <ItemTitle>Engagement</ItemTitle>
-        <ItemText>
-          <Col># engaging questions</Col>
-          <Col>{transcriptCoaching?.no_engage_question}</Col>
-        </ItemText>
+        {!!transcriptCoaching?.no_engage_question && (
+          <>
+            <ItemTitle>Engagement</ItemTitle>
+            <ItemText>
+              <Col># engaging questions</Col>
+              <Col>{transcriptCoaching?.no_engage_question}</Col>
+            </ItemText>
+          </>
+        )}
 
-        <ItemTitle>Risk factors</ItemTitle>
-        <ItemText>
-          <Col># of customer objections</Col>
-          <Col>{transcriptCoaching?.no_customer_objection}</Col>
-        </ItemText>
-        <ItemText>
-          <Col>Next steps</Col>
-          <Col>{transcriptCoaching?.next_steps}</Col>
-        </ItemText>
-        <ItemText>
-          <Col># of competitor mentions</Col>
-          <Col>{transcriptCoaching?.no_competitor_mention}</Col>
-        </ItemText>
+        {(!!transcriptCoaching?.no_customer_objection ||
+          !!transcriptCoaching?.next_steps ||
+          !!transcriptCoaching?.no_competitor_mention) && (
+          <>
+            <ItemTitle>Risk factors</ItemTitle>
+            {!!transcriptCoaching?.no_customer_objection && (
+              <ItemText>
+                <Col># of customer objections</Col>
+                <Col>{transcriptCoaching?.no_customer_objection}</Col>
+              </ItemText>
+            )}
+            <ItemText>
+              <Col>Next steps</Col>
+              <Col>{transcriptCoaching?.next_steps ? 'Yes' : 'No'}</Col>
+            </ItemText>
+            {!!transcriptCoaching?.no_competitor_mention && (
+              <ItemText>
+                <Col># of competitor mentions</Col>
+                <Col>{transcriptCoaching?.no_competitor_mention}</Col>
+              </ItemText>
+            )}
+          </>
+        )}
       </Card>
     </Spin>
   );

@@ -71,6 +71,6 @@ export async function getCoaching({ id }) {
 
 export async function refreshCoaching({ id }) {
   return request(`/transcript-coaching/${id}`, {
-    method: 'GET',
+    method: 'PATCH',
   });
 }
