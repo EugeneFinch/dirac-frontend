@@ -61,7 +61,7 @@ function Coaching({ id, getCoaching, refreshCoaching, transcriptCoaching, loadin
           <>
             <ItemTitle>Confidence</ItemTitle>
             <ItemText>
-              <Col>Filter words per minute</Col>
+              <Col>Filler words per minute</Col>
               <Col>{transcriptCoaching?.filler_word_per_min}</Col>
             </ItemText>
           </>
