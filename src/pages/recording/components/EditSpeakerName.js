@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Input, Row, Spin } from 'antd';
 import { CheckCircleTwoTone, CloseCircleTwoTone, EditOutlined } from '@ant-design/icons';
 import { find, get } from 'lodash';
@@ -8,8 +8,13 @@ const EditSpeakerName = ({ speakers, id, putSpeakerName, loading }) => {
   const [edit, setEdit] = useState(false);
   const speaker = find(speakers, (obj) => obj.id === id);
 
-  const [input, setInput] = useState(get(speaker, 'name', ''));
+  const [input, setInput] = useState('');
   const name = get(speaker, 'name', '');
+
+  useEffect(() => {
+    setInput(name);
+  }, [name]);
+
   const team_member = get(speaker, 'team_member', '');
 
   const submit = () => {
