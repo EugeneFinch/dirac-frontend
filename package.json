@@ -21,7 +21,6 @@
     "lint:prettier": "prettier --check \"src/**/*\" --end-of-line auto",
     "prettier": "prettier -c --write \"src/**/*\"",
     "start": "umi dev",
-    "precommit": "lint-staged",
     "start:dev": "cross-env REACT_APP_ENV=dev MOCK=none umi dev",
     "start:no-mock": "cross-env MOCK=none umi dev",
     "start:no-ui": "cross-env UMI_UI=none umi dev",
