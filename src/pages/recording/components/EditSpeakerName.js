@@ -4,7 +4,7 @@ import { CheckCircleTwoTone, CloseCircleTwoTone, EditOutlined } from '@ant-desig
 import { find, get } from 'lodash';
 import TeamMember from './TeamMember';
 
-const EditSpeakerName = ({ speakers, id, putSpeakerName, loading, onClick }) => {
+const EditSpeakerName = ({ speakers, id, putSpeakerName, loading }) => {
   const [edit, setEdit] = useState(false);
   const speaker = find(speakers, (obj) => obj.id === id);
 
@@ -43,7 +43,7 @@ const EditSpeakerName = ({ speakers, id, putSpeakerName, loading, onClick }) => 
   return (
     <Spin spinning={!!loading}>
       <Row gutter={15}>
-        <Col onClick={onClick}>{name}</Col>
+        <Col onClick={() => setEdit(true)}>{name}</Col>
         <Col>
           <EditOutlined onClick={() => setEdit(true)} />
         </Col>

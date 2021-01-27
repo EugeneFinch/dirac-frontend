@@ -100,7 +100,6 @@ const Transcript = ({
                 <Comment
                   author={
                     <EditSpeakerName
-                      onClick={() => onClickParagraph(item)}
                       loading={loadingSpeaker}
                       speakers={speakers}
                       putSpeakerName={putSpeakerName}

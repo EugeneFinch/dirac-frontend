@@ -88,7 +88,7 @@ function Coaching({ id, getCoaching, refreshCoaching, transcriptCoaching, loadin
         )}
 
         {(!!transcriptCoaching?.no_customer_objection ||
-          !!transcriptCoaching?.next_steps ||
+          transcriptCoaching?.next_steps !== null ||
           !!transcriptCoaching?.no_competitor_mention) && (
           <>
             <ItemTitle>Risk factors</ItemTitle>
