@@ -22,8 +22,12 @@ const EditSpeakerName = ({ speakers, id, putSpeakerName, loading }) => {
         <Row align="middle" gutter={10}>
           <Col>
             <Input
+              autoFocus
               defaultValue={name}
               value={input}
+              onPressEnter={({ target }) => {
+                putSpeakerName({ id, name: target.value, cb: () => setEdit(false), team_member });
+              }}
               onChange={({ target }) => setInput(target.value)}
             />
           </Col>
