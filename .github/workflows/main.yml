@@ -27,5 +27,4 @@ jobs:
       if: ${{github.ref == 'refs/heads/dev'}}
       with:
         node-version: 14.x
-        script: |
-          yarn deploy:dev
+    - run: yarn deploy:dev
