@@ -2,6 +2,7 @@ import React from 'react';
 import { message, Upload } from 'antd';
 import upload from '@/assets/upload.svg';
 import { getToken } from '@/utils/utils';
+import config from '@/config';
 
 const { Dragger } = Upload;
 
@@ -14,7 +15,7 @@ export default () => {
     headers: {
       Authorization: token,
     },
-    action: 'https://api.diracnlp.com/upload',
+    action: `${config.API_HOST}/upload`,
     // showUploadList: false,
     onChange(info) {
       if (info.file.status !== 'uploading') {

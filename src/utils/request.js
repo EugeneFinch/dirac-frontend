@@ -5,6 +5,7 @@
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 import { getToken } from './utils';
+import config from '../config';
 
 const codeMessage = {
   200: 'The server successfully returned the requested data. ',
@@ -26,7 +27,6 @@ const codeMessage = {
 /**
  * 异常处理程序
  */
-
 const errorHandler = async (error) => {
   const { response } = error;
   const data = await response.clone().json();
@@ -55,7 +55,7 @@ const token = getToken();
 const request = extend({
   errorHandler,
   credentials: 'include',
-  prefix: 'https://api.diracnlp.com',
+  prefix: config.API_HOST,
   // prefix: 'http://localhost:3030',
   ...(token
     ? {

@@ -4,6 +4,7 @@ import ProForm from '@ant-design/pro-form';
 import { history } from 'umi';
 import googleIcon from '@/assets/google.png';
 import { getToken } from '@/utils/utils';
+import config from '@/config';
 
 import styles from './index.less';
 
@@ -15,7 +16,7 @@ const Login = () => {
   }, []);
 
   const handleSubmit = () => {
-    window.location.href = 'https://api.diracnlp.com/oauth/google';
+    window.location.href = `${config.API_HOST}/oauth/google`;
   };
 
   return (
