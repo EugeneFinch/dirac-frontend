@@ -7,6 +7,11 @@
 # aws configure
 
 path="./dist"
+bucket="app-dev.diracnlp.com"
+if [ $1 == 'prod' ]
+then
+  bucket="app.diracnlp.com"
+fi
+echo $bucket
 
-aws s3 cp $path s3://app.diracnlp.com --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers --recursiv
-
+aws s3 cp $path s3://$bucket --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers --recursive
