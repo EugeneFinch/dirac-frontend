@@ -34,3 +34,11 @@ jobs:
     - name: Clear cache DEV
       if: ${{github.ref == 'refs/heads/dev'}}
       run: aws cloudfront create-invalidation --distribution-id E2CLXUT9LP4FVK --paths /index.html
+      
+    - name: Deploy PROD
+      if: ${{github.ref == 'refs/heads/master'}}
+      run: yarn && yarn deploy:prod
+
+    - name: Clear cache PROD
+      if: ${{github.ref == 'refs/heads/master'}}
+      run: aws cloudfront create-invalidation --distribution-id EG2U1Y6ZA1SS3 --paths /index.html

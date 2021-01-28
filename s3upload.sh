@@ -14,4 +14,4 @@ then
 fi
 echo $bucket
 
-aws s3 cp $path s3://$bucket --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers --recursive
+aws s3 cp $path s3://$bucket --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers --recursive 
