@@ -76,7 +76,7 @@ function Coaching({ id, getCoaching, refreshCoaching, transcriptCoaching, loadin
               <span className={styles.middle}>
                 {transcriptCoaching?.team_talk_time}%
               </span>
-              <CircleColor color={getColorNextStep(transcriptCoaching?.team_talk_time)} />
+              <CircleColor color={getColorTalkTime(transcriptCoaching?.team_talk_time)} />
             </Col>
           </ItemText>
         )}
@@ -98,7 +98,7 @@ function Coaching({ id, getCoaching, refreshCoaching, transcriptCoaching, loadin
               <Col>Filler words per minute</Col>
               <Col>
                 <span className={styles.middle}>{transcriptCoaching?.filler_word_per_min}</span>
-                <CircleColor color={getColorTalkTime(transcriptCoaching?.filler_word_per_min)} />
+                <CircleColor color={getColorFilterWord(transcriptCoaching?.filler_word_per_min)} />
               </Col>
             </ItemText>
           </>
