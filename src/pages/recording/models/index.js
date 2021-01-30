@@ -48,7 +48,6 @@ export default {
       });
     },
     *getRefSearchKeyWord({ params }, { call, put, select }) {
-      console.log('params', params);
       const result = yield call(getRefSearchKeyWord, params);
       yield put({
         type: 'saveRefSearchKeyWord',
