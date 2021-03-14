@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Comment, List } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import { find, forEach, get, map, max, uniqBy } from 'lodash';
+import { DownloadOutlined } from '@ant-design/icons';
 
 import EditSpeakerName from './EditSpeakerName';
 import AvatarSpeaker from './AvatarSpeaker';
@@ -69,8 +70,13 @@ const Transcript = ({
     onLoadMore();
   }
 
+  const exportTranscript = () => {
+    window.open(`https://api-dev.diracnlp.com/transcript-export/${recording_id}`)
+  }
+
   return (
     <div className={styles.transcriptContainer} ref={cardRef}>
+      <DownloadOutlined onClick={exportTranscript} className={styles.exportIcon}/>
       <InfiniteScroll
         initialLoad={false}
         pageStart={page}
