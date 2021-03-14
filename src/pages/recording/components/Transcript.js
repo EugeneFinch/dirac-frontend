@@ -93,8 +93,8 @@ const Transcript = ({
             const isActive =
               activeTime < parseFloat(item?.end_time) && activeTime > parseFloat(item?.start_time);
             const ele = document.getElementById(`content-${i}`);
-            const distance = Math.abs(parseFloat(activeTime) - parseFloat(item.start_time)) < 0.5;
-            if (distance && isActive && cardRef.current) {
+            // const distance = Math.abs(parseFloat(item.end_time) - parseFloat(activeTime)) < 0.5;
+            if (isActive && cardRef.current) {
               cardRef?.current?.scrollTo({ top: ele?.offsetTop });
             }
             return (
