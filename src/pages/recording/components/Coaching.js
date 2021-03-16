@@ -4,7 +4,7 @@ import { RetweetOutlined } from '@ant-design/icons';
 import { connect } from 'umi';
 import { get } from 'lodash';
 import CircleColor from '@/components/CircleColor';
-
+import moment from 'moment';
 import styles from '../styles.less';
 
 const GREEN = '#219653';
@@ -85,7 +85,7 @@ function Coaching({ id, getCoaching, refreshCoaching, transcriptCoaching, loadin
             <Col>Longest monologue</Col>
             <Col>
               <span className={styles.middle}>
-                {transcriptCoaching?.longest_monologue}
+                {moment(transcriptCoaching?.longest_monologue,'ss').format('mm:ss')} minutes
               </span>
             </Col>
           </ItemText>
