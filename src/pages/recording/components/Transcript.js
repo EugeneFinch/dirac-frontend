@@ -3,6 +3,7 @@ import { Comment, List } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import { find, forEach, get, map, max, uniqBy } from 'lodash';
 import { DownloadOutlined } from '@ant-design/icons';
+import config from '@/config';
 
 import EditSpeakerName from './EditSpeakerName';
 import AvatarSpeaker from './AvatarSpeaker';
@@ -71,7 +72,7 @@ const Transcript = ({
   }
 
   const exportTranscript = () => {
-    window.open(`https://api-dev.diracnlp.com/transcript-export/${recording_id}`)
+    window.open(`${config.API_HOST}/transcript-export/${recording_id}`)
   }
 
   return (
