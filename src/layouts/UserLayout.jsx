@@ -1,5 +1,6 @@
 import { getMenuData, getPageTitle } from '@ant-design/pro-layout';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import {hotjar} from 'react-hotjar'
 // import { Link, SelectLang, useIntl, connect } from 'umi';
 import { Link, useIntl, connect } from 'umi';
 import React from 'react';
@@ -27,6 +28,7 @@ const UserLayout = (props) => {
     breadcrumb,
     ...props,
   });
+  hotjar.initialize(2300244, 6)
   return (
     <HelmetProvider>
       <Helmet>

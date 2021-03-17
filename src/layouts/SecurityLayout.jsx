@@ -1,5 +1,6 @@
 import React from 'react';
 import { PageLoading } from '@ant-design/pro-layout';
+import {hotjar} from 'react-hotjar'
 import { Redirect, connect } from 'umi';
 import { stringify } from 'querystring';
 import { getToken, setToken } from '@/utils/utils';
@@ -40,6 +41,7 @@ class SecurityLayout extends React.Component {
       redirect: location.pathname,
     });
 
+    hotjar.initialize(2300244, 6)
     if ((!isLogin && loading) || !isReady) {
       return <PageLoading />;
     }
@@ -47,7 +49,6 @@ class SecurityLayout extends React.Component {
     if (!isLogin && window.location.pathname !== '/user/login') {
       return <Redirect to={`/user/login?${queryString}`} />;
     }
-
     return children;
   }
 }
