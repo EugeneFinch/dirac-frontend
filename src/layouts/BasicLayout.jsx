@@ -7,6 +7,7 @@ import ProLayout from '@ant-design/pro-layout';
 import React, { useMemo, useRef } from 'react';
 import { Link, useIntl, connect, history } from 'umi';
 import { CopyrightOutlined } from '@ant-design/icons';
+import {hotjar} from 'react-hotjar'
 import { Result, Button } from 'antd';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
@@ -84,6 +85,8 @@ const BasicLayout = (props) => {
     [location.pathname],
   );
   const { formatMessage } = useIntl();
+
+  hotjar.initialize(2300244, 6)
   return (
     <ProLayout
       logo={logo}
