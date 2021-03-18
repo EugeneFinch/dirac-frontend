@@ -154,8 +154,14 @@ export default {
     },
     *searchKeyWord({ params }, { call, select, put }) {
       const { action, ...restParams } = params;
-      const keyword = get(restParams, 'predefined_keyword');
-      if (!keyword) {
+      const preKeyword = get(restParams, 'predefined_keyword');
+      const content = get(restParams, 'content');
+      if (!preKeyword && !content) {
+        yield put({
+          type: 'saveSearchKeywordResult',
+          data:[],
+          pagination:{},
+        });
         return;
       }
 

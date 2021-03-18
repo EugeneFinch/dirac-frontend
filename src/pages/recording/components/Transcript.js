@@ -31,7 +31,7 @@ const Transcript = ({
   const cardRef = useRef(null);
 
   const page = get(pagination, 'current', 1);
-  const limit = get(pagination, 'pageSize', LIMIT);
+  const limit = get(pagination, 'pageSize', 100000);
 
   useEffect(() => {
     getTranscript({ page, limit, recording_id });
@@ -132,7 +132,8 @@ const Transcript = ({
   );
 };
 
-const mapStateToProps = ({ uploadManagement }) => ({
+const mapStateToProps = ({ loading,uploadManagement }) => ({
+  loading: loading.effects['uploadManagement/getTranscript'],
   searchKeyWordResult: get(uploadManagement, 'searchKeyWordResult.data.0', null),
   recordingCreatedAt: get(uploadManagement, 'recordingDetail.created_at', null),
 });

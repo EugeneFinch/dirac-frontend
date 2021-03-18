@@ -5,7 +5,7 @@ import { history } from 'umi';
 import googleIcon from '@/assets/google.png';
 import { getToken } from '@/utils/utils';
 import config from '@/config';
-
+console.log(`config`, config)
 import styles from './index.less';
 
 const Login = () => {

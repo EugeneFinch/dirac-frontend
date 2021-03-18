@@ -3,17 +3,33 @@ import { Select, Card, Tag, Button } from 'antd';
 import uniq from 'lodash/uniq';
 import { connect } from 'umi';
 import { get } from 'lodash';
+import { Input } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
 function KeywordSearch({ recordingDetail, refSearchKeyWord, searchKeyWord, getRefSearchKeyWord }) {
   const [value, setValue] = useState([]);
+  const [content, setContent] = useState('');
   function handleChange(v) {
     setValue(v);
+    searchKeyWord({
+      predefined_keyword: v.join(','),
+      limit: 1,
+      page: 1,
+      content
+    });
   }
 
   function onClickTag(v) {
-    handleChange(uniq([...value, v]));
+    let newValue = [];
+    if(value.includes(v)){
+      newValue = value.filter(val=>val !==v);
+    }else{
+      newValue = uniq([...value, v])
+    }
+
+    handleChange(newValue);
   }
 
   useEffect(() => {
@@ -24,32 +40,34 @@ function KeywordSearch({ recordingDetail, refSearchKeyWord, searchKeyWord, getRe
     getRefSearchKeyWord({ recording_id: recordingDetail.id });
   }, [getRefSearchKeyWord, recordingDetail.id]);
 
-  useEffect(() => {
-    searchKeyWord({
-      predefined_keyword: value.join(','),
-      limit: 1,
-      page: 1,
-    });
-  }, [searchKeyWord, value]);
-
   function onActionChange(v) {
     searchKeyWord({
       action: v,
       predefined_keyword: value.join(','),
       limit: 1,
+      content
+    });
+  }
+
+  function onChangeContent (e){
+    setContent(e.target.value)
+  }
+
+  function onEnter (){
+    searchKeyWord({
+      predefined_keyword: value.join(','),
+      content,
+      limit: 1,
+      page: 1,
     });
   }
 
   return (
     <Card title="Meeting Recap" style={{ width: 300 }}>
       <div style={{ marginBottom: 10 }}>
-        <Select value={value} mode="multiple" onChange={handleChange} style={{ width: 200 }}>
-          {refSearchKeyWord.map((v) => (
-            <Option key={v.code}>
-              {v.name} - {v.total}
-            </Option>
-          ))}
-        </Select>
+        <Input placeholder="Search"
+        onPressEnter={onEnter}
+         value={content} onChange = {onChangeContent} prefix={<SearchOutlined />} />  
       </div>
 
       <div>
@@ -61,7 +79,7 @@ function KeywordSearch({ recordingDetail, refSearchKeyWord, searchKeyWord, getRe
             }}
             onClick={() => onClickTag(v.code)}
             key={v.code}
-            className={v.code}
+            className={value.includes(v.code) && v.code}
           >
             {v.name} - {v.total}
           </Tag>

@@ -9,8 +9,7 @@ import AudioComponent from '@/pages/recording/components/AudioComponent';
 import Coaching from '@/pages/recording/components/Coaching';
 import { Col, Row } from 'antd';
 
-const UploadManagement = ({
-  loadingTranscript,
+const Detail = ({
   getTranscript,
   transcript,
   location,
@@ -49,7 +48,6 @@ const UploadManagement = ({
             loadingSpeaker={loadingSpeaker}
             id={id}
             location={location}
-            loading={loadingTranscript}
             getTranscript={getTranscript}
             processTime={processTime}
             putSpeakerName={putSpeakerName}
@@ -81,7 +79,6 @@ const mapSateToProps = ({ loading, uploadManagement }) => {
   const recordingDetail = get(uploadManagement, 'recordingDetail');
   const speakers = get(uploadManagement, 'speakers');
   return {
-    loadingTranscript: loading.effects['uploadManagement/getTranscript'],
     loadingRecording: loading.effects['uploadManagement/getRecodingDetail'],
     loadingSpeaker: loading.effects['uploadManagement/putSpeakerName'],
     transcript,
@@ -113,4 +110,4 @@ const mapDispatchToProps = (dispatch) => ({
     }),
 });
 
-export default connect(mapSateToProps, mapDispatchToProps)(UploadManagement);
+export default connect(mapSateToProps, mapDispatchToProps)(Detail);

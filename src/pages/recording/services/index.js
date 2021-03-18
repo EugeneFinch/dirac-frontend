@@ -59,6 +59,7 @@ export async function getTranscript(params) {
       $limit: limit,
       recording_id,
       predefined_keyword: get(params, 'predefined_keyword', ''),
+      content: get(params, 'content', ''),
     },
   });
 }
