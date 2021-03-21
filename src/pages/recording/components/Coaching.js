@@ -85,7 +85,7 @@ function Coaching({ id, getCoaching, refreshCoaching, transcriptCoaching, loadin
             <Col>Longest monologue</Col>
             <Col>
               <span className={styles.middle}>
-                {moment(transcriptCoaching?.longest_monologue,'ss').format('mm:ss')} minutes
+                {moment.unix(transcriptCoaching?.longest_monologue).format('mm:ss')} minutes
               </span>
             </Col>
           </ItemText>
