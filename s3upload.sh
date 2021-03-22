@@ -9,7 +9,7 @@
 
 path="./dist"
 bucket="app-dev.diracnlp.com"
-if [ $1 == 'prod' ]
+if [ $1 = 'prod' ]
 then
   bucket="app.diracnlp.com"
 fi
