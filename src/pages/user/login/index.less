@@ -1,7 +1,6 @@
 @import '~antd/es/style/themes/default.less';
 
 .main {
-  width: 328px;
   margin: 0 auto;
   @media screen and (max-width: @screen-sm) {
     width: 95%;
@@ -48,21 +47,36 @@
   height: auto;
   max-height: max-content;
   padding: 0;
+  margin-bottom: 25px;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid gainsboro;
+  
 
   .iconContainer {
-    padding: 15px;
+    padding: 8px;
     background-color: #fff;
   }
 
   img {
-    width: 18px;
-    height: 18px;
+    width: 40px;
+    height: 40px;
   }
 
   .center {
     flex: 1;
-    text-align: center;
-    font-weight: 600;
+    text-align: left;
+    font-weight: 400;
     font-size: 16px;
   }
+}
+.googleButton:hover {
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  background-color: #fff;
+  color: #40a9ff;
+}
+.footer_info {
+  margin-top: 35px;
+  text-align: center;
+  font-size: 16px;
 }

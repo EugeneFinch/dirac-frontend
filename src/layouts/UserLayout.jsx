@@ -4,7 +4,7 @@ import {hotjar} from 'react-hotjar'
 // import { Link, SelectLang, useIntl, connect } from 'umi';
 import { Link, useIntl, connect } from 'umi';
 import React from 'react';
-import logo from '../assets/logo-white.png';
+import logo from '../assets/DIRAC_AI_logo.png';
 import styles from './UserLayout.less';
 
 const UserLayout = (props) => {
@@ -41,6 +41,7 @@ const UserLayout = (props) => {
           <SelectLang />
         </div> */}
         <div className={styles.content}>
+          <div className={styles.cart}>
           <div className={styles.top}>
             <div className={styles.header}>
               <Link to="/">
@@ -48,7 +49,10 @@ const UserLayout = (props) => {
                 {/* <span className={styles.title}></span> */}
               </Link>
             </div>
-            <div className={styles.desc} />
+            <div className={styles.second_header}>Welcome</div>
+            <div className={styles.desc}>
+            Log in to Dirac AI to continue with Dirac AI
+            </div>
             {/* <div className={styles.desc}>
               <FormattedMessage
                 id="pages.layouts.userLayout.title"
@@ -57,6 +61,11 @@ const UserLayout = (props) => {
             </div> */}
           </div>
           {children}
+          </div>
+          <div className={styles.links}>
+            <a href={"https://diracnlp.com/privacy"} className={styles.link}>Terms of service</a>
+            <a href={"https://diracnlp.com/terms"} className={styles.link}>Privacy policy</a>
+          </div>
         </div>
       </div>
     </HelmetProvider>

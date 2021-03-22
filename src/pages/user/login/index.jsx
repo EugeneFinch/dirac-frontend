@@ -1,8 +1,9 @@
 import { Button, Col, Row } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import ProForm from '@ant-design/pro-form';
 import { history } from 'umi';
 import googleIcon from '@/assets/google.png';
+import microsoftIcon from '@/assets/Microsoft-logo.png'
 import { getToken } from '@/utils/utils';
 import config from '@/config';
 
@@ -27,14 +28,25 @@ const Login = () => {
         }}
         submitter={{
           render: () => (
+            <Fragment>
             <Button type="primary" onClick={handleSubmit} className={styles.googleButton}>
               <Row justify="start" align="middle">
                 <Col className={styles.iconContainer}>
                   <img alt="google" src={googleIcon} />
                 </Col>
-                <Col className={styles.center}>Sign in with Google</Col>
+                <Col className={styles.center}>Continue with Google account</Col>
               </Row>
             </Button>
+            <Button type="primary" onClick={handleSubmit} className={styles.googleButton}>
+              <Row justify="start" align="middle">
+                <Col className={styles.iconContainer}>
+                  <img alt="microsoft" src={microsoftIcon} />
+                </Col>
+                <Col className={styles.center}>Continue with Microsoft (in-progres)</Col>
+              </Row>
+            </Button>
+            <div className={styles.footer_info}>Dirac Pte LTd . All rights reserved</div>
+            </Fragment>
           ),
         }}
       />
