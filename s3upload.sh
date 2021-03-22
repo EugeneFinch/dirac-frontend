@@ -5,6 +5,7 @@
 
 # remove "aws configure" if your aws has been configured
 # aws configure
+#!/bin/sh
 
 path="./dist"
 bucket="app-dev.diracnlp.com"
