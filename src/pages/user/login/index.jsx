@@ -45,7 +45,7 @@ const Login = () => {
                 <Col className={styles.center}>Continue with Microsoft</Col>
               </Row>
             </Button>
-            <div className={styles.footer_info}>Dirac Pte LTd . All rights reserved</div>
+            <div className={styles.footer_info}>Dirac PTE LTD. All rights reserved</div>
             </Fragment>
           ),
         }}
