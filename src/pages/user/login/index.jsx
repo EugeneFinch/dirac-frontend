@@ -37,7 +37,7 @@ const Login = () => {
                 <Col className={styles.center}>Continue with Google account</Col>
               </Row>
             </Button>
-            <Button type="primary" onClick={handleSubmit} className={styles.googleButton}>
+            <Button type="primary" disabled={true} className={styles.googleButton}>
               <Row justify="start" align="middle">
                 <Col className={styles.iconContainer}>
                   <img alt="microsoft" src={microsoftIcon} />
