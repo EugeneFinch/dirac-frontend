@@ -42,7 +42,7 @@ const Login = () => {
                 <Col className={styles.iconContainer}>
                   <img alt="microsoft" src={microsoftIcon} />
                 </Col>
-                <Col className={styles.center}>Continue with Microsoft (in-progres)</Col>
+                <Col className={styles.center}>Continue with Microsoft</Col>
               </Row>
             </Button>
             <div className={styles.footer_info}>Dirac Pte LTd . All rights reserved</div>
