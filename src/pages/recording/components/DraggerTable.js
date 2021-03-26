@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { history } from 'umi';
-import { Button, Col, Row, Table, Tag } from 'antd';
+import { Table, Tag} from 'antd';
+
 import { get } from 'lodash';
 import moment from 'moment';
 
 import { LIMIT, UPLOAD_STATUS } from '../constants';
+import EditRecordingName from './EditRecordingName';
+import ThreeDotComponent from './ThreeDotComponent';
 
-export default ({ data, pagination = {}, loading, onGetUploadedList, location }) => {
+export default ({ data, pagination = {}, loading, onGetUploadedList, location, putRecording, removeRecording }) => {
   const page = get(location, 'query.page');
   const limit = get(location, 'query.limit');
 
@@ -21,8 +24,12 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
   const columns = [
     {
       title: 'File name',
-      key: 'created_at',
-      dataIndex: 'filename',
+      render: (recording) => <EditRecordingName
+        id={recording?.id}
+        name={recording?.filename}
+        recording={recording}
+        putRecording={putRecording}
+      />
     },
     {
       title: 'Name',
@@ -40,27 +47,19 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      render: (status) =>
-        UPLOAD_STATUS[status] && (
-          <Tag color={UPLOAD_STATUS[status].color}>{UPLOAD_STATUS[status].text}</Tag>
-        ),
+      render: (status) => (UPLOAD_STATUS[status] && (
+        <Tag color={UPLOAD_STATUS[status].color}>{UPLOAD_STATUS[status].text}</Tag>
+      ))
     },
     {
       title: 'Action',
-      render: ({ id }) => {
-        const onViewDetail = () => {
-          history.push(`/recording/${id}`);
-        };
-        return (
-          <Row gutter={15} justify="start" align="middle">
-            <Col>
-              <Button onClick={onViewDetail} type="primary">
-                View Detail
-              </Button>
-            </Col>
-          </Row>
-        );
-      },
+      render: ({ id }) => <ThreeDotComponent
+        id={id}
+        page={page}
+        limit={limit}
+        onGetUploadedList={onGetUploadedList}
+        removeRecording={removeRecording}
+      />
     },
   ];
 
@@ -77,6 +76,11 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
       pagination={pagination}
       loading={loading}
       onChange={handleTableChange}
+      onRow={(record) => {
+        return {
+          onClick: () => history.push(`/recording/${record.id}`),
+        };
+      }}
     />
   );
 };

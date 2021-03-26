@@ -7,7 +7,7 @@ import { connect } from 'umi';
 import Dragger from '@/pages/recording/components/Dragger';
 import DraggerTable from '@/pages/recording/components/DraggerTable';
 
-const UploadManagement = ({ loading, onUpload, onGetUploadedList, uploadedList, location }) => {
+const UploadManagement = ({ loading, onUpload, onGetUploadedList, uploadedList, location, putRecording, removeRecording }) => {
   return (
     <PageContainer>
       <Spin spinning={!!loading}>
@@ -17,6 +17,8 @@ const UploadManagement = ({ loading, onUpload, onGetUploadedList, uploadedList, 
           loading={loading}
           {...uploadedList}
           onGetUploadedList={onGetUploadedList}
+          putRecording={putRecording}
+          removeRecording={removeRecording}
         />
       </Spin>
     </PageContainer>
@@ -42,6 +44,16 @@ const mapDispatchToProps = (dispatch) => ({
   onGetUploadedList: (params) =>
     dispatch({
       type: 'uploadManagement/getUploadedList',
+      params,
+    }),
+  putRecording: (params) =>
+    dispatch({
+      type: 'uploadManagement/putRecording',
+      params,
+    }),
+  removeRecording: (params) =>
+    dispatch({
+      type: 'uploadManagement/removeRecording',
       params,
     }),
 });

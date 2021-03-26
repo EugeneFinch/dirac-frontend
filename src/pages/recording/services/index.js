@@ -27,6 +27,20 @@ export async function getRecodingDetail({ id }) {
     method: 'GET',
   });
 }
+
+export async function putRecording({ id, ...data }) {
+  return request(`/recording/${id}`, {
+    method: 'PUT',
+    data,
+  });
+}
+
+export async function removeRecording(params) {
+  return request(`/recording/${params.id}`, {
+    method: 'DELETE'
+  });
+}
+
 export async function getRefSearchKeyWord(params) {
   return request(`/transcript-keyword`, {
     method: 'GET',
