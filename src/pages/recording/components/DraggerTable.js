@@ -9,7 +9,7 @@ import { LIMIT, UPLOAD_STATUS } from '../constants';
 import EditRecordingName from './EditRecordingName';
 import ThreeDotComponent from './ThreeDotComponent';
 
-export default ({ data, pagination = {}, loading, onGetUploadedList, location, putRecording, removeRecording }) => {
+export default ({ data, pagination = {}, loading, onGetUploadedList, location, putRecording, removeRecording, user }) => {
   const page = get(location, 'query.page');
   const limit = get(location, 'query.limit');
 
@@ -20,6 +20,8 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
     }
     onGetUploadedList({ page, limit });
   }, [page, limit]);
+
+  const isAdmin = user['team_user.is_admin'] === 1;
 
   const columns = [
     {
@@ -59,6 +61,7 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
         limit={limit}
         onGetUploadedList={onGetUploadedList}
         removeRecording={removeRecording}
+        isAdmin={isAdmin}
       />
     },
   ];

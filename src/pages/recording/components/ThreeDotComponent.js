@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {Col, Dropdown, Menu, Popconfirm, Row} from 'antd';
 import {history} from "umi";
 
-// TODO: how can detect isAdmin, set default = true for testing
-const ThreeDotComponent = ({ isAdmin = true, id, removeRecording }) => {
+const ThreeDotComponent = ({ isAdmin, id, removeRecording }) => {
   const onViewDetail = () => {
     history.push(`/recording/${id}`);
   };

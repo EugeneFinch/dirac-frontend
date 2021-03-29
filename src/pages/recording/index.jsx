@@ -7,7 +7,7 @@ import { connect } from 'umi';
 import Dragger from '@/pages/recording/components/Dragger';
 import DraggerTable from '@/pages/recording/components/DraggerTable';
 
-const UploadManagement = ({ loading, onUpload, onGetUploadedList, uploadedList, location, putRecording, removeRecording }) => {
+const UploadManagement = ({ loading, onUpload, onGetUploadedList, uploadedList, location, putRecording, removeRecording, user }) => {
   return (
     <PageContainer>
       <Spin spinning={!!loading}>
@@ -19,19 +19,21 @@ const UploadManagement = ({ loading, onUpload, onGetUploadedList, uploadedList, 
           onGetUploadedList={onGetUploadedList}
           putRecording={putRecording}
           removeRecording={removeRecording}
+          user={user}
         />
       </Spin>
     </PageContainer>
   );
 };
 
-const mapSateToProps = ({ loading, uploadManagement }) => {
+const mapSateToProps = ({ loading, uploadManagement, user }) => {
   const uploadedList = get(uploadManagement, 'uploadedList');
   return {
     loading:
       loading.effects['uploadManagement/onUpload'] ||
       loading.effects['uploadManagement/getUploadedList'],
     uploadedList,
+    user: user.currentUser
   };
 };
 
