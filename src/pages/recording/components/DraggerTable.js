@@ -1,49 +1,59 @@
 import React, { useEffect } from 'react';
 import { history } from 'umi';
-import { Button, Col, Row, Table, Tag } from 'antd';
+import { Col, Input, Row, Spin, Button, Table, Tag } from 'antd';
 import { get } from 'lodash';
 import moment from 'moment';
+import EditAccountName from './EditAccountName'
+import EditDealStatus from './EditDealStatus'
 
 import { LIMIT, UPLOAD_STATUS } from '../constants';
 
 export default ({ data, pagination = {}, loading, onGetUploadedList, location }) => {
   const page = get(location, 'query.page');
   const limit = get(location, 'query.limit');
-
+  const filter = get(location, 'query.filter');
   useEffect(() => {
-    if (!page || !limit) {
-      history.push(`/recording?page=1&limit=${LIMIT}`);
+    if (!page || !limit || !filter) {
+      history.push(`/recording?page=1&limit=${LIMIT}&filter=my`);
       return;
     }
-    onGetUploadedList({ page, limit });
-  }, [page, limit]);
+    onGetUploadedList({ page, limit, filter });
+  }, [page, limit, filter]);
 
   const columns = [
     {
-      title: 'File name',
-      key: 'created_at',
-      dataIndex: 'filename',
+      title: 'Subject',
+      key: 'subject',
+      dataIndex: 'subject',
     },
     {
-      title: 'Name',
+      title: 'Participans',
       key: 'user.email',
-      dataIndex: 'user.email',
-      render: (v) => v.split('@')[0],
+      dataIndex: 'record',
+      render: (v) => v ? `${v.org} + ${v.users - 1}` : '',
     },
     {
-      title: 'Created at',
+      title: 'Account name',
+      key: 'accName',
+      width: 280,
+      dataIndex: '',
+      render: (data) => (
+        <EditAccountName data={data}/>
+      )
+    },
+    {
+      title: 'Deal status',
+      key: 'status',
+      dataIndex: '',
+      render: (data) => (
+        <EditDealStatus data={data}/>
+      )
+    },
+    {
+      title: 'Date',
       key: 'created_at',
       dataIndex: 'created_at',
-      render: (created_at) => moment(created_at).format('DD-MM-YYYY HH:mm:ss'),
-    },
-    {
-      title: 'Status',
-      key: 'status',
-      dataIndex: 'status',
-      render: (status) =>
-        UPLOAD_STATUS[status] && (
-          <Tag color={UPLOAD_STATUS[status].color}>{UPLOAD_STATUS[status].text}</Tag>
-        ),
+      render: (created_at) => (<div>{moment(created_at).format('MMM DD, YYYY')}<br></br>{moment(created_at).format('HH:mm:ss')}</div>),
     },
     {
       title: 'Action',
@@ -65,10 +75,12 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
   ];
 
   const handleTableChange = ({ current, pageSize }) => {
-    history.push(`/recording?page=${current}&limit=${pageSize}`);
+    history.push(`/recording?page=${current}&limit=${pageSize}&filter=${filter}`);
   };
 
   return (
+    <div>
+    Filter by: {filter === 'my' ? <a onClick={() => history.push(`/recording?page=${page}&limit=${LIMIT}&filter=all`)}>My calls</a>: <a onClick={() => history.push(`/recording?page=${page}&limit=${LIMIT}&filter=my`)}>Team member calls</a>}
     <Table
       style={{ marginTop: 15 }}
       columns={columns}
@@ -78,5 +90,6 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
       loading={loading}
       onChange={handleTableChange}
     />
+    </div>
   );
 };

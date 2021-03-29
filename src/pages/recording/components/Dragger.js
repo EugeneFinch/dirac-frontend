@@ -1,14 +1,13 @@
 import React from 'react';
-import { message, Upload } from 'antd';
-import upload from '@/assets/upload.svg';
+import { message, Upload, Button } from 'antd';
 import { getToken } from '@/utils/utils';
 import config from '@/config';
-
-const { Dragger } = Upload;
 
 const token = getToken();
 
 export default () => {
+
+  let hide;
   const props = {
     name: 'file',
     accept: 'audio/*',
@@ -16,36 +15,27 @@ export default () => {
       Authorization: token,
     },
     action: `${config.API_HOST}/upload`,
-    // showUploadList: false,
+    showUploadList: false,
     onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
+      if(!hide) hide = message.loading('Uploading..', 0);
+      if (info.file.status === 'uploading' && !info.event) {
+        message.success(`${info.file.name} file upload started`);
       }
       if (info.file.status === 'done') {
         message.success(`${info.file.name} file uploaded successfully`);
+        hide();
       } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
+        message.error(`${info.file.name} file upload failed`);
+        hide();
       }
-    },
-    progress: {
-      strokeColor: {
-        '0%': '#108ee9',
-        '100%': '#87d068',
-      },
-      strokeWidth: 3,
-      format: (percent) => `${parseFloat(percent.toFixed(2))}%`,
     },
   };
 
   return (
-    <Dragger {...props}>
-      <p className="ant-upload-drag-icon">
-        <img src={upload} alt="upload" width={60} height={60} />
-      </p>
-      <p className="ant-upload-text">Upload audio file to generate a transcript</p>
-      <p className="ant-upload-hint">
-        Drag and drop <b>MP3</b> or <b>WAV</b> or <b>M4A</b> file to here to select files to upload.
-      </p>
-    </Dragger>
+    <div className='ant-page-header-heading-left'>
+    <Upload {...props}>
+       <Button>Manual upload</Button>
+    </Upload>
+    </div>
   );
 };

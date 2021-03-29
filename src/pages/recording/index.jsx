@@ -9,9 +9,11 @@ import DraggerTable from '@/pages/recording/components/DraggerTable';
 
 const UploadManagement = ({ loading, onUpload, onGetUploadedList, uploadedList, location }) => {
   return (
-    <PageContainer>
-      <Spin spinning={!!loading}>
+    <PageContainer
+      extra={[
         <Dragger onUpload={onUpload} />
+      ]}>
+      <Spin spinning={!!loading}>
         <DraggerTable
           location={location}
           loading={loading}
