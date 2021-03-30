@@ -13,7 +13,7 @@ const UsersPopover = ({ data }) => {
 
   return (
     <div>
-      <Popover content={users.map(res => prepareData(res))} title="Users" trigger="hover">
+      <Popover content={users.map(res => prepareData(res))} title="Participating users" trigger="hover">
         {data.record.org} + {users.length - 1}
       </Popover>
     </div>

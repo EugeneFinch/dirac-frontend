@@ -9,7 +9,7 @@ import EditDealStatus from './EditDealStatus'
 
 import { LIMIT, UPLOAD_STATUS } from '../constants';
 import EditRecordingName from './EditRecordingName';
-import ThreeDotComponent from './ThreeDotComponent';
+import CallsActions from './callsActions';
 import UsersPopover from './usersPopover';
 
 export default ({ data, pagination = {}, loading, onGetUploadedList, location, putRecording, removeRecording, user }) => {
@@ -64,7 +64,7 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
     },
     {
       title: 'Action',
-      render: ({ id }) => <ThreeDotComponent
+      render: ({ id }) => <CallsActions
         id={id}
         page={page}
         limit={limit}
@@ -90,11 +90,6 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
       pagination={pagination}
       loading={loading}
       onChange={handleTableChange}
-      onRow={(record) => {
-        return {
-          onClick: () => history.push(`/recording/${record.id}`),
-        };
-      }}
     />
     </div>
   );

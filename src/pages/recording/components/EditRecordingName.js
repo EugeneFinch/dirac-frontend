@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Row } from 'antd';
+import { Input, Row, Col } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 
 const EditRecordingName = ({ id, name, recording, putRecording }) => {
   const [edit, setEdit] = useState(false);
@@ -25,8 +26,12 @@ const EditRecordingName = ({ id, name, recording, putRecording }) => {
   return (
     <Row gutter={15} justify="start" align="middle">
       { edit ? <Input autoFocus defaultValue={input} onPressEnter={submit} onClick={onClickRecordingName} onChange={onChangeRecordingName}></Input> : (
-        <label defaultValue={input} onClick={onClickRecordingName}>{input}
-        </label>
+         <Row gutter={5}>
+         <Col onClick={onClickRecordingName}>{input}</Col>
+         <Col>
+           <EditOutlined onClick={onClickRecordingName} />
+         </Col>
+       </Row>
       )}
     </Row>
   );
