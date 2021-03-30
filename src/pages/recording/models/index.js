@@ -10,11 +10,14 @@ import {
   getRefSearchKeyWord,
   getCoaching,
   refreshCoaching,
+  putRecording,
+  removeRecording
 } from '../services';
 
 export default {
   namespace: 'uploadManagement',
   state: {
+    putRecording: {},
     uploadedList: {
       data: [],
       pagination: {
@@ -47,6 +50,28 @@ export default {
         recordingDetail,
       });
     },
+    *putRecording({ params }, { call, put, select }) {
+      const { cb, ...body } = params;
+
+      const updatedRecording = yield call(putRecording, body);
+
+      if(updatedRecording) {
+        if (cb) cb();
+
+        yield put({
+          type: 'saveUpdatedRecording',
+          updatedRecording,
+        });
+      }
+    },
+
+    *removeRecording({ params }, { call, put }) {
+      yield call(removeRecording, params);
+      yield put({
+        type: 'getUploadedList',
+      });
+    },
+
     *getRefSearchKeyWord({ params }, { call, put, select }) {
       const result = yield call(getRefSearchKeyWord, params);
       yield put({
@@ -223,6 +248,12 @@ export default {
       return {
         ...state,
         recordingDetail: action.recordingDetail,
+      };
+    },
+    saveUpdatedRecording(state, action) {
+      return {
+        ...state,
+        putRecording: action.updatedRecording,
       };
     },
     saveSpeaker(state, action) {
