@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { history } from 'umi';
-import { Table } from 'antd';
+import { Table, Popover } from 'antd';
 
 import { get } from 'lodash';
 import moment from 'moment';
@@ -10,6 +10,7 @@ import EditDealStatus from './EditDealStatus'
 import { LIMIT, UPLOAD_STATUS } from '../constants';
 import EditRecordingName from './EditRecordingName';
 import ThreeDotComponent from './ThreeDotComponent';
+import UsersPopover from './usersPopover';
 
 export default ({ data, pagination = {}, loading, onGetUploadedList, location, putRecording, removeRecording, user }) => {
   const page = get(location, 'query.page');
@@ -38,10 +39,9 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
       />
     },
     {
-      title: 'Participans',
+      title: 'Participants',
       key: 'user.email',
-      dataIndex: 'record',
-      render: (v) => v ? `${v.org} + ${v.users - 1}` : '',
+      render: (data) =>  <UsersPopover data={data}/>
     },
     {
       title: 'Account name',
