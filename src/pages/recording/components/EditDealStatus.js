@@ -12,11 +12,12 @@ const EditAccountName = ({ data }) => {
 
   return (
     <div>
-    <Row align="middle" gutter={1}>
+    <Row align="middle" gutter={15}>
       <Col>
         <Select style={{ width: 120 }}  bordered={false}
+        onClick={(e) => {e.stopPropagation()}}
           value={status || data.deal_status}
-          onChange={( target ) => submit(target)}
+          onChange={( target ) => {submit(target)}}
         >
          <Option value="won">Close: Won</Option>
          <Option value="lost">Close: Lost</Option>

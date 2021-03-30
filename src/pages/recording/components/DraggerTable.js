@@ -32,7 +32,7 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
       key: 'subject',
       render: (recording) => <EditRecordingName
         id={recording?.id}
-        name={recording?.filename}
+        name={recording?.subject}
         recording={recording}
         putRecording={putRecording}
       />
@@ -48,17 +48,13 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
       key: 'accName',
       width: 280,
       dataIndex: '',
-      render: (data) => (
-        <EditAccountName data={data}/>
-      )
+      render: (data) => <EditAccountName data={data}/>
     },
     {
       title: 'Deal status',
       key: 'status',
       dataIndex: '',
-      render: (data) => (
-        <EditDealStatus data={data}/>
-      )
+      render: (data) => <EditDealStatus data={data}/>
     },
     {
       title: 'Date',

@@ -6,20 +6,23 @@ const EditAccountName = ({ data }) => {
   const [edit, setEdit] = useState(false);
   let accountName = data.account_name ? data.account_name : 'null';
   const [name, setName] = useState('');
-  const submit = () => {
-    data.account_name = name;
-    putRecording({ ...data });
+  const submit = (e) => {
+    e.stopPropagation()
+    if (name) {
+      data.account_name = name;
+      putRecording({ ...data });
+      setName(name)
+    }
     setEdit(false);
-    setName(name)
-    
+
   };
 
   if (edit) {
     return (
       <div>
-        <Row align="middle" gutter={1}>
+        <Row align="middle" gutter={15}>
           <Col>
-            <Input style={{ width: 180 }}  bordered={false}
+            <Input style={{ width: 180 }} bordered={false}
               autoFocus
               defaultValue={name || accountName}
               value={name || accountName}
@@ -42,9 +45,9 @@ const EditAccountName = ({ data }) => {
 
   return (
     <Row gutter={5}>
-      <Col onClick={() => setEdit(true)}>{accountName}</Col>
+      <Col onClick={(e) => { e.stopPropagation(); setEdit(true) }}>{accountName}</Col>
       <Col>
-        <EditOutlined onClick={() => setEdit(true)} />
+        <EditOutlined onClick={(e) => { e.stopPropagation(); setEdit(true) }} />
       </Col>
     </Row>
   );

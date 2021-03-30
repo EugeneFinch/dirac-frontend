@@ -10,7 +10,7 @@ const EditRecordingName = ({ id, name, recording, putRecording }) => {
   }, [name]);
 
   const submit = () => {
-    putRecording({ id, ...recording, filename: input, cb: () =>  { setEdit(false); setInput(input) } });
+    putRecording({ id, ...recording, subject: input, cb: () =>  { setEdit(false); setInput(input) } });
   };
 
   const onClickRecordingName = (e) => {
