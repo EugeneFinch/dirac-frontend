@@ -83,7 +83,7 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
     <div>
     Filter by: {filter === 'my' ? <a onClick={() => history.push(`/recording?page=${page}&limit=${LIMIT}&filter=all`)}>My calls</a>: <a onClick={() => history.push(`/recording?page=${page}&limit=${LIMIT}&filter=my`)}>Team member calls</a>}
     <Table
-      style={{ marginTop: 15 }}
+      style={{ marginTop: 15, cursor: 'pointer' }}
       columns={columns}
       rowKey={(record) => record.id}
       dataSource={data}
