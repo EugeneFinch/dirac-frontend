@@ -2,19 +2,24 @@ import React, { useState } from 'react';
 import { Col, Input, Row } from 'antd';
 import { CheckCircleTwoTone, CloseCircleTwoTone, EditOutlined } from '@ant-design/icons';
 import { putRecording } from '../services'
-const EditAccountName = ({ data }) => {
-  const [edit, setEdit] = useState(false);
-  let accountName = data.account_name ? data.account_name : 'null';
-  const [name, setName] = useState('');
-  const submit = (e) => {
-    e.stopPropagation()
-    if (name) {
-      data.account_name = name;
-      putRecording({ ...data });
-      setName(name)
-    }
-    setEdit(false);
+import { get } from 'lodash';
 
+
+const EditAccountName = ({ data, onGetUploadedList, location }) => {
+  const [edit, setEdit] = useState(false);
+  let accountName = data.account_name ? data.account_name : '';
+  const [name, setName] = useState('');
+  const submit = async () => {
+    setEdit(false);
+    if (name) {
+      data.old_name = data.account_name;
+      data.account_name = name;
+      await putRecording({ ...data });
+      const page = get(location, 'query.page');
+      const limit = get(location, 'query.limit');
+      const filter = get(location, 'query.filter');
+      onGetUploadedList({ page, limit, filter });
+    }
   };
 
   if (edit) {
@@ -47,7 +52,7 @@ const EditAccountName = ({ data }) => {
     <Row gutter={5}>
       <Col onClick={(e) => { e.stopPropagation(); setEdit(true) }}>{accountName}</Col>
       <Col>
-        <EditOutlined onClick={(e) => { e.stopPropagation(); setEdit(true) }} />
+        <EditOutlined onClick={() => setEdit(true)} />
       </Col>
     </Row>
   );

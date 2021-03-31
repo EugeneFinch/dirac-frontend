@@ -48,13 +48,13 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
       key: 'accName',
       width: 280,
       dataIndex: '',
-      render: (data) => <EditAccountName data={data}/>
+      render: (data) => <EditAccountName onGetUploadedList={onGetUploadedList} location={location} data={data}/>
     },
     {
       title: 'Deal status',
       key: 'status',
       dataIndex: '',
-      render: (data) => <EditDealStatus data={data}/>
+      render: (data) => <EditDealStatus onGetUploadedList={onGetUploadedList} location={location} data={data}/>
     },
     {
       title: 'Date',
@@ -87,11 +87,6 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
       pagination={pagination}
       loading={loading}
       onChange={handleTableChange}
-      onRow={(record) => {
-        return {
-          onClick: () => history.push(`/recording/${record.id}`),
-        };
-      }}
     />
     </div>
   );
