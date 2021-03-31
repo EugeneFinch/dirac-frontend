@@ -10,7 +10,8 @@ const EditRecordingName = ({ id, name, recording, putRecording }) => {
     setInput(name);
   }, [name]);
 
-  const submit = () => {
+  const submit = (e) => {
+    e.stopPropagation()
     putRecording({ id, ...recording, subject: input, cb: () =>  { setEdit(false); setInput(input) } });
   };
 
