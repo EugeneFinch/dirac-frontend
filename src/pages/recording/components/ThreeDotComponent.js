@@ -1,43 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import {Col, Dropdown, Menu, Popconfirm, Row} from 'antd';
+import {Col, Dropdown, Menu, Row, Modal } from 'antd';
 import {history} from "umi";
+import {MoreOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
 
+const { confirm } = Modal;
 const ThreeDotComponent = ({ isAdmin, id, removeRecording }) => {
   const onViewDetail = () => {
     history.push(`/recording/${id}`);
   };
 
-  const confirmDelete = () => {
-    removeRecording({ id });
+  function showDeleteConfirm() {
+    confirm({
+      title: 'Are you sure you want to delete the recording? This action cannot be undone.',
+      icon: <ExclamationCircleOutlined />,
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'Cancel',
+      onOk() {
+        removeRecording({ id });
+      },
+      onCancel() {},
+    });
   }
 
   const editAction = (
     <Menu.Item onClick={onViewDetail}>
-      Edit
+      View
+    </Menu.Item>
+  );
+  const deleteAction = (
+    <Menu.Item onClick={showDeleteConfirm}>
+      Delete
     </Menu.Item>
   );
 
   const onClickStopPropagation = (e) => {
     e.stopPropagation();
   }
-  const deleteAction = (
-    <Menu.Item>
-      <Popconfirm
-        title="Are you sure to delete this recording?"
-        onConfirm={confirmDelete}
-        okText="Yes"
-        cancelText="No"
-        onClick={onClickStopPropagation}
-      >
-        <a onClick={onClickStopPropagation}>Delete</a>
-      </Popconfirm>
-    </Menu.Item>
-  )
 
   return (
-    <Row gutter={15} justify="start" align="middle">
+    <Row justify="left" align="middle">
       <Col onClick={onClickStopPropagation}>
-        <Dropdown.Button overlay=
+        <Dropdown placement="bottomCenter" overlay=
                            {isAdmin ? (<Menu>
                                {editAction}
                                {deleteAction}
@@ -46,7 +50,12 @@ const ThreeDotComponent = ({ isAdmin, id, removeRecording }) => {
                                {editAction}
                              </Menu>)
                            }>
-        </Dropdown.Button>
+          <MoreOutlined style={{
+            cursor: 'pointer',
+            marginBottom: 15,
+            marginLeft: 10
+          }}></MoreOutlined>
+        </Dropdown>
       </Col>
     </Row>
   );

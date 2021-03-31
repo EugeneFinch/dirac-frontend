@@ -66,9 +66,6 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
       title: 'Action',
       render: ({ id }) => <CallsActions
         id={id}
-        page={page}
-        limit={limit}
-        onGetUploadedList={onGetUploadedList}
         removeRecording={removeRecording}
         isAdmin={isAdmin}
       />
@@ -83,13 +80,18 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
     <div>
     Filter by: {filter === 'my' ? <a onClick={() => history.push(`/recording?page=${page}&limit=${LIMIT}&filter=all`)}>My calls</a>: <a onClick={() => history.push(`/recording?page=${page}&limit=${LIMIT}&filter=my`)}>Team member calls</a>}
     <Table
-      style={{ marginTop: 15 }}
+      style={{ marginTop: 15, cursor: 'pointer' }}
       columns={columns}
       rowKey={(record) => record.id}
       dataSource={data}
       pagination={pagination}
       loading={loading}
       onChange={handleTableChange}
+      onRow={(record) => {
+        return {
+          onClick: () => history.push(`/recording/${record.id}`),
+        };
+      }}
     />
     </div>
   );
