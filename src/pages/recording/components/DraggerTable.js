@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { history } from 'umi';
-import { Table } from 'antd';
+import { Table, Popover } from 'antd';
 
 import { get } from 'lodash';
 import moment from 'moment';
@@ -9,6 +9,8 @@ import EditDealStatus from './EditDealStatus'
 
 import { LIMIT, UPLOAD_STATUS } from '../constants';
 import EditRecordingName from './EditRecordingName';
+import CallsActions from './callsActions';
+import UsersPopover from './usersPopover';
 import ThreeDotComponent from './ThreeDotComponent';
 
 export default ({ data, pagination = {}, loading, onGetUploadedList, location, putRecording, removeRecording, user }) => {
@@ -38,10 +40,9 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
       />
     },
     {
-      title: 'Participans',
+      title: 'Participants',
       key: 'user.email',
-      dataIndex: 'record',
-      render: (v) => v ? `${v.org} + ${v.users - 1}` : '',
+      render: (data) =>  <UsersPopover data={data}/>
     },
     {
       title: 'Account name',
@@ -66,9 +67,6 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
       title: 'Action',
       render: ({ id }) => <ThreeDotComponent
         id={id}
-        page={page}
-        limit={limit}
-        onGetUploadedList={onGetUploadedList}
         removeRecording={removeRecording}
         isAdmin={isAdmin}
       />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {Col, Input, Row} from 'antd';
-import {CheckCircleTwoTone, CloseCircleTwoTone, EditOutlined} from "@ant-design/icons";
+import { Input, Row, Col } from 'antd';
+import { EditOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
 
 const EditRecordingName = ({ id, name, recording, putRecording }) => {
   const [edit, setEdit] = useState(false);
@@ -48,11 +48,15 @@ const EditRecordingName = ({ id, name, recording, putRecording }) => {
   }
 
   return (
-    <Row gutter={5}>
-      <Col onClick={onClickRecordingName}>{input}</Col>
-      <Col>
-        <EditOutlined onClick={onClickRecordingName} />
-      </Col>
+    <Row gutter={15} justify="start" align="middle">
+      { edit ? <Input autoFocus defaultValue={input} onPressEnter={submit} onClick={onClickRecordingName} onChange={onChangeRecordingName}></Input> : (
+         <Row gutter={5}>
+         <Col onClick={onClickRecordingName}>{input}</Col>
+         <Col>
+           <EditOutlined onClick={onClickRecordingName} />
+         </Col>
+       </Row>
+      )}
     </Row>
   );
 };
