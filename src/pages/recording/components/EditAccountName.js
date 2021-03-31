@@ -33,7 +33,7 @@ const EditAccountName = ({ data }) => {
           <Col>
             <CloseCircleTwoTone
               style={{ fontSize: 25 }}
-              onClick={() => setEdit(false)}
+              onClick={(e) =>     { e.stopPropagation(); setEdit(false) }}
               twoToneColor="#eb2f96"
             />{' '}
             <CheckCircleTwoTone style={{ fontSize: 25 }} onClick={submit} twoToneColor="#52c41a" />

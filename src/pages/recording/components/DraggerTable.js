@@ -11,7 +11,6 @@ import { LIMIT, UPLOAD_STATUS } from '../constants';
 import EditRecordingName from './EditRecordingName';
 import CallsActions from './callsActions';
 import UsersPopover from './usersPopover';
-import ThreeDotComponent from './ThreeDotComponent';
 
 export default ({ data, pagination = {}, loading, onGetUploadedList, location, putRecording, removeRecording, user }) => {
   const page = get(location, 'query.page');
@@ -65,7 +64,7 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
     },
     {
       title: 'Action',
-      render: ({ id }) => <ThreeDotComponent
+      render: ({ id }) => <CallsActions
         id={id}
         removeRecording={removeRecording}
         isAdmin={isAdmin}
