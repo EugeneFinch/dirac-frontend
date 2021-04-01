@@ -26,7 +26,7 @@ const CallsActions = ({ isAdmin, id, removeRecording }) => {
     });
   }
 
-  const editAction = (
+  const vievAction = (
     <Button onClick={onViewDetail}>
       View
     </Button>
@@ -46,11 +46,11 @@ const CallsActions = ({ isAdmin, id, removeRecording }) => {
     <Row gutter={15} justify="start" align="middle">
       <Col onClick={onClickStopPropagation}>
         {isAdmin ? (<div>
-          {editAction}
+          {vievAction}
           {deleteAction}
         </div>) :
           (<div>
-            {editAction}
+            {vievAction}
           </div>)
         }
       </Col>

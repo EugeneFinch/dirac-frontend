@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import { get } from 'lodash';
-
+import moment from 'moment'
 import KeywordSearch from '@/pages/recording/components/KeywordSearch';
 import Transcript from '@/pages/recording/components/Transcript';
 import AudioComponent from '@/pages/recording/components/AudioComponent';
 import Coaching from '@/pages/recording/components/Coaching';
 import { Col, Row } from 'antd';
+import UsersPopover from '@/pages/recording/components/usersPopover';
 
 const Detail = ({
   getTranscript,
@@ -33,12 +34,18 @@ const Detail = ({
       setSeekTime(startTime / recordDuration);
     }
   };
-
+  const date = `${moment(recordingDetail.created_at).format('MMM DD, YYYY')} | ${moment(recordingDetail.created_at).format('HH:mm')}`;
   return (
     <PageContainer breadcrumb={false}>
+      <a onClick={() => history.push(`/recording`)}><b>{`< Back `}</b></a>
+      <h2 style={{ marginTop: 15, marginBottom: 15 }}>{recordingDetail.subject}</h2>
       <Row gutter={[16, 16]}>
         <Col xs={24}>
           <KeywordSearch />
+          <Col style={{ marginTop: 15, marginBottom: 15, fontSize: 15 }}>
+            <UsersPopover data={recordingDetail} />
+            <span style={{ marginLeft: 15 }}>{date}</span>
+          </Col>
         </Col>
         <Col xs={24} sm={24} md={14} lg={16} xl={17}>
           <Transcript
@@ -47,6 +54,7 @@ const Detail = ({
             speakers={speakers}
             loadingSpeaker={loadingSpeaker}
             id={id}
+            recordingDetail={recordingDetail}
             location={location}
             getTranscript={getTranscript}
             processTime={processTime}

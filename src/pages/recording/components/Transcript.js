@@ -19,6 +19,7 @@ const Transcript = ({
   data,
   pagination,
   loading,
+  recordingDetail,
   id: recording_id,
   processTime,
   putSpeakerName,
@@ -77,7 +78,7 @@ const Transcript = ({
 
   return (
     <div className={styles.transcriptContainer} ref={cardRef}>
-      <DownloadOutlined onClick={exportTranscript} className={styles.exportIcon}/>
+      <DownloadOutlined onClick={exportTranscript} className={styles.exportIcon} />
       <InfiniteScroll
         initialLoad={false}
         pageStart={page}
@@ -107,6 +108,7 @@ const Transcript = ({
                 <Comment
                   author={
                     <EditSpeakerName
+                      recordingDetail={recordingDetail}
                       loading={loadingSpeaker}
                       speakers={speakers}
                       putSpeakerName={putSpeakerName}
@@ -132,7 +134,7 @@ const Transcript = ({
   );
 };
 
-const mapStateToProps = ({ loading,uploadManagement }) => ({
+const mapStateToProps = ({ loading, uploadManagement }) => ({
   loading: loading.effects['uploadManagement/getTranscript'],
   searchKeyWordResult: get(uploadManagement, 'searchKeyWordResult.data.0', null),
   recordingCreatedAt: get(uploadManagement, 'recordingDetail.created_at', null),
