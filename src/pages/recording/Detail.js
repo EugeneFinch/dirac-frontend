@@ -31,8 +31,8 @@ const Detail = ({
   const [recordDuration, setRecordDuration] = useState(0);
   let dealStatus = () => {
     switch (recordingDetail.deal_status) {
-      case 'won': return (<Tag icon={<CloseCircleOutlined />} color="success">Closed: Won</Tag>);
-      case 'lost': return (<Tag icon={<CheckCircleOutlined />} color="error">Closed: Lost</Tag>);
+      case 'won': return (<Tag icon={<CheckCircleOutlined />} color="success">Closed: Won</Tag>);
+      case 'lost': return (<Tag icon={<CloseCircleOutlined />} color="error">Closed: Lost</Tag>);
       default: return (<Tag color="processing">In progress</Tag>);
     }
   }
