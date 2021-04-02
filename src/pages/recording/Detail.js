@@ -10,7 +10,6 @@ import Coaching from '@/pages/recording/components/Coaching';
 import { Col, Row, Tag, Popover } from 'antd';
 import UsersPopover from '@/pages/recording/components/usersPopover';
 import {  CheckCircleOutlined,
-  SyncOutlined,
   CloseCircleOutlined } from '@ant-design/icons';
 
 const Detail = ({
@@ -34,7 +33,7 @@ const Detail = ({
     switch (recordingDetail.deal_status) {
       case 'won': return (<Tag icon={<CloseCircleOutlined />} color="success">Closed: Won</Tag>);
       case 'lost': return (<Tag icon={<CheckCircleOutlined />} color="error">Closed: Lost</Tag>);
-      default: return (<Tag icon={<SyncOutlined spin />} color="processing">In progress</Tag>);
+      default: return (<Tag color="processing">In progress</Tag>);
     }
   }
 
