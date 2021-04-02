@@ -12,12 +12,13 @@ import { LIMIT } from '../constants';
 export async function getUploadedList(params) {
   const page = get(params, 'page', 1);
   const limit = get(params, 'limit', LIMIT);
-
+  const filter = get(params, 'filter', 'my');
   return request('/recording', {
     method: 'GET',
     params: {
       $skip: (page - 1) * limit,
       '$sort[id]': -1,
+      filter,
     },
   });
 }
@@ -27,6 +28,13 @@ export async function getRecodingDetail({ id }) {
     method: 'GET',
   });
 }
+
+export async function removeRecording(params) {
+  return request(`/recording/${params.id}`, {
+    method: 'DELETE'
+  });
+}
+
 export async function getRefSearchKeyWord(params) {
   return request(`/transcript-keyword`, {
     method: 'GET',
@@ -37,6 +45,13 @@ export async function getRefSearchKeyWord(params) {
 export async function getSpeakerName({ id }) {
   return request(`/speaker/${id}`, {
     method: 'GET',
+  });
+}
+
+export async function putRecording({ id, ...data }) {
+  return request(`/recording/${id}`, {
+    method: 'PUT',
+    data,
   });
 }
 

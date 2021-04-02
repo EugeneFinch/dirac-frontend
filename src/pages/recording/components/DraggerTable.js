@@ -1,76 +1,86 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { history } from 'umi';
-import { Button, Col, Row, Table, Tag } from 'antd';
+import { Table, Popover } from 'antd';
+
 import { get } from 'lodash';
 import moment from 'moment';
+import EditAccountName from './EditAccountName'
+import EditDealStatus from './EditDealStatus'
 
 import { LIMIT, UPLOAD_STATUS } from '../constants';
+import EditRecordingName from './EditRecordingName';
+import CallsActions from './callsActions';
+import UsersPopover from './usersPopover';
 
-export default ({ data, pagination = {}, loading, onGetUploadedList, location }) => {
+export default ({ data, pagination = {}, loading, onGetUploadedList, location, putRecording, removeRecording, user }) => {
   const page = get(location, 'query.page');
   const limit = get(location, 'query.limit');
-
+  const filter = get(location, 'query.filter');
   useEffect(() => {
-    if (!page || !limit) {
-      history.push(`/recording?page=1&limit=${LIMIT}`);
+    if (!page || !limit || !filter) {
+      history.push(`/recording?page=1&limit=${LIMIT}&filter=my`);
       return;
     }
-    onGetUploadedList({ page, limit });
-  }, [page, limit]);
+    onGetUploadedList({ page, limit, filter });
+  }, [page, limit, filter]);
+
+  const isAdmin = user['team_user.is_admin'] === 1;
 
   const columns = [
     {
-      title: 'File name',
-      key: 'created_at',
-      dataIndex: 'filename',
+
+      title: 'Subject',
+      key: 'subject',
+      render: (recording) => <EditRecordingName
+        id={recording?.id}
+        name={recording?.subject}
+        recording={recording}
+        putRecording={putRecording}
+      />
     },
     {
-      title: 'Name',
+      title: 'Participants',
       key: 'user.email',
-      dataIndex: 'user.email',
-      render: (v) => v.split('@')[0],
+      render: (data) =>  <UsersPopover data={data}/>
     },
     {
-      title: 'Created at',
+      title: 'Account name',
+      key: 'accName',
+      width: 280,
+      dataIndex: '',
+      render: (data) => <EditAccountName onGetUploadedList={onGetUploadedList} location={location} data={data}/>
+    },
+    {
+      title: 'Deal status',
+      key: 'status',
+      dataIndex: '',
+      render: (data) => <EditDealStatus onGetUploadedList={onGetUploadedList} location={location} data={data}/>
+    },
+    {
+      title: 'Date',
       key: 'created_at',
       dataIndex: 'created_at',
-      render: (created_at) => moment(created_at).format('DD-MM-YYYY HH:mm:ss'),
-    },
-    {
-      title: 'Status',
-      key: 'status',
-      dataIndex: 'status',
-      render: (status) =>
-        UPLOAD_STATUS[status] && (
-          <Tag color={UPLOAD_STATUS[status].color}>{UPLOAD_STATUS[status].text}</Tag>
-        ),
+      render: (created_at) => (<div>{moment(created_at).format('MMM DD, YYYY')}<br></br>{moment(created_at).format('HH:mm:ss')}</div>),
     },
     {
       title: 'Action',
-      render: ({ id }) => {
-        const onViewDetail = () => {
-          history.push(`/recording/${id}`);
-        };
-        return (
-          <Row gutter={15} justify="start" align="middle">
-            <Col>
-              <Button onClick={onViewDetail} type="primary">
-                View Detail
-              </Button>
-            </Col>
-          </Row>
-        );
-      },
+      render: ({ id }) => <CallsActions
+        id={id}
+        removeRecording={removeRecording}
+        isAdmin={isAdmin}
+      />
     },
   ];
 
   const handleTableChange = ({ current, pageSize }) => {
-    history.push(`/recording?page=${current}&limit=${pageSize}`);
+    history.push(`/recording?page=${current}&limit=${pageSize}&filter=${filter}`);
   };
 
   return (
+    <div>
+    Filter by: {filter === 'my' ? <a onClick={() => history.push(`/recording?page=${page}&limit=${LIMIT}&filter=all`)}>My calls</a>: <a onClick={() => history.push(`/recording?page=${page}&limit=${LIMIT}&filter=my`)}>Team member calls</a>}
     <Table
-      style={{ marginTop: 15 }}
+      style={{ marginTop: 15, cursor: 'pointer' }}
       columns={columns}
       rowKey={(record) => record.id}
       dataSource={data}
@@ -78,5 +88,6 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location })
       loading={loading}
       onChange={handleTableChange}
     />
+    </div>
   );
 };

@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Input, Row, Spin } from 'antd';
+import { Col, Input, Row, Spin, Select } from 'antd';
 import { CheckCircleTwoTone, CloseCircleTwoTone, EditOutlined } from '@ant-design/icons';
 import { find, get } from 'lodash';
 import TeamMember from './TeamMember';
 
-const EditSpeakerName = ({ speakers, id, putSpeakerName, loading }) => {
+const { Option } = Select;
+
+
+const EditSpeakerName = ({ speakers, id, putSpeakerName, loading, recordingDetail }) => {
   const [edit, setEdit] = useState(false);
   const speaker = find(speakers, (obj) => obj.id === id);
-
+  let users;
+  const children = [];
+  if (recordingDetail.record && recordingDetail.record.users) {
+    users = JSON.parse(recordingDetail.record.users);
+    for (let i = 0; i < users.length; i++) {
+      children.push(<Option key={users[i].email}>{users[i].email}</Option>);
+    }
+  }
   const [input, setInput] = useState('');
   const name = get(speaker, 'name', '');
 
@@ -26,7 +36,7 @@ const EditSpeakerName = ({ speakers, id, putSpeakerName, loading }) => {
       <Spin spinning={!!loading}>
         <Row align="middle" gutter={10}>
           <Col>
-            <Input
+            { !children.length > 1 ? (<Input
               autoFocus
               defaultValue={name}
               value={input}
@@ -34,7 +44,10 @@ const EditSpeakerName = ({ speakers, id, putSpeakerName, loading }) => {
                 putSpeakerName({ id, name: target.value, cb: () => setEdit(false), team_member });
               }}
               onChange={({ target }) => setInput(target.value)}
-            />
+            />) :
+            (<Select defaultValue={name} style={{ width: 180 }} onChange={(status) => setInput(status)} tokenSeparators={[',']}>
+              {children}
+            </Select>)}
           </Col>
           <Col>
             <CloseCircleTwoTone

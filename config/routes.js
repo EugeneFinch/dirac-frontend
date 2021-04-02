@@ -35,7 +35,7 @@ export default [
           },
           {
             path: '/recording',
-            name: 'Recording',
+            name: 'Calls',
             icon: 'file-text',
             component: './recording',
           },

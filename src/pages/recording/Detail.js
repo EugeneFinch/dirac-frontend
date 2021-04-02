@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import { get } from 'lodash';
-
+import moment from 'moment'
 import KeywordSearch from '@/pages/recording/components/KeywordSearch';
 import Transcript from '@/pages/recording/components/Transcript';
 import AudioComponent from '@/pages/recording/components/AudioComponent';
 import Coaching from '@/pages/recording/components/Coaching';
-import { Col, Row } from 'antd';
+import { Col, Row, Tag, Popover } from 'antd';
+import UsersPopover from '@/pages/recording/components/usersPopover';
+import {  CheckCircleOutlined,
+  CloseCircleOutlined } from '@ant-design/icons';
 
 const Detail = ({
   getTranscript,
@@ -26,6 +29,13 @@ const Detail = ({
   const [processTime, setProcessTime] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
   const [recordDuration, setRecordDuration] = useState(0);
+  let dealStatus = () => {
+    switch (recordingDetail.deal_status) {
+      case 'won': return (<Tag icon={<CheckCircleOutlined />} color="success">Closed: Won</Tag>);
+      case 'lost': return (<Tag icon={<CloseCircleOutlined />} color="error">Closed: Lost</Tag>);
+      default: return (<Tag color="processing">In progress</Tag>);
+    }
+  }
 
   const onClickParagraph = (item) => {
     if (recordDuration) {
@@ -33,12 +43,18 @@ const Detail = ({
       setSeekTime(startTime / recordDuration);
     }
   };
-
+  const date = `${moment(recordingDetail.created_at).format('MMM DD, YYYY')} | ${moment(recordingDetail.created_at).format('HH:mm')}`;
   return (
     <PageContainer breadcrumb={false}>
+      <a onClick={() => history.push(`/recording`)}><b>{`< Back `}</b></a>
+      <h2 style={{ marginTop: 15, marginBottom: 15 }}>{recordingDetail.subject} | {recordingDetail.account_name} {dealStatus()}</h2>
       <Row gutter={[16, 16]}>
         <Col xs={24}>
           <KeywordSearch />
+          <Col style={{ marginTop: 15, marginBottom: 15, fontSize: 15 }}>
+            <UsersPopover data={recordingDetail} />
+            <span style={{ marginLeft: 15 }}>{date}</span>
+          </Col>
         </Col>
         <Col xs={24} sm={24} md={14} lg={16} xl={17}>
           <Transcript
@@ -47,6 +63,7 @@ const Detail = ({
             speakers={speakers}
             loadingSpeaker={loadingSpeaker}
             id={id}
+            recordingDetail={recordingDetail}
             location={location}
             getTranscript={getTranscript}
             processTime={processTime}
