@@ -36,7 +36,9 @@ const EditSpeakerName = ({ speakers, id, putSpeakerName, loading, recordingDetai
       <Spin spinning={!!loading}>
         <Row align="middle" gutter={10}>
           <Col>
-            { !children.length > 1 ? (<Input
+            {children && children.length > 1 ? (<Select defaultValue={name} style={{ width: 180 }} onChange={(status) => setInput(status)} tokenSeparators={[',']}>
+              {children}
+            </Select>) : (<Input
               autoFocus
               defaultValue={name}
               value={input}
@@ -44,10 +46,7 @@ const EditSpeakerName = ({ speakers, id, putSpeakerName, loading, recordingDetai
                 putSpeakerName({ id, name: target.value, cb: () => setEdit(false), team_member });
               }}
               onChange={({ target }) => setInput(target.value)}
-            />) :
-            (<Select defaultValue={name} style={{ width: 180 }} onChange={(status) => setInput(status)} tokenSeparators={[',']}>
-              {children}
-            </Select>)}
+            />)}
           </Col>
           <Col>
             <CloseCircleTwoTone
