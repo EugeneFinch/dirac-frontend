@@ -1,0 +1,103 @@
+/* eslint no-use-before-define: 0 */
+@import '~antd/lib/style/themes/default.less';
+
+.item {
+  margin-top: 2px;
+  padding   : 2px 16px;
+  background: #fff;
+  transition: background-color 0.5s ease;
+
+  p {
+    cursor    : pointer;
+  }
+}
+
+.itemActive {
+  margin-top: 2px;
+  padding   : 2px 16px;
+  background: rgb(255, 229, 243);
+
+  p {
+    cursor    : pointer;
+  }
+}
+
+.tabsContainer {
+  .tabPane {
+    background-color: #fff266;
+    color: #31365c;
+    &:hover {
+      color: darken(#31365c, 5%);
+    }
+  }
+  //.tabPane {
+  //  background: #fff266;
+  //}
+}
+
+//.tabs {
+//  background: green !important;
+//}
+
+.analyticContainer {
+  @media screen and (max-device-width: 1600px) {
+    max-height: 606px;
+  }
+
+  min-height      : 600px;
+  max-height      : 606px;
+  overflow-y      : auto;
+  background-color: #fff;
+  border-radius   : 8px;
+  position: relative;
+
+  .exportIcon {
+    position:absolute;
+    font-size: 25px;
+    z-index:1;
+    top: 20px;
+    right: 20px;
+  }
+}
+
+:global {
+
+  .ant-tag .next_step .active,
+  .next_step {
+    background-color: #2db7f5;
+    color           : #fff;
+    border-color    : transparent;
+    padding         : 2px;
+  }
+
+  .content {
+    background-color: #dfe307;
+    color           : #fff;
+    border-color    : transparent;
+    padding         : 2px;
+  }
+
+  .ant-tag .budget .active,
+  .budget {
+    background-color: #87d068;
+    color           : #fff;
+    border-color    : transparent;
+    padding         : 2px;
+  }
+}
+
+.coaching {
+  .itemTitle {
+    padding: 8px 0;
+  }
+
+  .itemText {
+    padding    : 8px 0;
+    margin-left: 16px;
+  }
+
+  .middle {
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+}
