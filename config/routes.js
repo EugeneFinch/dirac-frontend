@@ -45,6 +45,12 @@ export default [
             component: './recording/Detail',
           },
           {
+            path: '/analytic',
+            name: 'Analytics',
+            icon: 'bulb',
+            component: './analytic',
+          },
+          {
             path: '/team',
             name: 'Team',
             icon: 'user',
