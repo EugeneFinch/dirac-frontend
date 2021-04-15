@@ -3,7 +3,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { connect } from 'umi';
 
 import { Tabs } from 'antd';
-import TimeToTalk from './components/TimeToTalk'
+import TalkToListen from './components/TalkToListen'
 import Engagement from './components/Engagement'
 
 const { TabPane } = Tabs;
@@ -19,7 +19,7 @@ const Analytic = ({ talkingRateList, user, getTalkToListenList }) => {
       ]}>
         <Tabs defaultActiveKey="1" renderTabBar={renderTabBar}>
           <TabPane tab="Talk to Listen" key="1" >
-            <TimeToTalk {...talkingRateList} userId={user.id} getTalkToListenList={getTalkToListenList}/>
+            <TalkToListen {...talkingRateList} userId={user.id} getTalkToListenList={getTalkToListenList}/>
           </TabPane>
           <TabPane tab="Engagement" key="2">
             <Engagement />
