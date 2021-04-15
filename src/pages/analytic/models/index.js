@@ -14,7 +14,7 @@ export default {
       const talkToListenList = yield call(getTalkToListenList, {userId});
 
       if(talkToListenList) {
-        if (cb) cb(talkToListenList);
+        if (cb) cb(talkToListenList.result);
 
         yield put({
           type: 'saveTalkToListenList',
