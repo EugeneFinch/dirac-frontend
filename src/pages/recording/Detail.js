@@ -38,8 +38,7 @@ const Detail = ({
   }
 
   const modalText = () => {
-    if (recordingDetail.status === 'RECORDING') return (<div>This recording is currently in the recording</div>)
-    if (recordingDetail.status === 'IN_PROGRESS') return (<div>This recording is currently in processing</div>)
+    if (recordingDetail.status === 'RECORDING' || recordingDetail.status === 'IN_PROGRESS') return (<div>This recording is currently processing. Please refresh the page in a while to access your recording. </div>)
     return (
       <div>Record contains error.
         <br></br>Status: {recordingDetail.status} | ID: {recordingDetail.id}
@@ -70,13 +69,13 @@ const Detail = ({
         <Modal
           visible={recordingDetail.id && (!recordingDetail.url || recordingDetail.status !== 'COMPLETED')}
           title="Info"
-          onCancel={() => history.go(0)}
+          onCancel={() => history.push(`/recording`)}
           footer={[
             <Button key="submit" onClick={() => history.go(0)}>
-              Reload
+              Refresh
             </Button>,
             <Button key="back" type="primary" onClick={() => history.push(`/recording`)}>
-              Back
+              Back to main menu
             </Button>,
           ]}
         >
