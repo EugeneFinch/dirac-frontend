@@ -13,9 +13,9 @@ const EditSpeakerName = ({ speakers, id, putSpeakerName, loading, recordingDetai
   let users;
   const children = [];
   if (recordingDetail.record && recordingDetail.record.users) {
-    users = JSON.parse(recordingDetail.record.users);
+    users = recordingDetail.record.users;
     for (let i = 0; i < users.length; i++) {
-      children.push(<Option key={users[i].email}>{users[i].email}</Option>);
+      children.push(<Option key={users[i].name}>{users[i].name}</Option>);
     }
   }
   const [input, setInput] = useState('');

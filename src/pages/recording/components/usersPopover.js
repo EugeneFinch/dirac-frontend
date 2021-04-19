@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Popover } from 'antd';
-import { now } from 'lodash';
 
 const UsersPopover = ({ data }) => {
   let users;
   if (data.record && data.record.users) {
-    users = JSON.parse(data.record.users);
+    users = data.record.users;
   } else return (<span>{data['user.email']}</span>);
 
   const prepareData = (data) => {
-    return (<div>{!data.organizer ? data.email : <b>{data.email}</b>} </div>)
+    return (<div>{data.name} </div>)
   }
-
   return (
-      <Popover content={users.map(res => prepareData(res))} title="Participating users" trigger="hover">
-        {data.record.org} + {users.length - 1}
-      </Popover>
+    <Popover content={users.length > 0 ? users.map(res => prepareData(res)) : <span> </span>} title="Participating users" trigger="hover">
+      {users.length ? users[0].name : ''} {users.length > 1 ? ` + ${users.length - 1}`: ''}
+    </Popover>
   );
 };
 
