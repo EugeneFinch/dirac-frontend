@@ -7,7 +7,7 @@ import KeywordSearch from '@/pages/recording/components/KeywordSearch';
 import Transcript from '@/pages/recording/components/Transcript';
 import AudioComponent from '@/pages/recording/components/AudioComponent';
 import Coaching from '@/pages/recording/components/Coaching';
-import { Col, Row, Tag, Popover } from 'antd';
+import { Col, Row, Tag, Modal, Button } from 'antd';
 import UsersPopover from '@/pages/recording/components/usersPopover';
 import {  CheckCircleOutlined,
   CloseCircleOutlined } from '@ant-design/icons';
@@ -37,6 +37,16 @@ const Detail = ({
     }
   }
 
+  const modalText = () => {
+    if (recordingDetail.status === 'RECORDING' || recordingDetail.status === 'IN_PROGRESS') return (<div>This recording is currently processing. Please refresh the page in a while to access your recording. </div>)
+    return (
+      <div>Record contains error.
+        <br></br>Status: {recordingDetail.status} | ID: {recordingDetail.id}
+        <br></br>Сontact the administrator
+      </div>
+    )
+  }
+
   const onClickParagraph = (item) => {
     if (recordDuration) {
       const startTime = Number(get(item, 'start_time'), 0);
@@ -56,6 +66,21 @@ const Detail = ({
             <span style={{ marginLeft: 15 }}>{date}</span>
           </Col>
         </Col>
+        <Modal
+          visible={recordingDetail.id && (!recordingDetail.url || recordingDetail.status !== 'COMPLETED')}
+          title="Info"
+          onCancel={() => history.push(`/recording`)}
+          footer={[
+            <Button key="submit" onClick={() => history.go(0)}>
+              Refresh
+            </Button>,
+            <Button key="back" type="primary" onClick={() => history.push(`/recording`)}>
+              Back to main menu
+            </Button>,
+          ]}
+        >
+          {recordingDetail.status && modalText()}
+        </Modal>
         <Col xs={24} sm={24} md={14} lg={16} xl={17}>
           <Transcript
             {...transcript}
