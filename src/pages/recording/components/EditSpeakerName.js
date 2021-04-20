@@ -15,6 +15,7 @@ const EditSpeakerName = ({ speakers, id, putSpeakerName, loading, recordingDetai
   if (recordingDetail.record && recordingDetail.record.users) {
     users = recordingDetail.record.users;
     for (let i = 0; i < users.length; i++) {
+      if(/spk_/.test(users[i].name)) continue;
       children.push(<Option key={users[i].name}>{users[i].name}</Option>);
     }
   }
