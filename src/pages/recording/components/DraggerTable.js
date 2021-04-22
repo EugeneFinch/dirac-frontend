@@ -68,6 +68,9 @@ export default ({ data, pagination = {}, loading, onGetUploadedList, location, p
         id={id}
         removeRecording={removeRecording}
         isAdmin={isAdmin}
+        page={page}
+        limit={limit}
+        filter={filter}
       />
     },
   ];
