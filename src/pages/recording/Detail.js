@@ -11,6 +11,7 @@ import { Col, Row, Tag, Modal, Button } from 'antd';
 import UsersPopover from '@/pages/recording/components/usersPopover';
 import {  CheckCircleOutlined,
   CloseCircleOutlined } from '@ant-design/icons';
+import { LIMIT } from './constants';
 
 const Detail = ({
   getTranscript,
@@ -26,6 +27,13 @@ const Detail = ({
   putSpeakerName,
 }) => {
   const id = get(match, 'params.id');
+  console.log(location)
+  const page = get(location.query, 'page', 1);
+  const limit = get(location.query, 'limit', LIMIT);
+  const filter = get(location.query, 'filter', 'my');
+  const backURL = `/recording?page=${page}&limit=${limit}&filter=${filter}`
+
+
   const [processTime, setProcessTime] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
   const [recordDuration, setRecordDuration] = useState(0);
@@ -56,7 +64,7 @@ const Detail = ({
   const date = `${moment(recordingDetail.created_at).format('MMM DD, YYYY')} | ${moment(recordingDetail.created_at).format('HH:mm')}`;
   return (
     <PageContainer breadcrumb={false}>
-      <a onClick={() => history.push(`/recording`)}><b>{`< Back `}</b></a>
+      <a onClick={() => history.push(backURL)}><b>{`< Back `}</b></a>
       <h2 style={{ marginTop: 15, marginBottom: 15 }}>{recordingDetail.subject} | {recordingDetail.account_name} {dealStatus()}</h2>
       <Row gutter={[16, 16]}>
         <Col xs={24}>
@@ -69,12 +77,12 @@ const Detail = ({
         <Modal
           visible={recordingDetail.id && (!recordingDetail.url || recordingDetail.status !== 'COMPLETED')}
           title="Info"
-          onCancel={() => history.push(`/recording`)}
+          onCancel={() => history.push(backURL)}
           footer={[
             <Button key="submit" onClick={() => history.go(0)}>
               Refresh
             </Button>,
-            <Button key="back" type="primary" onClick={() => history.push(`/recording`)}>
+            <Button key="back" type="primary" onClick={() => history.push(backURL)}>
               Back to main menu
             </Button>,
           ]}

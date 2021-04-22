@@ -7,9 +7,9 @@ import { history } from "umi";
 
 const { confirm } = Modal;
 
-const CallsActions = ({ isAdmin, id, removeRecording }) => {
+const CallsActions = ({ isAdmin, id, removeRecording, page, limit, filter }) => {
   const onViewDetail = () => {
-    history.push(`/recording/${id}`);
+    history.push(`/recording/${id}?page=${page}&limit=${limit}&filter=${filter}`);
   };
 
   function showDeleteConfirm() {
@@ -20,7 +20,7 @@ const CallsActions = ({ isAdmin, id, removeRecording }) => {
       okType: 'danger',
       cancelText: 'Cancel',
       onOk() {
-        removeRecording({ id });
+        removeRecording({ id, page, limit, filter });
       },
       onCancel() {},
     });
