@@ -7,7 +7,7 @@ import KeywordSearch from '@/pages/recording/components/KeywordSearch';
 import Transcript from '@/pages/recording/components/Transcript';
 import AudioComponent from '@/pages/recording/components/AudioComponent';
 import Coaching from '@/pages/recording/components/Coaching';
-import { Col, Row, Tag, Modal, Button } from 'antd';
+import {Col, Row, Tag, Modal, Button, Result} from 'antd';
 import UsersPopover from '@/pages/recording/components/usersPopover';
 import {  CheckCircleOutlined,
   CloseCircleOutlined } from '@ant-design/icons';
@@ -26,8 +26,20 @@ const Detail = ({
   loadingSpeaker,
   putSpeakerName,
 }) => {
+  if(recordingDetail && recordingDetail.status === 404) {
+    return (
+      <PageContainer breadcrumb={false}>
+        <Result
+          status="404"
+          title="NOT FOUND"
+          subTitle="You have no data to produce the recording. Please allow Dirac to connect to your next Video conference meeting (Google meet) in order to get started."
+        />
+      </PageContainer>
+      )
+  }
+
   const id = get(match, 'params.id');
-  console.log(location)
+
   const page = get(location.query, 'page', 1);
   const limit = get(location.query, 'limit', LIMIT);
   const filter = get(location.query, 'filter', 'my');
