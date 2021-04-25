@@ -44,12 +44,12 @@ export default [
             icon: 'table',
             component: './recording/Detail',
           },
-          // {
-          //   path: '/analytics',
-          //   name: 'Analytics',
-          //   icon: 'bulb',
-          //   component: './analytic',
-          // },
+          {
+            path: '/analytics',
+            name: 'Analytics',
+            icon: 'bulb',
+            component: './analytic',
+          },
           {
             path: '/team',
             name: 'Team',
