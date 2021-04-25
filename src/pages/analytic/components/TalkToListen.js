@@ -4,21 +4,26 @@ import { map } from 'lodash';
 import config from '@/config';
 import {DownloadOutlined} from "@ant-design/icons";
 import styles from '../styles.less';
+import {  Result  } from 'antd';
 
 export default ({
                   userId,
                   getTalkToListenList
                 }) => {
+  const [isShow, setShow] = useState(false);
   const [listName, setListName] = useState([]);
   const [listListeningRatio, setListListeningRatio] = useState([]);
   const [listTalkingRatio, setListTalkingRatio] = useState([]);
 
   useEffect(() => {
 
-    getTalkToListenList({ userId, cb: (result) => {
+    getTalkToListenList({ userId, cb: ({result}) => {
+      if(result) {
         setListName(map(result, v => v.name))
         setListListeningRatio(map(result, v => v.listen_ratio))
         setListTalkingRatio(map(result, v => v.talk_ratio))
+        setShow(true)
+      }
       }})
   }, [userId]);
 
@@ -42,6 +47,17 @@ export default ({
       }
     ]
   }
+
+  if(!isShow) {
+    return (
+    <div className={styles.analyticContainer}>
+      <Result
+        status="404"
+        title="404"
+        subTitle="You have no data to produce the report. Please allow Dirac to connect to your next Video conference meeting (Google meet) in order to get started."
+      />
+    </div>
+    )}
 
   return (
     <div className={styles.analyticContainer}>

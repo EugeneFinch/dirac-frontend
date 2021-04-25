@@ -69,6 +69,7 @@ export default {
       yield call(removeRecording, params);
       yield put({
         type: 'getUploadedList',
+        params
       });
     },
 
