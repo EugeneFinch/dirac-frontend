@@ -89,7 +89,7 @@ function KeywordSearch({ recordingDetail, refSearchKeyWord, searchKeyWord, getRe
             }}
             onClick={() => onClickTag(v.code)}
             key={v.code}
-            className={value.includes(v.code) && v.code ? 'tag-choosen' : ''}
+            className={value.includes(v.code) && v.code ? 'tag-chosen' : ''}
           >
             {v.name} - {v.total}
           </Tag>
