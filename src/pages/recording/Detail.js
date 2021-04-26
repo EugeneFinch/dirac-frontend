@@ -26,6 +26,10 @@ const Detail = ({
   loadingSpeaker,
   putSpeakerName,
 }) => {
+  const [processTime, setProcessTime] = useState(0);
+  const [seekTime, setSeekTime] = useState(0);
+  const [recordDuration, setRecordDuration] = useState(0);
+
   if(recordingDetail && recordingDetail.status === 404) {
     return (
       <PageContainer breadcrumb={false}>
@@ -45,11 +49,7 @@ const Detail = ({
   const filter = get(location.query, 'filter', 'my');
   const backURL = `/recording?page=${page}&limit=${limit}&filter=${filter}`
 
-
-  const [processTime, setProcessTime] = useState(0);
-  const [seekTime, setSeekTime] = useState(0);
-  const [recordDuration, setRecordDuration] = useState(0);
-  let dealStatus = () => {
+  const dealStatus = () => {
     switch (recordingDetail.deal_status) {
       case 'won': return (<Tag icon={<CheckCircleOutlined />} color="success">Closed: Won</Tag>);
       case 'lost': return (<Tag icon={<CloseCircleOutlined />} color="error">Closed: Lost</Tag>);

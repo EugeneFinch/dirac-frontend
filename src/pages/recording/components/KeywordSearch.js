@@ -11,6 +11,8 @@ const { Option } = Select;
 function KeywordSearch({ recordingDetail, refSearchKeyWord, searchKeyWord, getRefSearchKeyWord }) {
   const [value, setValue] = useState([]);
   const [content, setContent] = useState('');
+  const [pageSearchKeyWord, setPageSearchKeyWord] = useState(1);
+
   function handleChange(v) {
     setValue(v);
     searchKeyWord({
@@ -41,11 +43,18 @@ function KeywordSearch({ recordingDetail, refSearchKeyWord, searchKeyWord, getRe
   }, [getRefSearchKeyWord, recordingDetail.id]);
 
   function onActionChange(v) {
+    if(v === 'next') {
+      setPageSearchKeyWord(pageSearchKeyWord + 1)
+    } else {
+      setPageSearchKeyWord(pageSearchKeyWord - 1)
+    }
+
     searchKeyWord({
       action: v,
       predefined_keyword: value.join(','),
       limit: 1,
-      content
+      page: pageSearchKeyWord,
+      content,
     });
   }
 
@@ -54,6 +63,7 @@ function KeywordSearch({ recordingDetail, refSearchKeyWord, searchKeyWord, getRe
   }
 
   function onEnter (){
+    setPageSearchKeyWord(1);
     searchKeyWord({
       predefined_keyword: value.join(','),
       content,
@@ -63,11 +73,11 @@ function KeywordSearch({ recordingDetail, refSearchKeyWord, searchKeyWord, getRe
   }
 
   return (
-    <Card title="Meeting Recap" style={{ width: 300 }}>
+    <Card title="Call Trackers" style={{ width: 700 }}>
       <div style={{ marginBottom: 10 }}>
         <Input placeholder="Search"
         onPressEnter={onEnter}
-         value={content} onChange = {onChangeContent} prefix={<SearchOutlined />} />  
+         value={content} onChange = {onChangeContent} prefix={<SearchOutlined />} />
       </div>
 
       <div>
@@ -75,11 +85,11 @@ function KeywordSearch({ recordingDetail, refSearchKeyWord, searchKeyWord, getRe
           <Tag
             style={{
               cursor: 'pointer',
-              marginBottom: 15,
+              marginBottom: 15
             }}
             onClick={() => onClickTag(v.code)}
             key={v.code}
-            className={value.includes(v.code) && v.code}
+            className={value.includes(v.code) && v.code ? 'tag-choosen' : ''}
           >
             {v.name} - {v.total}
           </Tag>
