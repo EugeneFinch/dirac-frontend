@@ -23,6 +23,7 @@ export default function Waveform({ url, onProcess, setRecordDuration, seekTime }
   const [loading, setLoading] = useState(false);
   const [playing, setPlay] = useState(false);
   const [volume, setVolume] = useState(0.8);
+  const [speed, setSpeed] = useState(1);
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
 
@@ -73,6 +74,19 @@ export default function Waveform({ url, onProcess, setRecordDuration, seekTime }
     wavesurfer.current.playPause();
   };
 
+  const onSpeedChange = () => {
+    wavesurfer.current.playPause();
+    let newSpeed = 1;
+    if(speed === 1) {
+      newSpeed = 2;
+    }
+    if (newSpeed) {
+      setSpeed(newSpeed);
+      wavesurfer.current.setPlaybackRate(newSpeed || 1);
+    }
+    wavesurfer.current.playPause();
+  };
+
   const onVolumeChange = (e) => {
     const { target } = e;
     const newVolume = +target.value;
@@ -119,6 +133,11 @@ export default function Waveform({ url, onProcess, setRecordDuration, seekTime }
             onChange={onVolumeChange}
             defaultValue={volume}
           />
+          <label htmlFor="volume">Speed: </label>
+          <button
+            style={{ verticalAlign: 'middle' }}
+            onClick={onSpeedChange}
+          >{speed === 1 ? '1x' : '2x'}</button>
         </div>
       </div>
     </Spin>
